@@ -1187,3 +1187,182 @@
 .project-gallery-item.is-missing {
   display: none !important;
 }
+
+/* ==================================================
+   V12 BENEDICT CONTENT
+================================================== */
+
+.project-overview-copy > p:not(.project-section-kicker) {
+  margin: 24px 0 0;
+  color: var(--detail-text-body, #e1e1e1);
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.project-overview-copy > p:not(.project-section-kicker)
++ p:not(.project-section-kicker) {
+  margin-top: 16px;
+}
+
+.project-feature-copy p + p {
+  margin-top: 16px;
+}
+
+.project-reflection p + p {
+  margin-top: 16px;
+}
+
+/* ==================================================
+   V13 KOREAN TYPOGRAPHY & SPACING
+================================================== */
+
+/*
+  한글 단어가 글자 중간에서 끊기지 않게 한다.
+  문장 줄바꿈은 공백을 기준으로 자연스럽게 처리한다.
+*/
+.project-overview-copy h2,
+.project-overview-copy p,
+.project-feature-copy h2,
+.project-feature-copy p,
+.project-contribution-intro p,
+.project-contribution-list strong,
+.project-contribution-list p,
+.project-reflection p,
+.project-facts dd {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 큰 제목은 강제 <br> 없이 균형 있게 줄바꿈 */
+.project-overview-copy h2 {
+  max-width: 820px;
+  font-size: clamp(40px, 3.6vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -2.5px;
+  text-wrap: balance;
+}
+
+/* 개요 영역을 조금 넓히고 정보표와의 간격을 정리 */
+.project-overview-layout {
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(260px, 0.55fr);
+  gap: 64px;
+}
+
+.project-overview-copy > p:not(.project-section-kicker) {
+  max-width: 860px;
+  margin-top: 22px;
+  font-size: 16px;
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+.project-overview-copy > p:not(.project-section-kicker)
++ p:not(.project-section-kicker) {
+  margin-top: 14px;
+}
+
+/* 개요와 첫 번째 시스템 사이의 과도한 빈 공간 축소 */
+.project-feature-list {
+  margin-top: 88px;
+}
+
+.project-feature {
+  padding-bottom: 82px;
+}
+
+.project-feature + .project-feature {
+  padding-top: 82px;
+}
+
+/* 설명과 이미지의 관계를 더 밀접하게 정리 */
+.project-feature-copy {
+  max-width: 980px;
+}
+
+.project-feature-copy h2 {
+  max-width: 900px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.project-feature-copy p {
+  max-width: 980px;
+  margin-top: 17px;
+  font-size: 16px;
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+.project-feature-copy p + p {
+  margin-top: 13px;
+}
+
+.project-feature-media {
+  margin-top: 28px;
+}
+
+/* 회고는 긴 문장을 읽기 좋은 폭으로 제한 */
+.project-reflection p {
+  max-width: 960px;
+  font-size: 16px;
+  line-height: 1.9;
+  text-wrap: pretty;
+}
+
+.project-reflection p + p {
+  margin-top: 15px;
+}
+
+@media (max-width: 1100px) {
+  .project-overview-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .project-overview-copy h2 {
+    max-width: 760px;
+  }
+}
+
+/* ==================================================
+   V14 FULL-WIDTH PROJECT COPY
+================================================== */
+
+/*
+  시스템 설명 텍스트가 아래 이미지와 같은 폭을 사용하도록 한다.
+  기존 900~980px 제한을 제거한다.
+*/
+.project-feature-copy {
+  width: 100%;
+  max-width: none;
+}
+
+.project-feature-copy h2,
+.project-feature-copy p {
+  width: 100%;
+  max-width: none;
+}
+
+.project-feature-copy p {
+  text-wrap: pretty;
+}
+
+/* 이미지 역시 본문 폭 전체를 사용한다. */
+.project-feature-media {
+  width: 100%;
+}
+
+/*
+  개요 본문도 정보표가 아래로 내려가는 화면에서는
+  가용 폭 전체를 사용한다.
+*/
+@media (max-width: 1100px) {
+  .project-overview-copy,
+  .project-overview-copy h2,
+  .project-overview-copy > p:not(.project-section-kicker) {
+    width: 100%;
+    max-width: none;
+  }
+}
