@@ -1,0 +1,1337 @@
+/* ==================================================
+   V16 — FIRST VISIT BOOT + COMPACT ABOUT
+================================================== */
+
+:root {
+  --v16-bg: #08090b;
+  --v16-surface: #111317;
+  --v16-raised: #171a1f;
+  --v16-white: #fbfbfb;
+  --v16-body: #dedfe1;
+  --v16-muted: #969da4;
+  --v16-line: rgba(255, 255, 255, 0.16);
+  --v16-line-strong: rgba(255, 255, 255, 0.28);
+  --v16-accent: #c8cbd0;
+}
+
+body.is-booting {
+  overflow: hidden;
+}
+
+.skip-boot .boot-screen {
+  display: none !important;
+}
+
+.skip-boot body.is-booting {
+  overflow: auto;
+}
+
+/* --------------------------------------------------
+   Boot screen
+-------------------------------------------------- */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background: #030405;
+  color: var(--v16-white);
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.48s linear;
+}
+
+.boot-screen.is-exiting {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.boot-grid {
+  position: absolute;
+  inset: -20%;
+
+  opacity: 0.13;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.065) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.065) 1px,
+      transparent 1px
+    );
+
+  background-size: 64px 64px;
+
+  transform:
+    perspective(800px)
+    rotateX(62deg)
+    translateY(26%);
+
+  transform-origin: center bottom;
+
+  animation: boot-grid-drift 4s linear infinite;
+}
+
+.boot-scan {
+  position: absolute;
+  inset: -40% 0 auto;
+
+  height: 30%;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.045),
+      transparent
+    );
+
+  animation: boot-scan 1.7s linear infinite;
+}
+
+.boot-interface {
+  position: relative;
+  z-index: 2;
+
+  width: min(1320px, calc(100% - 72px));
+  min-height: min(760px, calc(100vh - 72px));
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  padding: 28px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.boot-header,
+.boot-log {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+
+  color: #969ca3;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.boot-header span:last-child {
+  color: var(--v16-white);
+}
+
+.boot-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.boot-center p {
+  margin: 0 0 20px;
+
+  color: #9ea4aa;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.8px;
+
+  opacity: 0;
+
+  animation: boot-rise 0.45s 0.18s forwards;
+}
+
+.boot-center h1 {
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: clamp(58px, 8.2vw, 146px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -7px;
+
+  opacity: 0;
+  transform: translateY(34px);
+
+  animation:
+    boot-title
+    0.64s
+    0.28s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+.boot-footer {
+  position: relative;
+}
+
+.boot-progress {
+  height: 2px;
+  margin-bottom: 18px;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.boot-progress span {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  background: var(--v16-white);
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  animation:
+    boot-progress
+    1.55s
+    0.14s
+    cubic-bezier(0.65, 0, 0.35, 1)
+    forwards;
+}
+
+.boot-log span {
+  opacity: 0.28;
+  animation: boot-log-ready 0.2s forwards;
+}
+
+.boot-log span:nth-child(1) {
+  animation-delay: 0.32s;
+}
+
+.boot-log span:nth-child(2) {
+  animation-delay: 0.66s;
+}
+
+.boot-log span:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.boot-log span:nth-child(4) {
+  animation-delay: 1.35s;
+}
+
+.boot-skip {
+  position: absolute;
+  right: 0;
+  bottom: 42px;
+
+  padding: 9px 0;
+
+  border: 0;
+  background: transparent;
+  color: #8d9399;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+
+  cursor: pointer;
+}
+
+.boot-skip:hover {
+  color: #ffffff;
+}
+
+@keyframes boot-grid-drift {
+  to {
+    transform:
+      perspective(800px)
+      rotateX(62deg)
+      translateY(30%)
+      translateX(-28px);
+  }
+}
+
+@keyframes boot-scan {
+  to {
+    transform: translateY(620%);
+  }
+}
+
+@keyframes boot-rise {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes boot-title {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes boot-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes boot-log-ready {
+  to {
+    opacity: 1;
+  }
+}
+
+/* 메인 등장은 boot 완료 후 시작 */
+body.is-booting .site-header,
+body.is-booting .hero-eyebrow,
+body.is-booting .hero-statement,
+body.is-booting .hero-description,
+body.is-booting .social-links,
+body.is-booting .scroll-guide {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+body.site-ready .site-header,
+body.site-ready .hero-eyebrow,
+body.site-ready .hero-statement,
+body.site-ready .hero-description,
+body.site-ready .social-links {
+  opacity: 0;
+  transform: translateY(30px);
+
+  animation:
+    v16-hero-rise
+    0.68s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards !important;
+}
+
+body.site-ready .site-header {
+  animation-delay: 0.02s !important;
+}
+
+body.site-ready .hero-eyebrow {
+  animation-delay: 0.08s !important;
+}
+
+body.site-ready .hero-statement {
+  animation-delay: 0.15s !important;
+}
+
+body.site-ready .hero-description {
+  animation-delay: 0.22s !important;
+}
+
+body.site-ready .social-links {
+  animation-delay: 0.29s !important;
+}
+
+body.site-ready .scroll-guide {
+  opacity: 0;
+  transform: translate(-50%, 24px);
+
+  animation:
+    v16-scroll-rise
+    0.68s
+    0.38s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards !important;
+}
+
+@keyframes v16-hero-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes v16-scroll-rise {
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* --------------------------------------------------
+   About
+-------------------------------------------------- */
+
+.about-v16 {
+  position: relative;
+
+  padding: 145px 0 170px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 87% 7%,
+      rgba(255, 255, 255, 0.05),
+      transparent 29%
+    ),
+    linear-gradient(
+      to bottom,
+      #0b0d10,
+      var(--v16-bg) 42%,
+      #060709
+    ) !important;
+
+  color: var(--v16-white);
+
+  border-top: 1px solid var(--v16-line);
+}
+
+.about-v16::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: max(
+    28px,
+    calc((100% - min(1500px, calc(100% - 112px))) / 2)
+  );
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.15) 9%,
+      rgba(255, 255, 255, 0.07) 87%,
+      transparent
+    );
+}
+
+.about-container {
+  position: relative;
+  z-index: 2;
+
+  width: min(1500px, calc(100% - 112px));
+  margin: 0 auto;
+}
+
+.about-heading-v16 {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 44px;
+  align-items: end;
+
+  margin-bottom: 76px;
+}
+
+.about-section-index,
+.about-subheading-v16 > p {
+  margin: 0 0 14px;
+
+  color: var(--v16-muted);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.about-heading-v16 h2 {
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: clamp(76px, 9vw, 150px);
+  font-weight: 600;
+  line-height: 0.82;
+  letter-spacing: -8px;
+}
+
+.about-heading-note {
+  margin: 0 0 6px;
+
+  color: var(--v16-muted);
+
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.8;
+  letter-spacing: 1.5px;
+  text-align: right;
+}
+
+.about-intro-v16 {
+  display: grid;
+  grid-template-columns:
+    minmax(340px, 0.78fr)
+    minmax(0, 1.22fr);
+
+  gap: 84px;
+  align-items: start;
+}
+
+.about-portrait-card {
+  position: sticky;
+  top: calc(var(--header-height) + 38px);
+
+  margin: 0;
+
+  perspective: 1200px;
+}
+
+.about-portrait-inner {
+  --portrait-rx: 0deg;
+  --portrait-ry: 0deg;
+
+  position: relative;
+
+  min-height: 650px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--v16-line-strong);
+  background: var(--v16-surface);
+
+  transform:
+    rotateX(var(--portrait-rx))
+    rotateY(var(--portrait-ry));
+
+  transform-style: preserve-3d;
+
+  transition:
+    transform 0.22s ease-out,
+    border-color 0.25s ease;
+}
+
+.about-portrait-card:hover .about-portrait-inner {
+  border-color: rgba(255, 255, 255, 0.48);
+}
+
+.about-portrait-inner img {
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center top;
+
+  filter: saturate(0.84) contrast(1.02);
+}
+
+.about-portrait-shade {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(5, 6, 8, 0.77),
+      transparent 46%
+    );
+}
+
+.about-portrait-inner figcaption,
+.about-portrait-coordinate {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.about-portrait-inner figcaption {
+  bottom: 22px;
+}
+
+.about-portrait-coordinate {
+  top: 20px;
+
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.about-copy-v16 {
+  padding-top: 34px;
+}
+
+.about-role-v16 {
+  margin: 0 0 24px;
+
+  color: var(--v16-muted);
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.about-copy-v16 > h3 {
+  max-width: 900px;
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: clamp(48px, 5.2vw, 82px);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -5px;
+
+  word-break: keep-all;
+}
+
+.about-description-v16 {
+  max-width: 860px;
+  margin-top: 40px;
+
+  color: var(--v16-body);
+}
+
+.about-description-v16 p {
+  margin: 0;
+
+  font-size: 16px;
+  line-height: 1.88;
+
+  word-break: keep-all;
+  text-wrap: pretty;
+}
+
+.about-description-v16 p + p {
+  margin-top: 14px;
+}
+
+.about-identity-grid {
+  display: grid;
+  grid-template-columns:
+    1.05fr
+    1.1fr
+    0.95fr;
+
+  gap: 12px;
+
+  margin: 38px 0 0;
+}
+
+.about-identity-grid > div {
+  min-height: 98px;
+
+  padding: 19px;
+
+  border: 1px solid var(--v16-line);
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.about-identity-grid dt {
+  margin-bottom: 11px;
+
+  color: var(--v16-muted);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.about-identity-grid dd {
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.about-actions-v16 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 26px;
+}
+
+.about-actions-v16 a {
+  min-width: 188px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+
+  padding: 15px 18px;
+
+  border: 1px solid var(--v16-line-strong);
+  background: transparent;
+  color: var(--v16-white);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+
+  transition:
+    background-color 0.22s ease,
+    color 0.22s ease,
+    padding 0.22s ease;
+}
+
+.about-actions-v16 a:hover {
+  padding-left: 23px;
+  padding-right: 23px;
+
+  background: var(--v16-white);
+  color: var(--v16-bg);
+}
+
+.about-role-section,
+.about-career-section {
+  margin-top: 128px;
+  padding-top: 68px;
+
+  border-top: 1px solid var(--v16-line);
+}
+
+.about-subheading-v16 {
+  display: grid;
+  grid-template-columns:
+    minmax(170px, 0.45fr)
+    minmax(0, 1.55fr);
+
+  gap: 44px;
+  align-items: start;
+
+  margin-bottom: 48px;
+}
+
+.about-subheading-v16 h3 {
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: clamp(40px, 4.3vw, 68px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -4px;
+}
+
+.about-role-list {
+  border-top: 1px solid var(--v16-line);
+}
+
+.about-role-list article {
+  display: grid;
+  grid-template-columns:
+    68px
+    minmax(240px, 0.55fr)
+    minmax(0, 1.45fr);
+
+  gap: 28px;
+  align-items: start;
+
+  padding: 28px 0;
+
+  border-bottom: 1px solid var(--v16-line);
+
+  transition:
+    padding 0.24s ease,
+    background-color 0.24s ease;
+}
+
+.about-role-list article:hover {
+  padding-left: 18px;
+  padding-right: 18px;
+
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.about-role-list article > span {
+  color: var(--v16-muted);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.about-role-list article > div {
+  display: contents;
+}
+
+.about-role-list h4 {
+  margin: 0;
+
+  color: var(--v16-white);
+
+  font-size: 21px;
+  letter-spacing: -0.5px;
+}
+
+.about-role-list p {
+  max-width: 760px;
+  margin: 0;
+
+  color: var(--v16-body);
+
+  font-size: 14px;
+  line-height: 1.78;
+
+  word-break: keep-all;
+}
+
+.about-career-section .about-subheading-v16 {
+  margin-bottom: 60px;
+}
+
+.about-timeline {
+  position: relative;
+
+  max-width: 1120px;
+  margin-left: auto;
+
+  --timeline-progress: 0;
+}
+
+.about-timeline::before {
+  content: "";
+
+  position: absolute;
+  top: 13px;
+  bottom: 30px;
+  left: 119px;
+
+  width: 1px;
+
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.about-timeline::after {
+  content: "";
+
+  position: absolute;
+  top: 13px;
+  left: 119px;
+
+  width: 1px;
+  height:
+    calc(
+      (100% - 43px)
+      * var(--timeline-progress)
+    );
+
+  background: var(--v16-white);
+
+  transition: height 0.3s linear;
+}
+
+.about-timeline-item {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns:
+    84px
+    30px
+    minmax(0, 1fr);
+
+  gap: 20px;
+
+  min-height: 150px;
+}
+
+.about-timeline-item time {
+  padding-top: 4px;
+
+  color: var(--v16-muted);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.about-timeline-node {
+  width: 11px;
+  height: 11px;
+
+  display: block;
+
+  margin: 3px auto 0;
+
+  border: 2px solid var(--v16-white);
+  border-radius: 50%;
+
+  background: var(--v16-bg);
+
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.about-timeline-item.is-visible
+.about-timeline-node {
+  background: var(--v16-white);
+
+  box-shadow:
+    0 0 0 5px
+    rgba(255, 255, 255, 0.08);
+}
+
+.about-timeline-item > div {
+  padding: 0 0 38px;
+
+  border-bottom: 1px solid var(--v16-line);
+}
+
+.about-timeline-item p {
+  margin: 0 0 9px;
+
+  color: var(--v16-muted);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.about-timeline-item h4 {
+  margin: 0 0 11px;
+
+  color: var(--v16-white);
+
+  font-size: 27px;
+  letter-spacing: -1.1px;
+}
+
+.about-timeline-item div > span {
+  color: var(--v16-body);
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------
+   Scroll reveal
+-------------------------------------------------- */
+
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(34px);
+
+  transition:
+    opacity
+    0.68s
+    var(--reveal-delay, 0ms)
+    cubic-bezier(0.16, 1, 0.3, 1),
+    transform
+    0.68s
+    var(--reveal-delay, 0ms)
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-ready [data-reveal="image"] {
+  transform: translateY(42px) scale(0.978);
+}
+
+.motion-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
+
+@media (max-width: 1180px) {
+  .about-container {
+    width: min(100% - 88px, 1400px);
+  }
+
+  .about-intro-v16 {
+    grid-template-columns:
+      minmax(300px, 0.72fr)
+      minmax(0, 1.28fr);
+
+    gap: 54px;
+  }
+
+  .about-portrait-inner,
+  .about-portrait-inner img {
+    min-height: 590px;
+  }
+
+  .about-copy-v16 {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 860px) {
+  .boot-interface {
+    width: calc(100% - 40px);
+    min-height: calc(100vh - 40px);
+  }
+
+  .boot-center h1 {
+    font-size: clamp(48px, 13vw, 94px);
+    letter-spacing: -4px;
+  }
+
+  .boot-log {
+    display: none;
+  }
+
+  .about-v16 {
+    padding: 112px 0 135px;
+  }
+
+  .about-container {
+    width: calc(100% - 44px);
+  }
+
+  .about-heading-v16 {
+    grid-template-columns: 1fr;
+
+    margin-bottom: 54px;
+  }
+
+  .about-heading-note {
+    text-align: left;
+  }
+
+  .about-intro-v16 {
+    grid-template-columns: 1fr;
+  }
+
+  .about-portrait-card {
+    position: relative;
+    top: auto;
+  }
+
+  .about-portrait-inner,
+  .about-portrait-inner img {
+    min-height: 620px;
+  }
+
+  .about-copy-v16 {
+    padding-top: 18px;
+  }
+
+  .about-identity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-subheading-v16 {
+    grid-template-columns: 1fr;
+  }
+
+  .about-role-list article {
+    grid-template-columns: 48px 1fr;
+  }
+
+  .about-role-list article > div {
+    display: block;
+  }
+
+  .about-role-list h4 {
+    margin-bottom: 10px;
+  }
+
+  .about-timeline {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .boot-header span:first-child {
+    max-width: 190px;
+  }
+
+  .boot-center h1 {
+    font-size: 15.2vw;
+    line-height: 0.88;
+  }
+
+  .about-heading-v16 h2 {
+    font-size: 21vw;
+    letter-spacing: -5px;
+  }
+
+  .about-copy-v16 > h3 {
+    font-size: 12.5vw;
+    letter-spacing: -3px;
+  }
+
+  .about-portrait-inner,
+  .about-portrait-inner img {
+    min-height: 510px;
+  }
+
+  .about-role-list article {
+    gap: 16px;
+  }
+
+  .about-timeline::before,
+  .about-timeline::after {
+    left: 77px;
+  }
+
+  .about-timeline-item {
+    grid-template-columns:
+      54px
+      18px
+      minmax(0, 1fr);
+
+    gap: 14px;
+  }
+
+  .about-timeline-item h4 {
+    font-size: 23px;
+  }
+}
+
+/* --------------------------------------------------
+   Reduced motion
+-------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-grid,
+  .boot-scan,
+  .boot-center p,
+  .boot-center h1,
+  .boot-progress span,
+  .boot-log span {
+    animation: none !important;
+  }
+
+  .boot-screen {
+    display: none !important;
+  }
+
+  body.is-booting {
+    overflow: auto !important;
+  }
+
+  .motion-ready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .about-portrait-inner {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .about-timeline::after {
+    height: calc(100% - 43px) !important;
+  }
+}
+
+/* ==================================================
+   V17 — WORLDS POSITIONING & CENTERED ABOUT
+================================================== */
+
+/*
+  ABOUT 상단 오른쪽의 중복 직군 표기는 HTML에서 제거했다.
+  헤더는 단일 열로 정리한다.
+*/
+.about-heading-v16 {
+  grid-template-columns: 1fr;
+}
+
+/*
+  주요 업무와 프로젝트 연혁의 제목을 페이지 중앙에 배치한다.
+*/
+.about-subheading-v16 {
+  display: block;
+  margin-bottom: 58px;
+  text-align: center;
+}
+
+.about-subheading-v16 > p {
+  margin: 0 0 14px;
+  text-align: center;
+}
+
+.about-subheading-v16 h3 {
+  text-align: center;
+}
+
+/*
+  주요 업무 목록과 연혁을 한쪽에 치우치지 않도록 중앙 정렬한다.
+*/
+.about-role-list {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.about-timeline {
+  width: min(1060px, 100%);
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------
+   주요 업무 호버
+   단순한 패딩 이동 대신 배경이 열리고 큰 번호가 나타난다.
+-------------------------------------------------- */
+
+.about-role-list article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  grid-template-columns:
+    68px
+    minmax(260px, 0.62fr)
+    minmax(0, 1.38fr);
+
+  padding: 31px 24px;
+
+  transition:
+    border-color 0.42s ease,
+    color 0.42s ease;
+}
+
+.about-role-list article::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  transition:
+    transform
+    0.58s
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-role-list article::after {
+  content: attr(data-role-index);
+
+  position: absolute;
+  top: 50%;
+  right: 34px;
+  z-index: -1;
+
+  color: #ffffff;
+
+  font-size: clamp(74px, 7vw, 118px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -6px;
+
+  opacity: 0;
+  transform:
+    translate(36px, -50%)
+    scale(0.92);
+
+  transition:
+    opacity 0.42s ease,
+    transform
+    0.58s
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-role-list article:hover {
+  padding-left: 24px;
+  padding-right: 24px;
+
+  border-color: rgba(255, 255, 255, 0.38);
+  background: transparent;
+}
+
+.about-role-list article:hover::before {
+  transform: scaleX(1);
+}
+
+.about-role-list article:hover::after {
+  opacity: 0.055;
+  transform:
+    translate(0, -50%)
+    scale(1);
+}
+
+.about-role-list article > span,
+.about-role-list h4,
+.about-role-list p {
+  transition:
+    transform
+    0.52s
+    cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s ease;
+}
+
+.about-role-list article:hover > span {
+  color: #ffffff;
+  transform: translateX(8px);
+}
+
+.about-role-list article:hover h4 {
+  transform: translateX(18px);
+}
+
+.about-role-list article:hover p {
+  color: #ffffff;
+  transform: translateX(26px);
+}
+
+/*
+  세계와 규칙이라는 핵심 포지셔닝이 먼저 읽히도록
+  About 제목 폭과 행간을 정리한다.
+*/
+.about-copy-v16 > h3 {
+  max-width: 820px;
+}
+
+.about-description-v16 {
+  max-width: 830px;
+}
+
+/*
+  Contact의 좌우 분할 배경은 의도된 디자인이므로 유지한다.
+*/
+
+@media (max-width: 860px) {
+  .about-role-list article {
+    grid-template-columns: 48px 1fr;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .about-role-list article:hover {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .about-role-list article::after {
+    right: 12px;
+  }
+
+  .about-role-list article:hover h4,
+  .about-role-list article:hover p {
+    transform: translateX(10px);
+  }
+}

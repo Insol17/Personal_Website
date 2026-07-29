@@ -7,10 +7,87 @@
   <title>곽태웅 | Game Designer</title>
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="experience.css">
+  <script>
+    (function () {
+      try {
+        const forceBoot =
+          new URLSearchParams(window.location.search)
+            .get('boot') === '1';
+
+        const bootSeen =
+          window.sessionStorage.getItem(
+            'portfolioBootSeenInTab'
+          ) === 'true';
+
+        if (bootSeen && !forceBoot) {
+          document.documentElement.classList.add(
+            'skip-boot'
+          );
+        }
+      } catch (error) {
+        /* 저장소를 사용할 수 없어도 사이트는 정상 실행한다. */
+      }
+    })();
+  </script>
   <script src="script.js" defer></script>
 </head>
 
-<body>
+<body class="is-booting">
+
+  <!-- 메인 페이지 부팅 인트로 -->
+  <div
+    id="bootScreen"
+    class="boot-screen"
+    role="status"
+    aria-live="polite"
+    aria-label="포트폴리오를 불러오는 중"
+  >
+    <div class="boot-grid" aria-hidden="true"></div>
+    <div class="boot-scan" aria-hidden="true"></div>
+
+    <div class="boot-interface">
+      <div class="boot-header">
+        <span>KWAK TAEWOONG / PORTFOLIO SYSTEM</span>
+        <span id="bootStatus">INITIALIZING</span>
+      </div>
+
+      <div class="boot-center">
+        <p>GAME DESIGNER PORTFOLIO</p>
+        <h1>READY TO PLAY</h1>
+      </div>
+
+      <div class="boot-footer">
+        <div class="boot-progress" aria-hidden="true">
+          <span></span>
+        </div>
+
+        <div class="boot-log" aria-hidden="true">
+          <span>PROFILE</span>
+          <span>PORTFOLIO</span>
+          <span>CONTACT</span>
+          <span>ONLINE</span>
+        </div>
+
+        <button
+          id="bootSkip"
+          class="boot-skip"
+          type="button"
+          aria-label="인트로 건너뛰기"
+        >
+          SKIP
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <style>
+      .boot-screen { display: none !important; }
+      body.is-booting { overflow: auto !important; }
+    </style>
+  </noscript>
+
   <!-- 고정 상단 메뉴 -->
   <header class="site-header">
     <a href="#home" class="site-logo">KWAK TAEWOONG</a>
@@ -39,8 +116,8 @@
         </h1>
 
         <p class="hero-description">
-          플레이어의 시야에서 시스템을 설계하고,<br>
-          Unity로 플레이 가능한 경험을 구현합니다.
+          플레이어의 시야에서 세계와 규칙을 설계하고,<br>
+          플레이 가능한 경험으로 구현합니다.
         </p>
 
         <div class="social-links" aria-label="소셜 링크">
@@ -76,182 +153,283 @@
       </a>
     </section>
 
-    <!-- About: 프로젝트보다 먼저 배치 -->
-    <section id="about" class="about-section">
-      <div class="section-heading">
-        <p class="section-kicker">PROFILE & RESUME</p>
-        <h2>ABOUT ME</h2>
-      </div>
+    <!-- About: 역할과 역량을 빠르게 전달하는 이력서형 섹션 -->
+    <section id="about" class="about-section about-v16">
+      <div class="about-container">
 
-      <div class="about-hero-grid">
-        <figure class="profile-photo">
-          <img src="assets/images/profile.jpg" alt="곽태웅 프로필 사진">
-          <figcaption>KWAK TAEWOONG</figcaption>
-        </figure>
-
-        <div class="about-summary">
-          <p class="about-role">GAME DESIGNER · UNITY DEVELOPER</p>
-
-          <h3>기획을 플레이로 검증합니다.</h3>
-
-          <div class="about-lead">
-            <p>
-              중부대학교 게임소프트웨어전공에서 게임 기획과 개발을 공부하고 있습니다.
-              플레이어가 반복하게 될 행동을 먼저 정의하고, 이를 코어 루프·규칙·자원·수치·피드백으로 구체화합니다.
-            </p>
-
-            <p>
-              대표 프로젝트 <strong>살굿</strong>에서는 4인 팀장으로 전투 시스템과 오행 무기,
-              작두·흡혼·무령의 공격적 자원 회복 구조를 기획하고 Unity와 C#으로 구현했습니다.
-              개인 프로젝트에서는 덱빌딩 로그라이크, AI 데스크톱 애플리케이션,
-              타워디펜스, 디젤펑크 내러티브를 설계하며 장르별 핵심 문제를 시스템으로 정리하고 있습니다.
-            </p>
-
-            <p>
-              아이디어를 문서로만 제시하기보다 프로토타입과 플레이 결과로 검증하고,
-              팀이 같은 기준으로 제작할 수 있도록 기획서·수치표·발표 자료까지 구조화하는 것을 강점으로 삼습니다.
-            </p>
+        <header class="about-heading-v16" data-reveal>
+          <div>
+            <p class="about-section-index">01 / PROFILE</p>
+            <h2>ABOUT</h2>
           </div>
+        </header>
 
-          <div class="about-meta">
-            <div>
-              <span>ROLE</span>
-              <strong>Game Designer / Unity Developer</strong>
-            </div>
-            <div>
-              <span>EDUCATION</span>
-              <strong>중부대학교 게임소프트웨어전공</strong>
-            </div>
-            <div>
-              <span>CORE</span>
-              <strong>System Planning · Prototyping · Team Leadership</strong>
-            </div>
-          </div>
+        <div class="about-intro-v16">
+          <figure
+            class="about-portrait-card"
+            data-reveal="image"
+          >
+            <div class="about-portrait-inner">
+              <img
+                src="assets/images/profile.jpg"
+                alt="게임 디자이너 곽태웅 프로필"
+              >
 
-          <div class="about-actions">
-            <a href="mailto:gtw0711@gmail.com">EMAIL ME</a>
-            <a href="assets/resume.pdf" download>DOWNLOAD RESUME</a>
+              <div class="about-portrait-shade"></div>
+
+              <figcaption>
+                <span>KWAK TAEWOONG</span>
+                <span>GAME DESIGN / DEVELOPMENT</span>
+              </figcaption>
+
+              <div
+                class="about-portrait-coordinate"
+                aria-hidden="true"
+              >
+                <span>PROFILE_01</span>
+                <span>KR / 2026</span>
+              </div>
+            </div>
+          </figure>
+
+          <div class="about-copy-v16">
+            <p class="about-role-v16" data-reveal>
+              GAME DESIGNER · DEVELOPER
+            </p>
+
+            <h3
+              data-reveal
+              style="--reveal-delay: 70ms;"
+            >
+              세계와 규칙을<br>
+              설계합니다.
+            </h3>
+
+            <div
+              class="about-description-v16"
+              data-reveal
+              style="--reveal-delay: 130ms;"
+            >
+              <p>
+                게임의 세계는 배경만이 아니라,
+                플레이어가 이해하고 행동하는 규칙 전체라고 생각합니다.
+                저는 핵심 경험을 정의하고 이를 시스템·수치·레벨·UI로 구체화합니다.
+              </p>
+
+              <p>
+                필요한 기능은 직접 구현해 플레이 가능한 형태로 검증하고,
+                기획 문서와 밸런스 데이터를 통해
+                팀이 같은 기준으로 제작할 수 있도록 방향을 조율합니다.
+              </p>
+
+              <p>
+                전투와 시스템 기획을 중심으로 내러티브, UX와 프로젝트 디렉션까지 연결합니다.
+                특정 엔진에 역할을 한정하기보다,
+                설계 의도와 문제에 적합한 도구를 선택해 결과를 완성합니다.
+              </p>
+            </div>
+
+            <dl
+              class="about-identity-grid"
+              data-reveal
+              style="--reveal-delay: 190ms;"
+            >
+              <div>
+                <dt>EDUCATION</dt>
+                <dd>중부대학교 게임소프트웨어전공</dd>
+              </div>
+
+              <div>
+                <dt>ROLE</dt>
+                <dd>Game Design / Development</dd>
+              </div>
+
+              <div>
+                <dt>FOCUS</dt>
+                <dd>Worlds · Rules · Player Experience</dd>
+              </div>
+            </dl>
+
+            <div
+              class="about-actions-v16"
+              data-reveal
+              style="--reveal-delay: 240ms;"
+            >
+              <a href="mailto:gtw0711@gmail.com">
+                EMAIL ME
+                <span>↗</span>
+              </a>
+
+              <a href="assets/resume.pdf" download>
+                DOWNLOAD RESUME
+                <span>↓</span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="resume-layout">
-        <div class="resume-column timeline-column">
-          <p class="resume-column-title">TIMELINE</p>
+        <section class="about-role-section">
+          <header class="about-subheading-v16" data-reveal>
+            <p>WHAT I DO</p>
+            <h3>주요 업무</h3>
+          </header>
 
-          <div class="timeline-route">
-            <article class="timeline-stop">
-              <span class="timeline-year">2025</span>
-              <span class="timeline-node" aria-hidden="true"></span>
-              <div class="timeline-content">
-                <h4>베네딕트 오브 신즈</h4>
-                <p class="resume-role">Deckbuilding Roguelike · Game</p>
-                <p>죄와 중용을 카드와 선택 시스템으로 경험하게 만드는 개인 게임 기획을 시작했습니다.</p>
-              </div>
-            </article>
-
-            <article class="timeline-stop">
-              <span class="timeline-year">2026</span>
-              <span class="timeline-node" aria-hidden="true"></span>
-              <div class="timeline-content">
-                <h4>살굿</h4>
-                <p class="resume-role">Team Lead · Hyper Action FPS</p>
-                <p>4인 팀의 한국 무속 기반 하이퍼 액션 FPS를 기획하고 Unity로 구현했습니다.</p>
-              </div>
-            </article>
-
-            <article class="timeline-stop">
-              <span class="timeline-year">2026</span>
-              <span class="timeline-node" aria-hidden="true"></span>
-              <div class="timeline-content">
-                <h4>페르낭</h4>
-                <p class="resume-role">AI Desktop Application</p>
-                <p>음성 인식과 LLM을 결합한 데스크톱 인터페이스의 MVP 구조를 설계했습니다.</p>
-              </div>
-            </article>
-
-            <article class="timeline-stop">
-              <span class="timeline-year">TBD</span>
-              <span class="timeline-node" aria-hidden="true"></span>
-              <div class="timeline-content">
-                <h4>De.Co</h4>
-                <p class="resume-role">Tower Defense · Game</p>
-                <p>타워디펜스 장르 프로젝트로, 세부 시스템과 제작 일정을 정리 중입니다.</p>
-              </div>
-            </article>
-
-            <article class="timeline-stop">
-              <span class="timeline-year">TBD</span>
-              <span class="timeline-node" aria-hidden="true"></span>
-              <div class="timeline-content">
-                <h4>마키나토르</h4>
-                <p class="resume-role">Dieselpunk Narrative · Game</p>
-                <p>디젤펑크 중앙도시와 AI 파편을 중심으로 한 내러티브 프로젝트를 정리 중입니다.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div class="resume-column">
-          <p class="resume-column-title">WHAT I DO</p>
-
-          <div class="capability-list">
-            <article class="capability-item">
+          <div class="about-role-list">
+            <article
+              data-reveal
+              style="--reveal-delay: 0ms;"
+              data-role-index="01"
+            >
               <span>01</span>
+
               <div>
                 <h4>GAME DESIGN</h4>
                 <p>
-                  콘셉트와 핵심 경험을 코어 루프, 규칙, 자원, 수치, UX와 피드백으로 정리합니다.
-                  전투와 내러티브를 별도 장식이 아니라 플레이어의 행동과 선택 구조로 연결합니다.
+                  콘셉트와 핵심 재미를 코어 루프,
+                  게임 규칙, 자원 구조와 밸런스 수치로 설계합니다.
                 </p>
               </div>
             </article>
 
-            <article class="capability-item">
+            <article
+              data-reveal
+              style="--reveal-delay: 70ms;"
+              data-role-index="02"
+            >
               <span>02</span>
+
               <div>
-                <h4>PLAYABLE PROTOTYPE</h4>
+                <h4>GAME DEVELOPMENT</h4>
                 <p>
-                  Unity와 C#으로 기획을 직접 구현해 조작감, 판정, 반복 루프와 지배 전략을 확인합니다.
-                  Git과 GitHub를 사용한 브랜치 협업과 기능 병합 경험이 있습니다.
+                  프로토타입과 주요 게임플레이 기능을 직접 구현해,
+                  설계가 실제 플레이에서 작동하는지 검증합니다.
                 </p>
               </div>
             </article>
 
-            <article class="capability-item">
+            <article
+              data-reveal
+              style="--reveal-delay: 140ms;"
+              data-role-index="03"
+            >
               <span>03</span>
+
               <div>
                 <h4>PROJECT DIRECTION</h4>
                 <p>
-                  팀의 목표와 우선순위를 정의하고 역할 분배, 일정, 기획 문서와 발표 자료를 관리합니다.
-                  살굿에서 4인 팀장을 맡아 전투 기준과 개발 방향을 조율했습니다.
+                  프로젝트 범위와 우선순위를 정하고,
+                  역할·일정·기획 문서를 관리해 팀의 제작 방향을 조율합니다.
                 </p>
               </div>
             </article>
           </div>
+        </section>
 
-          <div class="skill-panel">
-            <p class="resume-column-title">TOOLS</p>
-            <div class="skill-tags">
-              <span>Unity 2022.3</span>
-              <span>C#</span>
-              <span>Git</span>
-              <span>GitHub</span>
-              <span>Notion</span>
-              <span>Photoshop</span>
-              <span>Premiere Pro</span>
-            </div>
-          </div>
+        <section class="about-career-section">
+          <header class="about-subheading-v16" data-reveal>
+            <p>SELECTED PATH</p>
+            <h3>프로젝트 연혁</h3>
+          </header>
 
-          <div class="skill-panel">
-            <p class="resume-column-title">EXPERIENCE</p>
-            <ul class="activity-list">
-              <li><strong>살굿</strong> — 4인 팀장, 전투·시스템 기획, Unity 구현 및 발표</li>
-              <li><strong>CCIT 게임융합소학회</strong> — 게임 제작 활동과 채널·콘텐츠 기획</li>
-              <li><strong>협업</strong> — Git/GitHub 브랜치 운영, 기능 병합, 기획 문서 및 수치표 관리</li>
-            </ul>
+          <div class="about-timeline" data-timeline>
+            <article class="about-timeline-item" data-reveal>
+              <time>2025</time>
+              <span
+                class="about-timeline-node"
+                aria-hidden="true"
+              ></span>
+
+              <div>
+                <p>TEAM PROJECT · DECKBUILDING ROGUELIKE</p>
+                <h4>베네딕트 오브 신즈</h4>
+                <span>
+                  팀장 · 게임 기획 · 시스템 구현 · UI 제작
+                </span>
+              </div>
+            </article>
+
+            <article
+              class="about-timeline-item"
+              data-reveal
+              style="--reveal-delay: 55ms;"
+            >
+              <time>2026</time>
+              <span
+                class="about-timeline-node"
+                aria-hidden="true"
+              ></span>
+
+              <div>
+                <p>4-PERSON TEAM · HYPER ACTION FPS</p>
+                <h4>살굿</h4>
+                <span>
+                  팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표
+                </span>
+              </div>
+            </article>
+
+            <article
+              class="about-timeline-item"
+              data-reveal
+              style="--reveal-delay: 110ms;"
+            >
+              <time>2026</time>
+              <span
+                class="about-timeline-node"
+                aria-hidden="true"
+              ></span>
+
+              <div>
+                <p>AI DESKTOP APPLICATION</p>
+                <h4>페르낭</h4>
+                <span>
+                  AI 인터랙션 · 데스크톱 UI · MVP 설계
+                </span>
+              </div>
+            </article>
+
+            <article
+              class="about-timeline-item"
+              data-reveal
+              style="--reveal-delay: 165ms;"
+            >
+              <time>TBD</time>
+              <span
+                class="about-timeline-node"
+                aria-hidden="true"
+              ></span>
+
+              <div>
+                <p>TOWER DEFENSE</p>
+                <h4>De.Co</h4>
+                <span>
+                  타워디펜스 시스템 및 레벨 구조 기획
+                </span>
+              </div>
+            </article>
+
+            <article
+              class="about-timeline-item"
+              data-reveal
+              style="--reveal-delay: 220ms;"
+            >
+              <time>TBD</time>
+              <span
+                class="about-timeline-node"
+                aria-hidden="true"
+              ></span>
+
+              <div>
+                <p>DIESELPUNK NARRATIVE</p>
+                <h4>마키나토르</h4>
+                <span>
+                  세계관 · 세력 · 선택 구조 설계
+                </span>
+              </div>
+            </article>
           </div>
-        </div>
+        </section>
+
       </div>
     </section>
 
