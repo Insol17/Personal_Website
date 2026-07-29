@@ -7,7 +7,7 @@
   <title>곽태웅 | Game Designer</title>
 
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="experience.css">
+  <link rel="stylesheet" href="./experience.css?v=18">
   <script>
     (function () {
       try {
@@ -30,7 +30,7 @@
       }
     })();
   </script>
-  <script src="script.js" defer></script>
+  <script src="./script.js?v=18" defer></script>
 </head>
 
 <body class="is-booting">
@@ -80,6 +80,44 @@
       </div>
     </div>
   </div>
+
+  <script>
+    /*
+      GitHub Pages 캐시 또는 네트워크 문제로 외부 스크립트가
+      로드되지 않아도 부팅 화면에 영구 정지하지 않게 한다.
+      정상 실행 시 script.js에서 이 타이머를 취소한다.
+    */
+    window.__portfolioBootFailSafe =
+      window.setTimeout(function () {
+        const screen =
+          document.getElementById('bootScreen');
+
+        document.body.classList.remove(
+          'is-booting'
+        );
+
+        document.body.classList.add(
+          'site-ready'
+        );
+
+        try {
+          window.sessionStorage.setItem(
+            'portfolioBootSeenInTab',
+            'true'
+          );
+        } catch (error) {
+          /* 저장소 접근 실패는 화면 전환을 막지 않는다. */
+        }
+
+        if (screen) {
+          screen.classList.add('is-exiting');
+
+          window.setTimeout(function () {
+            screen.remove();
+          }, 480);
+        }
+      }, 2400);
+  </script>
 
   <noscript>
     <style>

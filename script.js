@@ -40,6 +40,12 @@ function finishBoot() {
 
   bootFinished = true;
 
+  if (window.__portfolioBootFailSafe) {
+    window.clearTimeout(
+      window.__portfolioBootFailSafe
+    );
+  }
+
   try {
     window.sessionStorage.setItem(
       'portfolioBootSeenInTab',

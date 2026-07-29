@@ -1335,3 +1335,182 @@ body.site-ready .scroll-guide {
     transform: translateX(10px);
   }
 }
+
+/* ==================================================
+   V18 — BOOT FAILSAFE & CENTERED TIMELINE
+================================================== */
+
+/*
+  Boot 화면이 전체 페이지 위를 덮고 있으므로,
+  그 아래의 메인 요소를 별도로 숨길 필요가 없다.
+  외부 JS가 실패해도 본문이 검은 화면으로 남지 않게 한다.
+*/
+body.is-booting {
+  overflow: auto;
+}
+
+body.is-booting .site-header,
+body.is-booting .hero-eyebrow,
+body.is-booting .hero-statement,
+body.is-booting .hero-description,
+body.is-booting .social-links,
+body.is-booting .scroll-guide {
+  opacity: 1 !important;
+}
+
+/*
+  JS가 전혀 실행되지 않는 경우의 최종 안전장치.
+  정상적인 경우에는 JS가 1.85초에 먼저 종료한다.
+*/
+.boot-screen {
+  animation:
+    v18-boot-css-failsafe
+    0.48s
+    2.4s
+    forwards;
+}
+
+.boot-screen.is-exiting {
+  animation: none;
+}
+
+@keyframes v18-boot-css-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* --------------------------------------------------
+   프로젝트 연혁: 중앙 축을 기준으로 좌우 균형
+-------------------------------------------------- */
+
+.about-career-section {
+  width: min(1280px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-career-section .about-subheading-v16 {
+  text-align: center;
+}
+
+.about-timeline {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.about-timeline::before,
+.about-timeline::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.about-timeline-item {
+  grid-template-columns:
+    minmax(0, 1fr)
+    30px
+    minmax(0, 1fr);
+
+  gap: 24px;
+  min-height: 158px;
+}
+
+.about-timeline-item time {
+  padding-top: 4px;
+  padding-right: 8px;
+
+  text-align: right;
+}
+
+.about-timeline-node {
+  position: relative;
+  z-index: 3;
+}
+
+.about-timeline-item > div {
+  max-width: 470px;
+
+  padding:
+    0
+    0
+    40px
+    12px;
+}
+
+.about-timeline-item p,
+.about-timeline-item h4,
+.about-timeline-item div > span {
+  text-align: left;
+}
+
+.about-timeline-item h4 {
+  font-size: 29px;
+}
+
+/*
+  각 프로젝트 정보가 중앙선과 관계없는 긴 가로선처럼
+  보이지 않도록 콘텐츠 폭만큼 선을 제한한다.
+*/
+.about-timeline-item > div {
+  border-bottom-color:
+    rgba(255, 255, 255, 0.17);
+}
+
+/* 연혁 항목에도 미세한 인터랙션을 적용한다. */
+.about-timeline-item > div {
+  transition:
+    transform
+    0.46s
+    cubic-bezier(0.16, 1, 0.3, 1),
+    border-color
+    0.3s
+    ease;
+}
+
+.about-timeline-item:hover > div {
+  transform: translateX(12px);
+  border-bottom-color:
+    rgba(255, 255, 255, 0.38);
+}
+
+.about-timeline-item:hover
+.about-timeline-node {
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 7px
+    rgba(255, 255, 255, 0.09);
+}
+
+@media (max-width: 860px) {
+  .about-timeline::before,
+  .about-timeline::after {
+    left: 77px;
+    transform: none;
+  }
+
+  .about-timeline-item {
+    grid-template-columns:
+      54px
+      18px
+      minmax(0, 1fr);
+
+    gap: 14px;
+  }
+
+  .about-timeline-item time {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .about-timeline-item > div {
+    max-width: none;
+    padding-left: 0;
+  }
+
+  .about-timeline-item:hover > div {
+    transform: translateX(6px);
+  }
+}
