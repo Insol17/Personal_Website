@@ -1,79 +1,11 @@
-/* 메인 타이핑 문구 */
-const heroVerb = document.querySelector('#heroVerb');
+const heroBackground = document.querySelector('.hero-background-image');
 
-if (heroVerb) {
-  const heroWords = [
-    'CREATE',
-    'CHANGE',
-    'ENJOY',
-    'DESIGN'
-  ];
-
-  const typingSpeed = 145;
-  const deletingSpeed = 125;
-  const completedWordPause = 1900;
-  const emptyWordPause = 420;
-
-  let wordIndex = 0;
-  let characterIndex = heroWords[0].length;
-  let isDeleting = true;
-
-  function updateHeroWord() {
-    const currentWord = heroWords[wordIndex];
-
-    if (isDeleting) {
-      characterIndex -= 1;
-      heroVerb.textContent =
-        currentWord.slice(0, characterIndex);
-
-      if (characterIndex === 0) {
-        isDeleting = false;
-        wordIndex =
-          (wordIndex + 1) % heroWords.length;
-
-        window.setTimeout(
-          updateHeroWord,
-          emptyWordPause
-        );
-
-        return;
-      }
-
-      window.setTimeout(
-        updateHeroWord,
-        deletingSpeed
-      );
-
-      return;
-    }
-
-    const nextWord = heroWords[wordIndex];
-
-    characterIndex += 1;
-    heroVerb.textContent =
-      nextWord.slice(0, characterIndex);
-
-    if (characterIndex === nextWord.length) {
-      isDeleting = true;
-
-      window.setTimeout(
-        updateHeroWord,
-        completedWordPause
-      );
-
-      return;
-    }
-
-    window.setTimeout(
-      updateHeroWord,
-      typingSpeed
+if (heroBackground) {
+  heroBackground.addEventListener('error', function () {
+    console.error(
+      'main.jpg를 찾지 못했습니다. assets/images/main.jpg 경로와 파일 확장자를 확인하세요.'
     );
-  }
-
-  window.setTimeout(
-    updateHeroWord,
-    completedWordPause
-  );
+  });
 }
 
 const projectSlider = document.querySelector('#projectSlider');

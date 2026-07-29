@@ -5,24 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>베네딕트 오브 신즈 | 곽태웅</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="project-detail.css">
+  <script src="project-detail.js" defer></script>
 </head>
-
-<body>
+<body class="project-detail-body project-theme-benedict">
   <header class="site-header">
     <a href="../index.html#home" class="site-logo">KWAK TAEWOONG</a>
-
     <nav class="site-navigation">
       <a href="../index.html#home">HOME</a>
       <a href="../index.html#about">ABOUT</a>
-      <a href="index.html">PROJECTS</a>
+      <a href="index.html">PORTFOLIO</a>
       <a href="../index.html#contact">CONTACT</a>
     </nav>
   </header>
 
-  <main class="project-detail-page">
-    <section class="project-detail-hero" style="background-image: url('../assets/images/projects/benedict.jpg');">
-      <div class="project-detail-overlay"></div>
+  <button class="project-back-button" type="button" data-project-back aria-label="이전 페이지로 돌아가기"><span>←</span> BACK</button>
 
+  <main class="project-detail-page">
+    <section class="project-detail-hero" style="background-image:url('../assets/images/projects/benedict/cover.jpg');">
+      <div class="project-detail-overlay"></div>
       <div class="project-detail-heading">
         <p>01 / DECKBUILDING ROGUELIKE</p>
         <h1>BENEDICT OF SINS</h1>
@@ -30,17 +31,154 @@
       </div>
     </section>
 
-    <section class="project-detail-content">
-      <a href="index.html">← ALL PROJECTS</a>
+    <div class="project-content-shell">
+      <div class="project-content-inner">
+        <section class="project-overview-layout">
+          <div class="project-overview-copy">
+            <p class="project-section-kicker">PROJECT OVERVIEW</p>
+            <h2>프로젝트 개요</h2>
+            <p>“죄라는 것은 정말 나쁘기만 한가?”라는 질문과 아리스토텔레스의 중용에서 출발한 철학적 덱빌딩 로그라이크입니다. 총 8개 챕터에서 서로 다른 죄와 인물을 다루며, 카드 선택과 전투 규칙 자체가 각 챕터의 주제를 체험하게 만드는 것을 목표로 설계했습니다.</p>
+          </div>
+          <dl class="project-facts">            <div><dt>TYPE</dt><dd>개인 게임 디자인 프로젝트</dd></div>
+            <div><dt>ROLE</dt><dd>게임 기획 · 덱빌딩 시스템 · 내러티브 콘셉트</dd></div>
+            <div><dt>GENRE</dt><dd>Deckbuilding Roguelike</dd></div>
+            <div><dt>STRUCTURE</dt><dd>8개 챕터 기획</dd></div>
+            <div><dt>STATUS</dt><dd>기획 및 시스템 설계 단계</dd></div></dl>
+        </section>
 
-      <h2>PROJECT OVERVIEW</h2>
-      <p>죄와 중용을 카드와 선택 시스템으로 경험하게 만드는 철학적 덱빌딩 로그라이크입니다.</p>
+        <section class="project-pillars">          <article class="project-pillar"><span>01</span><h3>죄를 전투 자원으로</h3><p>죄를 단순한 악성 상태가 아니라 강력하지만 대가가 따르는 플레이 자원으로 전환합니다.</p></article>
+          <article class="project-pillar"><span>02</span><h3>챕터마다 다른 규칙</h3><p>각 죄와 등장인물의 성격을 카드 효과와 전투 기믹으로 치환합니다.</p></article>
+          <article class="project-pillar"><span>03</span><h3>선택이 메시지를 만든다</h3><p>플레이어가 극단과 중용 사이의 결과를 직접 겪게 합니다.</p></article></section>
+        <div class="project-feature-list">        <section class="project-feature">
+          <div class="project-feature-copy"><h2>8개의 죄, 8개의 플레이 규칙</h2><p>각 챕터는 하나의 죄와 인물을 중심으로 독립적인 덱 구조와 전투 규칙을 가집니다. 챕터가 바뀔 때마다 자원을 축적하고 소비하는 방식 자체가 달라지도록 구성했습니다.</p></div>
+          <figure class="project-feature-media">
+            <img src="../assets/images/projects/benedict/overview/01.jpg" alt="베네딕트 챕터 구성 이미지" loading="lazy">
+            <figcaption>CHAPTER STRUCTURE / 추후 챕터 구성 이미지로 교체</figcaption>
+          </figure>
+        </section>
+        <section class="project-feature">
+          <div class="project-feature-copy"><h2>눈 먼 분노 — 분노와 과열</h2><p>1챕터 ‘눈 먼 분노’는 바이킹 캐릭터의 분노, 오버히트, 잔흔 기믹을 중심으로 설계했습니다. 공격을 이어갈수록 폭발력이 높아지지만 제어를 잃을 위험도 커집니다.</p></div>
+          <figure class="project-feature-media">
+            <img src="../assets/images/projects/benedict/overview/02.jpg" alt="눈 먼 분노 전투 기믹 이미지" loading="lazy">
+            <figcaption>BLIND RAGE / 추후 카드 및 전투 UI 이미지로 교체</figcaption>
+          </figure>
+        </section>
+        <section class="project-feature">
+          <div class="project-feature-copy"><h2>철학을 설명하지 않고 플레이하게 만들기</h2><p>중용을 설명문으로 전달하는 대신 과도한 선택과 지나친 억제가 각각 다른 손실을 발생시키도록 규칙에 반영합니다.</p></div>
+          <figure class="project-feature-media">
+            <img src="../assets/images/projects/benedict/overview/03.jpg" alt="베네딕트 선택 구조 이미지" loading="lazy">
+            <figcaption>CHOICE SYSTEM / 추후 선택 이벤트 이미지로 교체</figcaption>
+          </figure>
+        </section></div>
 
-      <p>
-        이 아래에는 역할, 팀 구성, 개발 기간, 핵심 문제, 설계 과정,
-        구현 결과, 플레이 영상과 회고를 순서대로 추가하면 됩니다.
-      </p>
-    </section>
+
+        <section class="project-media-section">
+          <div class="project-section-heading">
+            <p class="project-section-kicker">MEDIA GALLERY</p>
+            <h2>스크린샷</h2>
+            <p class="project-media-description">
+              프로젝트 화면과 핵심 시스템을 보여주는 이미지를 최대 6개까지 배치합니다.
+            </p>
+          </div>
+
+          <div class="project-media-grid">
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 01">
+              <img
+                src="../assets/images/projects/benedict/screenshots/01.jpg"
+                alt="benedict 프로젝트 스크린샷 1"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 01</figcaption>
+            </figure>
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 02">
+              <img
+                src="../assets/images/projects/benedict/screenshots/02.jpg"
+                alt="benedict 프로젝트 스크린샷 2"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 02</figcaption>
+            </figure>
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 03">
+              <img
+                src="../assets/images/projects/benedict/screenshots/03.jpg"
+                alt="benedict 프로젝트 스크린샷 3"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 03</figcaption>
+            </figure>
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 04">
+              <img
+                src="../assets/images/projects/benedict/screenshots/04.jpg"
+                alt="benedict 프로젝트 스크린샷 4"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 04</figcaption>
+            </figure>
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 05">
+              <img
+                src="../assets/images/projects/benedict/screenshots/05.jpg"
+                alt="benedict 프로젝트 스크린샷 5"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 05</figcaption>
+            </figure>
+            <figure class="project-gallery-item" data-placeholder="SCREENSHOT 06">
+              <img
+                src="../assets/images/projects/benedict/screenshots/06.jpg"
+                alt="benedict 프로젝트 스크린샷 6"
+                loading="lazy"
+              >
+              <figcaption>SCREENSHOT 06</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="project-media-section project-video-section">
+          <div class="project-section-heading">
+            <p class="project-section-kicker">VIDEO</p>
+            <h2>플레이 영상</h2>
+            <p class="project-media-description">
+              각 카드의 <code>data-youtube-url</code>에 유튜브 주소를 입력하면 영상이 표시됩니다.
+            </p>
+          </div>
+
+          <div class="project-video-grid">
+            <div
+              class="project-video-card"
+              data-youtube-url=""
+              data-video-label="VIDEO 01"
+            ></div>
+            <div
+              class="project-video-card"
+              data-youtube-url=""
+              data-video-label="VIDEO 02"
+            ></div>
+            <div
+              class="project-video-card"
+              data-youtube-url=""
+              data-video-label="VIDEO 03"
+            ></div>
+          </div>
+        </section>
+
+        <section class="project-contribution-section">
+          <div class="project-section-heading"><p class="project-section-kicker">MY CONTRIBUTION</p><h2>담당 작업</h2></div>
+          <div class="project-contribution-grid">
+            <div class="project-contribution-intro"><p>철학적 주제를 게임 규칙으로 변환하는 데 집중했습니다. 로그라이크의 반복성과 덱빌딩의 조합 재미를 유지하면서 카드 효과와 선택 결과가 서사 메시지와 직접 연결되도록 구조를 설계했습니다.</p></div>
+            <ol class="project-contribution-list">            <li><span>01</span><div><strong>핵심 질문과 세계관 정의</strong><p>죄와 중용을 프로젝트의 중심 질문으로 설정하고 8개 챕터 구조를 구성했습니다.</p></div></li>
+            <li><span>02</span><div><strong>챕터별 시스템 기획</strong><p>각 죄의 성격을 카드 효과, 자원, 위험과 보상 구조로 치환했습니다.</p></div></li>
+            <li><span>03</span><div><strong>1챕터 전투 기믹 설계</strong><p>분노·오버히트·잔흔을 연결한 ‘눈 먼 분노’의 전투 규칙을 구체화했습니다.</p></div></li>
+            <li><span>04</span><div><strong>플레이와 서사의 연결</strong><p>선택과 덱 구성이 서사적 입장을 형성하도록 설계했습니다.</p></div></li></ol>
+          </div>
+        </section>
+
+        <aside class="project-reflection"><h2>REFLECTION</h2><p>철학적 메시지가 강할수록 시스템이 설명을 대신해야 한다는 점을 확인한 프로젝트입니다. 향후에는 카드 풀과 적 패턴을 실제 프로토타입으로 제작해 메시지와 전략적 재미가 동시에 성립하는지 검증해야 합니다.</p></aside>
+
+        <nav class="project-detail-navigation is-single-next" aria-label="다른 프로젝트">
+          <a href="salgut.html"><span>NEXT PROJECT</span><strong>SALGUT →</strong></a>
+        </nav>
+      </div>
+    </div>
   </main>
 </body>
 </html>
