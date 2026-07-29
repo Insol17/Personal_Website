@@ -1162,3 +1162,28 @@
 .project-feature-media:has(img[src=""]) {
   display: none;
 }
+
+
+/* ==================================================
+   V11 CLEAN CONTENT
+================================================== */
+
+/* 미디어 섹션은 실제 콘텐츠만 표시한다. */
+.project-media-section .project-section-heading {
+  margin-bottom: 42px;
+}
+
+.project-media-section .project-section-heading h2 {
+  margin-bottom: 0;
+}
+
+/* 스크린샷은 캡션 없이 이미지 자체에 집중한다. */
+.project-gallery-item figcaption {
+  display: none !important;
+}
+
+/* 등록된 영상만 JS에서 남기므로 빈 카드 표현은 사용하지 않는다. */
+.project-video-card.is-empty,
+.project-gallery-item.is-missing {
+  display: none !important;
+}
