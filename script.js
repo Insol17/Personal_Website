@@ -1,421 +1,175 @@
-const prefersReducedMotion =
-  window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ==================================================
-   Boot intro
-================================================== */
+/* --------------------------------------------------
+   Header state + active navigation
+-------------------------------------------------- */
+const header = document.querySelector('.site-header');
+const navLinks = [...document.querySelectorAll('.site-navigation a[href^="#"]')];
+const sections = [...document.querySelectorAll('main > section[id]')];
 
-const bootScreen =
-  document.querySelector('#bootScreen');
+function updateHeader() {
+  header?.classList.toggle('is-scrolled', window.scrollY > 24);
+}
+updateHeader();
+window.addEventListener('scroll', updateHeader, { passive: true });
 
-const bootSkip =
-  document.querySelector('#bootSkip');
-
-const bootStatus =
-  document.querySelector('#bootStatus');
-
-let bootFinished = false;
-
-const forceBoot =
-  new URLSearchParams(window.location.search)
-    .get('boot') === '1';
-
-let bootAlreadySeen = false;
-
-try {
-  bootAlreadySeen =
-    window.sessionStorage.getItem(
-      'portfolioBootSeenInTab'
-    ) === 'true';
-} catch (error) {
-  bootAlreadySeen = false;
+if ('IntersectionObserver' in window && sections.length) {
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      navLinks.forEach((link) => {
+        link.classList.toggle('is-active', link.getAttribute('href') === `#${entry.target.id}`);
+      });
+    });
+  }, { rootMargin: '-36% 0px -55% 0px', threshold: 0 });
+  sections.forEach((section) => sectionObserver.observe(section));
 }
 
-function finishBoot() {
-  if (bootFinished) {
-    return;
-  }
-
-  bootFinished = true;
-
-  if (window.__portfolioBootFailSafe) {
-    window.clearTimeout(
-      window.__portfolioBootFailSafe
-    );
-  }
-
-  try {
-    window.sessionStorage.setItem(
-      'portfolioBootSeenInTab',
-      'true'
-    );
-  } catch (error) {
-    /* 저장소를 사용할 수 없어도 인트로 종료는 계속한다. */
-  }
-
-  document.body.classList.remove('is-booting');
-  document.body.classList.add('site-ready');
-
-  if (!bootScreen) {
-    return;
-  }
-
-  bootScreen.classList.add('is-exiting');
-
-  window.setTimeout(function () {
-    bootScreen.remove();
-  }, 500);
-}
-
-if (
-  prefersReducedMotion ||
-  (bootAlreadySeen && !forceBoot)
-) {
-  finishBoot();
-} else if (bootScreen) {
-  const statusSteps = [
-    [360, 'LOADING PROFILE'],
-    [760, 'LOADING PORTFOLIO'],
-    [1180, 'CONNECTING INTERFACE'],
-    [1540, 'ONLINE']
-  ];
-
-  statusSteps.forEach(function (step) {
-    window.setTimeout(function () {
-      if (!bootFinished && bootStatus) {
-        bootStatus.textContent = step[1];
-      }
-    }, step[0]);
-  });
-
-  window.setTimeout(finishBoot, 1850);
-
-  if (bootSkip) {
-    bootSkip.addEventListener('click', finishBoot);
-  }
-
-  window.addEventListener('keydown', function (event) {
-    if (
-      event.key === 'Escape' ||
-      event.key === 'Enter'
-    ) {
-      finishBoot();
-    }
-  });
-} else {
-  finishBoot();
-}
-
-/* ==================================================
-   Hero image
-================================================== */
-
-const heroBackground =
-  document.querySelector('.hero-background-image');
-
-if (heroBackground) {
-  heroBackground.addEventListener('error', function () {
-    console.error(
-      'main.jpg를 찾지 못했습니다. assets/images/main.jpg 경로와 파일 확장자를 확인하세요.'
-    );
-  });
-}
-
-/* ==================================================
-   Scroll reveal
-================================================== */
-
-const revealElements =
-  document.querySelectorAll('[data-reveal]');
-
-if (
-  prefersReducedMotion ||
-  !('IntersectionObserver' in window)
-) {
-  revealElements.forEach(function (element) {
-    element.classList.add('is-visible');
-  });
+/* --------------------------------------------------
+   Reveal
+-------------------------------------------------- */
+const revealItems = [...document.querySelectorAll('[data-reveal]')];
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  revealItems.forEach((item) => item.classList.add('is-visible'));
 } else {
   document.body.classList.add('motion-ready');
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  revealItems.forEach((item) => revealObserver.observe(item));
+}
 
-  const revealObserver =
-    new IntersectionObserver(
-      function (entries, observer) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -8% 0px'
-      }
-    );
-
-  revealElements.forEach(function (element) {
-    revealObserver.observe(element);
+/* --------------------------------------------------
+   Hero depth — subtle, transform only
+-------------------------------------------------- */
+const hero = document.querySelector('.hero');
+const heroImage = document.querySelector('.hero-background-image');
+if (hero && heroImage && !reduceMotion) {
+  hero.addEventListener('pointermove', (event) => {
+    const rect = hero.getBoundingClientRect();
+    const nx = (event.clientX - rect.left) / rect.width - 0.5;
+    const ny = (event.clientY - rect.top) / rect.height - 0.5;
+    heroImage.style.setProperty('--hero-x', `${nx * -10}px`);
+    heroImage.style.setProperty('--hero-y', `${ny * -8}px`);
+  });
+  hero.addEventListener('pointerleave', () => {
+    heroImage.style.setProperty('--hero-x', '0px');
+    heroImage.style.setProperty('--hero-y', '0px');
   });
 }
 
-/* ==================================================
-   Optional About image
-================================================== */
-
-document
-  .querySelectorAll('[data-optional-image]')
-  .forEach(function (image) {
-    function hideOptionalImage() {
-      image.closest('.optional-visual')
-        ?.classList.add('is-hidden');
-    }
-
-    image.addEventListener('error', hideOptionalImage);
-
-    if (
-      image.complete &&
-      image.naturalWidth === 0
-    ) {
-      hideOptionalImage();
-    }
+/* --------------------------------------------------
+   Portrait tilt
+-------------------------------------------------- */
+const portrait = document.querySelector('.about-portrait-card');
+const portraitInner = portrait?.querySelector('.about-portrait-inner');
+if (portrait && portraitInner && !reduceMotion) {
+  portrait.addEventListener('pointermove', (event) => {
+    const rect = portrait.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    portraitInner.style.setProperty('--portrait-rx', `${y * -4.5}deg`);
+    portraitInner.style.setProperty('--portrait-ry', `${x * 4.5}deg`);
   });
-
-/* ==================================================
-   About portrait tilt
-================================================== */
-
-const portraitCard =
-  document.querySelector('.about-portrait-card');
-
-if (
-  portraitCard &&
-  !prefersReducedMotion
-) {
-  const portraitInner =
-    portraitCard.querySelector('.about-portrait-inner');
-
-  portraitCard.addEventListener(
-    'pointermove',
-    function (event) {
-      if (!portraitInner) {
-        return;
-      }
-
-      const rect =
-        portraitCard.getBoundingClientRect();
-
-      const x =
-        (event.clientX - rect.left) /
-        rect.width;
-
-      const y =
-        (event.clientY - rect.top) /
-        rect.height;
-
-      const rotateY =
-        (x - 0.5) * 7;
-
-      const rotateX =
-        (0.5 - y) * 7;
-
-      portraitInner.style.setProperty(
-        '--portrait-rx',
-        `${rotateX}deg`
-      );
-
-      portraitInner.style.setProperty(
-        '--portrait-ry',
-        `${rotateY}deg`
-      );
-    }
-  );
-
-  portraitCard.addEventListener(
-    'pointerleave',
-    function () {
-      if (!portraitInner) {
-        return;
-      }
-
-      portraitInner.style.setProperty(
-        '--portrait-rx',
-        '0deg'
-      );
-
-      portraitInner.style.setProperty(
-        '--portrait-ry',
-        '0deg'
-      );
-    }
-  );
+  portrait.addEventListener('pointerleave', () => {
+    portraitInner.style.setProperty('--portrait-rx', '0deg');
+    portraitInner.style.setProperty('--portrait-ry', '0deg');
+  });
 }
 
-/* ==================================================
-   Timeline progress
-================================================== */
-
-const aboutTimeline =
-  document.querySelector('[data-timeline]');
-
-function updateTimelineProgress() {
-  if (!aboutTimeline) {
-    return;
-  }
-
-  const rect =
-    aboutTimeline.getBoundingClientRect();
-
-  const viewportHeight =
-    window.innerHeight;
-
-  const start =
-    viewportHeight * 0.78;
-
-  const end =
-    viewportHeight * 0.24;
-
-  const progress =
-    Math.min(
-      1,
-      Math.max(
-        0,
-        (start - rect.top) /
-        (rect.height + start - end)
-      )
-    );
-
-  aboutTimeline.style.setProperty(
-    '--timeline-progress',
-    progress.toFixed(3)
-  );
+/* --------------------------------------------------
+   Timeline reading progress
+-------------------------------------------------- */
+const timeline = document.querySelector('[data-timeline]');
+function updateTimeline() {
+  if (!timeline) return;
+  const rect = timeline.getBoundingClientRect();
+  const start = window.innerHeight * 0.76;
+  const end = window.innerHeight * 0.22;
+  const progress = Math.min(1, Math.max(0, (start - rect.top) / (rect.height + start - end)));
+  timeline.style.setProperty('--timeline-progress', progress.toFixed(3));
+}
+if (timeline && !reduceMotion) {
+  updateTimeline();
+  window.addEventListener('scroll', updateTimeline, { passive: true });
+  window.addEventListener('resize', updateTimeline);
 }
 
-if (
-  aboutTimeline &&
-  !prefersReducedMotion
-) {
-  updateTimelineProgress();
+/* --------------------------------------------------
+   Horizontal portfolio: pointer drag, snap, keyboard
+-------------------------------------------------- */
+const slider = document.querySelector('#projectSlider');
+const progressBar = document.querySelector('.portfolio-progress-v19 span');
 
-  window.addEventListener(
-    'scroll',
-    updateTimelineProgress,
-    { passive: true }
-  );
-
-  window.addEventListener(
-    'resize',
-    updateTimelineProgress
-  );
+function updatePortfolioProgress() {
+  if (!slider || !progressBar) return;
+  const max = slider.scrollWidth - slider.clientWidth;
+  const value = max > 0 ? slider.scrollLeft / max : 0;
+  progressBar.style.transform = `scaleX(${Math.max(0.08, value).toFixed(3)})`;
 }
 
-/* ==================================================
-   Portfolio drag
-================================================== */
-
-const projectSlider =
-  document.querySelector('#projectSlider');
-
-if (projectSlider) {
-  let isMouseDown = false;
+if (slider) {
+  let pointerId = null;
   let startX = 0;
-  let startScrollLeft = 0;
-  let hasDragged = false;
+  let startScroll = 0;
+  let moved = false;
 
-  projectSlider.addEventListener(
-    'mousedown',
-    function (event) {
-      if (event.button !== 0) {
-        return;
-      }
+  slider.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startScroll = slider.scrollLeft;
+    moved = false;
+    slider.setPointerCapture?.(pointerId);
+    slider.classList.add('is-dragging');
+  });
 
-      isMouseDown = true;
-      hasDragged = false;
-      startX = event.pageX;
-      startScrollLeft =
-        projectSlider.scrollLeft;
+  slider.addEventListener('pointermove', (event) => {
+    if (event.pointerId !== pointerId) return;
+    const dx = event.clientX - startX;
+    if (Math.abs(dx) > 6) moved = true;
+    slider.scrollLeft = startScroll - dx;
+  });
 
-      projectSlider.classList.add(
-        'is-dragging'
-      );
-    }
-  );
-
-  window.addEventListener(
-    'mousemove',
-    function (event) {
-      if (!isMouseDown) {
-        return;
-      }
-
-      const movement =
-        event.pageX - startX;
-
-      if (Math.abs(movement) > 6) {
-        hasDragged = true;
-      }
-
-      projectSlider.scrollLeft =
-        startScrollLeft - movement;
-
-      if (hasDragged) {
-        event.preventDefault();
-      }
-    }
-  );
-
-  window.addEventListener(
-    'mouseup',
-    function () {
-      if (!isMouseDown) {
-        return;
-      }
-
-      isMouseDown = false;
-
-      projectSlider.classList.remove(
-        'is-dragging'
-      );
-
-      window.setTimeout(function () {
-        hasDragged = false;
-      }, 0);
-    }
-  );
-
-  projectSlider.addEventListener(
-    'click',
-    function (event) {
-      if (hasDragged) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    },
-    true
-  );
-
-  projectSlider.addEventListener(
-    'dragstart',
-    function (event) {
-      event.preventDefault();
-    }
-  );
+  function endDrag(event) {
+    if (pointerId === null || (event.pointerId !== undefined && event.pointerId !== pointerId)) return;
+    slider.releasePointerCapture?.(pointerId);
+    pointerId = null;
+    slider.classList.remove('is-dragging');
+    window.setTimeout(() => { moved = false; }, 0);
+  }
+  slider.addEventListener('pointerup', endDrag);
+  slider.addEventListener('pointercancel', endDrag);
+  slider.addEventListener('click', (event) => {
+    if (!moved) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+  slider.addEventListener('dragstart', (event) => event.preventDefault());
+  slider.addEventListener('scroll', updatePortfolioProgress, { passive: true });
+  slider.tabIndex = 0;
+  slider.setAttribute('aria-label', '프로젝트 목록. 좌우 방향키 또는 드래그로 탐색');
+  slider.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    const card = slider.querySelector('.project-card');
+    const amount = (card?.getBoundingClientRect().width || 420) + 28;
+    slider.scrollBy({ left: event.key === 'ArrowRight' ? amount : -amount, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+  updatePortfolioProgress();
+  window.addEventListener('resize', updatePortfolioProgress);
 }
 
-/* 일반 이미지 오류 처리 */
-document
-  .querySelectorAll(
-    'img:not([data-optional-image])'
-  )
-  .forEach(function (image) {
-    image.addEventListener(
-      'error',
-      function () {
-        image.style.display = 'none';
-      }
-    );
+/* --------------------------------------------------
+   Image errors should not show broken icons
+-------------------------------------------------- */
+document.querySelectorAll('img').forEach((image) => {
+  image.addEventListener('error', () => {
+    image.classList.add('is-missing');
+    image.style.visibility = 'hidden';
   });
+});

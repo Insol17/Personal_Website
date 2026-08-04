@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>KT World Grid Mark</title>
+  <rect x="3" y="3" width="58" height="58" stroke="#FBFBFB" stroke-width="4"/>
+  <path d="M17 14V50M17 32L31 14M17 32L31 50M30 14H50M41 14V50" stroke="#FBFBFB" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M3 17H10M54 47H61" stroke="#FBFBFB" stroke-width="4"/>
+</svg>

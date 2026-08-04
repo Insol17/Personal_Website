@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 96" fill="none">
+  <g color="#FBFBFB">
+    <rect x="4" y="4" width="88" height="88" stroke="currentColor" stroke-width="6"/>
+    <path d="M25 20V76M25 48L48 20M25 48L48 76M47 20H78M63 20V76" stroke="currentColor" stroke-width="7"/>
+  </g>
+  <text x="120" y="42" fill="#FBFBFB" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="3">KWAK TAEWOONG</text>
+  <text x="120" y="70" fill="#9AA1A7" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4">I DESIGN WORLDS</text>
+</svg>

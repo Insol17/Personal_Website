@@ -1514,3 +1514,8 @@ body.is-booting .scroll-guide {
     transform: translateX(6px);
   }
 }
+
+
+/* V19 boot is controlled by inline critical CSS. */
+body.is-booting { overflow: auto !important; }
+html:not(.boot-first-visit) .boot-screen { display: none !important; }
