@@ -7,39 +7,45 @@
   <meta name="theme-color" content="#08090b">
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
   <title>곽태웅 | Game Designer</title>
-  <link rel="stylesheet" href="redesign.css?v=20">
+  <link rel="stylesheet" href="redesign.css?v=23">
   <style id="boot-critical">
-    /* Hidden by default. Only the first visit in a browser tab enables it. */
-    .boot-screen { display: none !important; }
-    html.boot-first-visit .boot-screen {
-      display: grid !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: none !important;
-      animation: bootCriticalDismiss .42s 1.28s forwards !important;
+    .boot-screen { display: none; }
+    .boot-screen.is-active {
+      display: grid;
+      animation: bootAutoExit 1.72s both;
     }
-    @keyframes bootCriticalDismiss {
-      to { opacity: 0; visibility: hidden; }
+    @keyframes bootAutoExit {
+      0%, 72% { opacity: 1; visibility: visible; pointer-events: auto; }
+      100% { opacity: 0; visibility: hidden; pointer-events: none; }
     }
   </style>
   <script>
     (function () {
       var forceBoot =
         new URLSearchParams(window.location.search).get('boot') === '1';
-      var seen = true;
+      var navigation = performance.getEntriesByType('navigation')[0];
+      var navigationType = navigation ? navigation.type : 'navigate';
+      var seenInTab = false;
 
       try {
-        seen = window.sessionStorage.getItem('portfolioBootV20') === 'true';
-        if (!seen || forceBoot) {
-          document.documentElement.classList.add('boot-first-visit');
-          window.sessionStorage.setItem('portfolioBootV20', 'true');
-        }
+        seenInTab = sessionStorage.getItem('portfolioBootV23') === 'true';
       } catch (error) {
-        /* Storage failure must never block the page. */
+        seenInTab = true;
+      }
+
+      window.__portfolioBootShouldRun =
+        forceBoot || (navigationType === 'navigate' && !seenInTab);
+
+      if (window.__portfolioBootShouldRun) {
+        try {
+          sessionStorage.setItem('portfolioBootV23', 'true');
+        } catch (error) {
+          /* Boot remains non-blocking even without storage. */
+        }
       }
     })();
   </script>
-  <script src="script.js?v=20" defer></script>
+  <script src="script.js?v=23" defer></script>
 </head>
 
 <body class="portfolio-home">
@@ -83,13 +89,38 @@
     </div>
   </div>
 
+  <script>
+    (function () {
+      var screen = document.getElementById('bootScreen');
+      if (!screen) return;
+
+      if (!window.__portfolioBootShouldRun) {
+        screen.remove();
+        return;
+      }
+
+      screen.classList.add('is-active');
+      screen.setAttribute('aria-hidden', 'false');
+
+      function removeBoot() {
+        if (screen && screen.isConnected) screen.remove();
+      }
+
+      window.setTimeout(removeBoot, 1800);
+      window.setTimeout(removeBoot, 2600);
+      window.addEventListener('pageshow', function (event) {
+        if (event.persisted) removeBoot();
+      }, { once: true });
+    })();
+  </script>
+
   <!-- 고정 상단 메뉴 -->
   <header class="site-header">
     <a href="#home" class="site-logo site-brand" aria-label="곽태웅 포트폴리오 홈">
       <img src="assets/brand/kt-mark.svg" alt="" class="site-brand-mark">
       <span class="site-brand-copy">
         <strong>KWAK TAEWOONG</strong>
-        <small>GAME DESIGNER</small>
+        <small>PORTFOLIO / 2026</small>
       </span>
     </a>
 
@@ -131,7 +162,7 @@
           <div class="hero-actions-v19">
             <a href="#portfolio" class="hero-primary-cta">
               <span>VIEW SELECTED WORK</span>
-              <strong>↘</strong>
+              <strong>↓</strong>
             </a>
 
             <a href="#about" class="hero-secondary-cta">
@@ -169,9 +200,9 @@
           <div class="hero-feature-meta">
             <span>FEATURED WORK / 02</span>
             <strong>SALGUT</strong>
-            <p>HYPER ACTION FPS · TEAM LEAD</p>
+            <p>HYPER ACTION FPS · GAME</p>
           </div>
-          <b>VIEW CASE ↗</b>
+          <b>VIEW PROJECT →</b>
         </a>
       </div>
 
@@ -182,7 +213,7 @@
         </div>
 
         <a href="#about" class="scroll-guide scroll-guide-v19">
-          <span>SCROLL TO PROFILE</span>
+          <span>SCROLL DOWN</span>
           <i aria-hidden="true"></i>
           <strong>↓</strong>
         </a>
@@ -195,7 +226,6 @@
 
         <header class="about-heading-v16" data-reveal>
           <div>
-            <p class="about-section-index">01 / PROFILE</p>
             <h2>ABOUT</h2>
           </div>
         </header>
@@ -215,14 +245,14 @@
 
               <figcaption>
                 <span>KWAK TAEWOONG</span>
-                <span>GAME DESIGN / DEVELOPMENT</span>
+                
               </figcaption>
 
               <div
                 class="about-portrait-coordinate"
                 aria-hidden="true"
               >
-                <span>PROFILE_01</span>
+                <span>PORTRAIT</span>
                 <span>KR / 2026</span>
               </div>
             </div>
@@ -237,8 +267,7 @@
               data-reveal
               style="--reveal-delay: 70ms;"
             >
-              세계와 규칙을<br>
-              설계합니다.
+세계와 규칙을 설계합니다.
             </h3>
 
             <div
@@ -291,9 +320,9 @@
               data-reveal
               style="--reveal-delay: 240ms;"
             >
-              <a href="mailto:gtw0711@gmail.com">
+              <a href="mailto:gtw7208@naver.com">
                 EMAIL ME
-                <span>↗</span>
+                <span>→</span>
               </a>
 
               <a href="assets/resume.pdf" download>
@@ -306,7 +335,6 @@
 
         <section class="about-role-section">
           <header class="about-subheading-v16" data-reveal>
-            <p>WHAT I DO</p>
             <h3>주요 업무</h3>
           </header>
 
@@ -363,7 +391,6 @@
 
         <section class="about-career-section">
           <header class="about-subheading-v16" data-reveal>
-            <p>SELECTED PATH</p>
             <h3>프로젝트 연혁</h3>
           </header>
 
@@ -376,7 +403,7 @@
               ></span>
 
               <div>
-                <p>TEAM PROJECT · DECKBUILDING ROGUELIKE</p>
+                <p>DECKBUILDING ROGUELIKE</p>
                 <h4>베네딕트 오브 신즈</h4>
                 <span>
                   팀장 · 게임 기획 · 시스템 구현 · UI 제작
@@ -396,7 +423,7 @@
               ></span>
 
               <div>
-                <p>4-PERSON TEAM · HYPER ACTION FPS</p>
+                <p>HYPER ACTION FPS</p>
                 <h4>살굿</h4>
                 <span>
                   팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표
@@ -469,26 +496,32 @@
       </div>
     </section>
 
-    <!-- 포트폴리오: Remedy 스타일의 세로형 카드 -->
+    <!-- 포트폴리오: 축소된 가로 스크롤 카드 -->
     <section id="portfolio" class="projects-section">
       <div class="projects-toolbar projects-toolbar-v19">
         <div class="portfolio-heading-v19">
-          <p>02 / SELECTED WORK</p>
           <h2>PORTFOLIO</h2>
           <span>
             핵심 역할과 설계 판단을 프로젝트별로 정리했습니다.
           </span>
         </div>
 
-        <a href="projects/index.html" class="all-projects-link all-projects-link-v19">
-          <small>ALL PROJECTS</small>
-          <strong>05</strong>
-          <span class="all-projects-arrow">↗</span>
-        </a>
+        <div class="portfolio-toolbar-actions">
+          <div class="portfolio-slider-controls" aria-label="프로젝트 슬라이더 이동">
+            <button type="button" data-project-prev aria-label="이전 프로젝트">←</button>
+            <button type="button" data-project-next aria-label="다음 프로젝트">→</button>
+          </div>
+
+          <a href="projects/index.html" class="all-projects-link all-projects-link-v19">
+            <small>ALL PROJECTS</small>
+            <strong>05</strong>
+            <span class="all-projects-arrow">→</span>
+          </a>
+        </div>
       </div>
 
       <div class="project-slider-viewport">
-        <div id="projectSlider" class="project-slider">
+        <div id="projectSlider" class="project-slider" aria-label="프로젝트 목록">
           <a href="projects/machinator.html" class="project-card" draggable="false">
             <img src="assets/images/projects/machinator/cover.jpg" alt="마키나토르 프로젝트" draggable="false">
             <div class="project-card-vignette"></div>
@@ -551,33 +584,45 @@
         </div>
       </div>
 
-      <div class="portfolio-navigation-v19">
-        <p class="drag-guide">DRAG HORIZONTALLY TO EXPLORE</p>
-        <div class="portfolio-progress-v19" aria-hidden="true">
-          <span></span>
-        </div>
+      <div class="portfolio-scroll-status" aria-hidden="true">
+        <span class="portfolio-scroll-line"><i data-project-progress></i></span>
+        <b>DRAG / SCROLL</b>
       </div>
     </section>
 
     <!-- Contact -->
     <section id="contact" class="contact-section">
-      <div>
-        <p class="section-kicker contact-kicker">CONTACT</p>
-        <h2>LET'S MAKE<br>SOMETHING.</h2>
-      </div>
+      <div class="contact-shell">
+        <header class="contact-heading" data-reveal>
+          <h2>CONTACT</h2>
+          <p class="contact-statement">
+            함께 만들 프로젝트가 있다면<br>
+            편하게 연락해 주세요.
+          </p>
+        </header>
 
-      <div class="contact-email-list">
-        <a href="mailto:gtw7208@naver.com">
-          <span>NAVER</span>
-          <strong>gtw7208@naver.com</strong>
-          <b>→</b>
-        </a>
+        <div class="contact-editorial" data-reveal style="--reveal-delay: 90ms;">
+          <div class="contact-art" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <strong>KT</strong>
+          </div>
 
-        <a href="mailto:gtw0711@gmail.com">
-          <span>GMAIL</span>
-          <strong>gtw0711@gmail.com</strong>
-          <b>→</b>
-        </a>
+          <div class="contact-labels">
+            <span>PRIMARY CONTACT</span>
+            <span>AVAILABLE FOR PROJECTS</span>
+          </div>
+
+          <a href="mailto:gtw7208@naver.com" class="contact-email-card">
+            <span>NAVER MAIL</span>
+            <strong>gtw7208@naver.com</strong>
+            <b>SEND MAIL →</b>
+          </a>
+
+          <div class="contact-meta">
+            <span>GAME DESIGN / DEVELOPMENT</span>
+            <span>KR / 2026</span>
+          </div>
+        </div>
       </div>
     </section>
   </main>

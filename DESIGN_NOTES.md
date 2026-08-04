@@ -1,26 +1,18 @@
-# V20 — WORLD INDEX redesign
+# V23 변경 사항
 
-## Direction
+## 핵심 방향
+- 핀터레스트 레퍼런스의 편집형 그리드와 모듈식 정보 배치를 적용했습니다.
+- 중앙 정렬과 좌측 정렬이 섞이던 문제를 제거하고, About 이후 모든 핵심 정보가 동일한 좌측 축에서 이어지도록 했습니다.
+- 네온 계열은 사용하지 않고 흑백과 저채도 스틸 톤만 유지했습니다.
 
-- Existing text, section order, links, and asset paths are preserved.
-- The main page now uses a single `redesign.css` file; project detail pages keep their current styles.
-- Design concept: **World Index / Editorial Noir**.
-- Visual hierarchy: identity → selected work → profile → capabilities → timeline → portfolio → contact.
-- One signal color (`#D8FF57`) is used only for actions, progress, and active states.
-
-## GitHub Pages boot safety
-
-- The boot overlay is hidden by default.
-- An inline script enables it only on the first visit in the browser tab.
-- The overlay dismisses through inline critical CSS after about 1.7 seconds total.
-- It does not depend on `script.js`, so a stale or failed external script cannot trap the page.
-- Test with `?boot=1`.
-
-## Files to overwrite/add
-
-- `index.html`
-- `script.js`
-- `redesign.css` (new)
-- `assets/brand/*` if the logo files are not already present
-
-The older `style.css`, `experience.css`, and `design-system.css` may remain in the repository, but the new main page no longer loads them.
+## 수정
+1. ABOUT, PORTFOLIO, CONTACT 위의 01/02/03 각주 제거
+2. About 인트로를 텍스트 왼쪽 / 프로필 오른쪽으로 재배치
+3. 주요 업무와 프로젝트 연혁을 같은 좌측 기준선에 연결
+4. 연혁을 전체 폭 편집형 행으로 변경해 오른쪽 공백 제거
+5. 포트폴리오 슬라이더의 스크롤 스냅 제거
+6. 드래그 관성 및 버튼용 부드러운 커스텀 애니메이션 적용
+7. 카드 이미지는 원본 색과 선명도를 유지하고 하단 비네트만 사용
+8. Contact를 현대적인 편집형 메탈릭 패널로 전면 재구성
+9. 모든 이메일 링크를 Naver 메일로 통일
+10. Boot는 기본 숨김 + CSS 자동 해제 + 인라인 DOM 제거의 3중 안전 구조
