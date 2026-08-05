@@ -7,12 +7,15 @@
   <meta name="theme-color" content="#08090b">
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
   <title>곽태웅 | Game Designer</title>
-  <link rel="stylesheet" href="redesign.css?v=23">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="redesign.css?v=25">
   <style id="boot-critical">
     .boot-screen { display: none; }
     .boot-screen.is-active {
       display: grid;
-      animation: bootAutoExit 1.72s both;
+      animation: bootAutoExit 1.56s both;
     }
     @keyframes bootAutoExit {
       0%, 72% { opacity: 1; visibility: visible; pointer-events: auto; }
@@ -28,7 +31,7 @@
       var seenInTab = false;
 
       try {
-        seenInTab = sessionStorage.getItem('portfolioBootV23') === 'true';
+        seenInTab = sessionStorage.getItem('portfolioBootV25') === 'true';
       } catch (error) {
         seenInTab = true;
       }
@@ -38,14 +41,14 @@
 
       if (window.__portfolioBootShouldRun) {
         try {
-          sessionStorage.setItem('portfolioBootV23', 'true');
+          sessionStorage.setItem('portfolioBootV25', 'true');
         } catch (error) {
           /* Boot remains non-blocking even without storage. */
         }
       }
     })();
   </script>
-  <script src="script.js?v=23" defer></script>
+  <script src="script.js?v=25" defer></script>
 </head>
 
 <body class="portfolio-home">
@@ -70,8 +73,8 @@
 
       <div class="boot-center">
         <p>GAME DESIGN PORTFOLIO</p>
-        <h1>WORLD SYSTEM</h1>
-        <strong>ONLINE</strong>
+        <h1>DESIGN INDEX</h1>
+        <strong>READY</strong>
       </div>
 
       <div class="boot-footer">
@@ -106,8 +109,8 @@
         if (screen && screen.isConnected) screen.remove();
       }
 
-      window.setTimeout(removeBoot, 1800);
-      window.setTimeout(removeBoot, 2600);
+      window.setTimeout(removeBoot, 1640);
+      window.setTimeout(removeBoot, 2200);
       window.addEventListener('pageshow', function (event) {
         if (event.persisted) removeBoot();
       }, { once: true });
@@ -142,6 +145,13 @@
         aria-hidden="true"
       >
       <div class="hero-overlay"></div>
+      <div class="hero-orbital-system" aria-hidden="true">
+        <img src="assets/design/orbital-spectrum.svg" alt="">
+        <span class="orbit orbit-a"></span>
+        <span class="orbit orbit-b"></span>
+        <span class="orbit orbit-c"></span>
+        <b>W</b>
+      </div>
 
       <div class="hero-layout-v19">
         <div class="hero-copy-v19">
@@ -161,7 +171,7 @@
 
           <div class="hero-actions-v19">
             <a href="#portfolio" class="hero-primary-cta">
-              <span>VIEW SELECTED WORK</span>
+              <span>VIEW PORTFOLIO</span>
               <strong>↓</strong>
             </a>
 
@@ -198,9 +208,9 @@
           >
           <div class="hero-feature-shade"></div>
           <div class="hero-feature-meta">
-            <span>FEATURED WORK / 02</span>
+            <span>FEATURED PROJECT</span>
             <strong>SALGUT</strong>
-            <p>HYPER ACTION FPS · GAME</p>
+            <p>HYPER ACTION FPS · 2026</p>
           </div>
           <b>VIEW PROJECT →</b>
         </a>
@@ -231,36 +241,9 @@
         </header>
 
         <div class="about-intro-v16">
-          <figure
-            class="about-portrait-card"
-            data-reveal="image"
-          >
-            <div class="about-portrait-inner">
-              <img
-                src="assets/images/profile.jpg"
-                alt="게임 디자이너 곽태웅 프로필"
-              >
-
-              <div class="about-portrait-shade"></div>
-
-              <figcaption>
-                <span>KWAK TAEWOONG</span>
-                
-              </figcaption>
-
-              <div
-                class="about-portrait-coordinate"
-                aria-hidden="true"
-              >
-                <span>PORTRAIT</span>
-                <span>KR / 2026</span>
-              </div>
-            </div>
-          </figure>
-
           <div class="about-copy-v16">
             <p class="about-role-v16" data-reveal>
-              GAME DESIGNER · DEVELOPER
+              GAME DESIGN · DEVELOPMENT
             </p>
 
             <h3
@@ -331,6 +314,38 @@
               </a>
             </div>
           </div>
+
+          <figure
+            class="about-portrait-card"
+            data-reveal="image"
+          >
+            <div class="about-portrait-inner">
+              <img
+                src="assets/images/profile.jpg"
+                alt="게임 디자이너 곽태웅 프로필"
+              >
+
+              <div class="about-portrait-shade"></div>
+
+              <figcaption>
+                <span>KWAK TAEWOONG</span>
+                
+              </figcaption>
+
+              <div
+                class="about-portrait-coordinate"
+                aria-hidden="true"
+              >
+                <span>PORTRAIT</span>
+                <span>KR / 2026</span>
+              </div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="about-orbital-note" aria-hidden="true">
+          <span>WORLD / RULE / EXPERIENCE</span>
+          <img src="assets/design/orbital-spectrum.svg" alt="">
         </div>
 
         <section class="about-role-section">
@@ -397,18 +412,11 @@
           <div class="about-timeline" data-timeline>
             <article class="about-timeline-item" data-reveal>
               <time>2025</time>
-              <span
-                class="about-timeline-node"
-                aria-hidden="true"
-              ></span>
-
-              <div>
+              <div class="timeline-project">
                 <p>DECKBUILDING ROGUELIKE</p>
                 <h4>베네딕트 오브 신즈</h4>
-                <span>
-                  팀장 · 게임 기획 · 시스템 구현 · UI 제작
-                </span>
               </div>
+              <p class="timeline-role">팀장 · 게임 기획 · 시스템 구현 · UI 제작</p>
             </article>
 
             <article
@@ -417,18 +425,11 @@
               style="--reveal-delay: 55ms;"
             >
               <time>2026</time>
-              <span
-                class="about-timeline-node"
-                aria-hidden="true"
-              ></span>
-
-              <div>
+              <div class="timeline-project">
                 <p>HYPER ACTION FPS</p>
                 <h4>살굿</h4>
-                <span>
-                  팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표
-                </span>
               </div>
+              <p class="timeline-role">팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표</p>
             </article>
 
             <article
@@ -437,18 +438,11 @@
               style="--reveal-delay: 110ms;"
             >
               <time>2026</time>
-              <span
-                class="about-timeline-node"
-                aria-hidden="true"
-              ></span>
-
-              <div>
+              <div class="timeline-project">
                 <p>AI DESKTOP APPLICATION</p>
                 <h4>페르낭</h4>
-                <span>
-                  AI 인터랙션 · 데스크톱 UI · MVP 설계
-                </span>
               </div>
+              <p class="timeline-role">AI 인터랙션 · 데스크톱 UI · MVP 설계</p>
             </article>
 
             <article
@@ -457,18 +451,11 @@
               style="--reveal-delay: 165ms;"
             >
               <time>TBD</time>
-              <span
-                class="about-timeline-node"
-                aria-hidden="true"
-              ></span>
-
-              <div>
+              <div class="timeline-project">
                 <p>TOWER DEFENSE</p>
                 <h4>De.Co</h4>
-                <span>
-                  타워디펜스 시스템 및 레벨 구조 기획
-                </span>
               </div>
+              <p class="timeline-role">타워디펜스 시스템 및 레벨 구조 기획</p>
             </article>
 
             <article
@@ -477,18 +464,11 @@
               style="--reveal-delay: 220ms;"
             >
               <time>TBD</time>
-              <span
-                class="about-timeline-node"
-                aria-hidden="true"
-              ></span>
-
-              <div>
+              <div class="timeline-project">
                 <p>DIESELPUNK NARRATIVE</p>
                 <h4>마키나토르</h4>
-                <span>
-                  세계관 · 세력 · 선택 구조 설계
-                </span>
               </div>
+              <p class="timeline-role">세계관 · 세력 · 선택 구조 설계</p>
             </article>
           </div>
         </section>
@@ -501,9 +481,6 @@
       <div class="projects-toolbar projects-toolbar-v19">
         <div class="portfolio-heading-v19">
           <h2>PORTFOLIO</h2>
-          <span>
-            핵심 역할과 설계 판단을 프로젝트별로 정리했습니다.
-          </span>
         </div>
 
         <div class="portfolio-toolbar-actions">
@@ -575,7 +552,7 @@
             <div class="project-card-vignette"></div>
             <div class="project-card-heading">
               <p>DECKBUILDING ROGUELIKE</p>
-              <h3>BENEDICT OF SINS</h3>
+              <h3>BENEDICT<br>OF SINS</h3>
               <span>베네딕트 오브 신즈</span>
             </div>
             <div class="project-card-number">01</div>
@@ -596,8 +573,8 @@
         <header class="contact-heading" data-reveal>
           <h2>CONTACT</h2>
           <p class="contact-statement">
-            함께 만들 프로젝트가 있다면<br>
-            편하게 연락해 주세요.
+            새로운 세계와 규칙을<br>
+            함께 설계할 이야기가 있다면.
           </p>
         </header>
 
@@ -609,13 +586,13 @@
 
           <div class="contact-labels">
             <span>PRIMARY CONTACT</span>
-            <span>AVAILABLE FOR PROJECTS</span>
+            <span>OPEN TO COLLABORATION</span>
           </div>
 
           <a href="mailto:gtw7208@naver.com" class="contact-email-card">
             <span>NAVER MAIL</span>
             <strong>gtw7208@naver.com</strong>
-            <b>SEND MAIL →</b>
+            <b>WRITE TO ME →</b>
           </a>
 
           <div class="contact-meta">
