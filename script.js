@@ -261,3 +261,39 @@ if (viewport && track) {
   updateState();
 }
 
+
+/* V26: timeline rows are keyboard-accessible project links. */
+document.querySelectorAll('.about-timeline-item[data-href]').forEach((row) => {
+  const open = () => { window.location.href = row.dataset.href; };
+  row.addEventListener('click', (event) => {
+    if (event.target.closest('a, button')) return;
+    open();
+  });
+  row.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      open();
+    }
+  });
+});
+
+/* Disabled placeholder artifacts do not navigate. */
+document.querySelectorAll('[data-disabled-link]').forEach((link) => {
+  link.addEventListener('click', (event) => event.preventDefault());
+});
+
+/* Contact utility: mailto remains primary, clipboard is a faster alternate path. */
+const copyEmailButton = document.querySelector('[data-copy-email]');
+copyEmailButton?.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(copyEmailButton.dataset.copyEmail || '');
+    copyEmailButton.classList.add('is-copied');
+    copyEmailButton.textContent = 'COPIED';
+    window.setTimeout(() => {
+      copyEmailButton.classList.remove('is-copied');
+      copyEmailButton.textContent = 'COPY EMAIL';
+    }, 1600);
+  } catch (error) {
+    copyEmailButton.textContent = copyEmailButton.dataset.copyEmail || 'EMAIL';
+  }
+});

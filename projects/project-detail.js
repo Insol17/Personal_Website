@@ -193,3 +193,35 @@ document
       section.remove();
     }
   });
+
+/* V26: direct-entry fallback for the BACK control. */
+if (backButton) {
+  const fallback = backButton.dataset.fallback || 'index.html';
+  const original = backButton.cloneNode(true);
+  backButton.replaceWith(original);
+  original.addEventListener('click', () => {
+    if (window.history.length > 1 && document.referrer) window.history.back();
+    else window.location.href = fallback;
+  });
+}
+
+/* V26: lightweight native-dialog image viewer. */
+const galleryImages = [...document.querySelectorAll('.project-gallery-item img, .project-feature-media img')];
+if (galleryImages.length && 'HTMLDialogElement' in window) {
+  const dialog = document.createElement('dialog');
+  dialog.className = 'project-lightbox';
+  dialog.innerHTML = '<button type="button" aria-label="이미지 닫기">CLOSE ×</button><img alt="">';
+  document.body.appendChild(dialog);
+  const dialogImage = dialog.querySelector('img');
+  const closeButton = dialog.querySelector('button');
+  galleryImages.forEach((image) => {
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', `${image.alt || '프로젝트 이미지'} 크게 보기`);
+    const open = () => { dialogImage.src = image.currentSrc || image.src; dialogImage.alt = image.alt || ''; dialog.showModal(); };
+    image.addEventListener('click', open);
+    image.addEventListener('keydown', (event) => { if (event.key === 'Enter') open(); });
+  });
+  closeButton.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+}

@@ -1,181 +1,132 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>페르낭 | 곽태웅</title>
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="project-detail.css">
-  <script src="project-detail.js" defer></script>
-</head>
-<body class="project-detail-body project-theme-fernand">
-  <header class="site-header">
-    <a href="../index.html#home" class="site-logo">KWAK TAEWOONG</a>
-    <nav class="site-navigation">
-      <a href="../index.html#home">HOME</a>
-      <a href="../index.html#about">ABOUT</a>
-      <a href="index.html">PORTFOLIO</a>
-      <a href="../index.html#contact">CONTACT</a>
-    </nav>
-  </header>
-
-  <button class="project-back-button" type="button" data-project-back aria-label="이전 페이지로 돌아가기"><span>←</span> BACK</button>
-
-  <main class="project-detail-page">
-    <section class="project-detail-hero" style="background-image:url('../assets/images/projects/fernand/cover.jpg');">
-      <div class="project-detail-overlay"></div>
-      <div class="project-detail-heading">
-        <p>03 / AI DESKTOP INTERFACE</p>
-        <h1>FERNAND</h1>
-        <h2>페르낭</h2>
-      </div>
-    </section>
-
-    <div class="project-content-shell">
-      <div class="project-content-inner">
-        <section class="project-overview-layout">
-          <div class="project-overview-copy">
-            <p class="project-section-kicker">PROJECT OVERVIEW</p>
-            <h2>프로젝트 개요</h2>
-            <p>음성 인식과 LLM을 결합해 사용자의 말을 구조화된 데스크톱 인터페이스로 변환하는 AI 인터랙션 프로젝트입니다. AI가 모든 행동을 대신하는 에이전트가 아니라 사용자의 의도와 기존 프로그램 사이를 연결하는 인터페이스 어댑터로 작동하도록 설계했습니다.</p>
-          </div>
-          <dl class="project-facts">            <div><dt>TYPE</dt><dd>개인 AI 인터랙션 프로젝트</dd></div>
-            <div><dt>ROLE</dt><dd>기획 · Interaction Design · MVP 검증</dd></div>
-            <div><dt>INPUT</dt><dd>한국어 음성 인식</dd></div>
-            <div><dt>CORE</dt><dd>Schema-driven UI · LLM</dd></div>
-            <div><dt>STATUS</dt><dd>MVP 개발 및 음성 파이프라인 검증</dd></div></dl>
-        </section>
-
-        <section class="project-pillars">          <article class="project-pillar"><span>01</span><h3>말을 UI로 변환</h3><p>자연어를 그대로 실행하지 않고 구조화된 스키마와 확인 가능한 UI로 변환합니다.</p></article>
-          <article class="project-pillar"><span>02</span><h3>Human-in-the-loop</h3><p>AI가 최종 행동을 독점하지 않고 사용자가 검토하고 수정한 뒤 실행합니다.</p></article>
-          <article class="project-pillar"><span>03</span><h3>기존 도구를 연결</h3><p>새로운 만능 앱보다 기존 데스크톱 프로그램의 기능을 하나의 호출 인터페이스로 묶습니다.</p></article></section>
-        <div class="project-feature-list">        <section class="project-feature">
-          <div class="project-feature-copy"><h2>음성 호출형 인터페이스</h2><p>사용자는 복잡한 메뉴를 탐색하는 대신 원하는 결과를 말합니다. 페르낭은 발화를 분석해 필요한 도구와 입력값을 추출하고 실행 전에 구조화된 화면으로 보여줍니다.</p></div>
-          <figure class="project-feature-media">
-            <img src="../assets/images/projects/fernand/overview/01.jpg" alt="페르낭 음성 호출 인터페이스 이미지" loading="lazy">
-            <figcaption>VOICE INTERFACE</figcaption>
-          </figure>
-        </section>
-        <section class="project-feature">
-          <div class="project-feature-copy"><h2>Schema-driven UI</h2><p>LLM이 자유 형식 화면을 직접 생성하지 않고 사전에 정의된 컴포넌트와 스키마 안에서 UI를 조합하도록 설계했습니다.</p></div>
-          <figure class="project-feature-media">
-            <img src="../assets/images/projects/fernand/overview/02.jpg" alt="페르낭 스키마 기반 UI 이미지" loading="lazy">
-            <figcaption>SCHEMA-DRIVEN UI</figcaption>
-          </figure>
-        </section>
-        <section class="project-feature">
-          <div class="project-feature-copy"><h2>한국어 음성 인식 MVP 검증</h2><p>초기 실험에서는 상시 마이크 스트림과 Whisper 한국어 롤링 인식을 사용했으며 2.8초 창에서 짧은 발화와 주변 소리를 문장으로 오인식하는 문제가 나타났습니다.</p></div>
-          <figure class="project-feature-media">
-            <img src="../assets/images/projects/fernand/overview/03.jpg" alt="페르낭 음성 인식 로그 이미지" loading="lazy">
-            <figcaption>ASR VALIDATION</figcaption>
-          </figure>
-        </section>
-        <section class="project-feature">
-          <div class="project-feature-copy"><h2>한국어 음성 데이터 학습 계획</h2><p>음성–텍스트 쌍 12,854개, 총 약 12시간 51분의 데이터셋을 학습용 원재료로 분석했습니다. 원본 음성은 제품에 포함하지 않고 학습 결과 모델만 배포합니다.</p></div>
-          <figure class="project-feature-media">
-            <img src="../assets/images/projects/fernand/overview/04.jpg" alt="페르낭 음성 데이터 분석 이미지" loading="lazy">
-            <figcaption>VOICE DATASET</figcaption>
-          </figure>
-        </section></div>
-
-
-        <section class="project-media-section">
-          <div class="project-section-heading">
-            <p class="project-section-kicker">MEDIA GALLERY</p>
-            <h2>스크린샷</h2>
-          </div>
-
-          <div class="project-media-grid">
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/01.jpg"
-                alt="fernand 프로젝트 스크린샷 1"
-                loading="lazy"
-              >
-            </figure>
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/02.jpg"
-                alt="fernand 프로젝트 스크린샷 2"
-                loading="lazy"
-              >
-            </figure>
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/03.jpg"
-                alt="fernand 프로젝트 스크린샷 3"
-                loading="lazy"
-              >
-            </figure>
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/04.jpg"
-                alt="fernand 프로젝트 스크린샷 4"
-                loading="lazy"
-              >
-            </figure>
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/05.jpg"
-                alt="fernand 프로젝트 스크린샷 5"
-                loading="lazy"
-              >
-            </figure>
-            <figure class="project-gallery-item">
-              <img
-                src="../assets/images/projects/fernand/screenshots/06.jpg"
-                alt="fernand 프로젝트 스크린샷 6"
-                loading="lazy"
-              >
-            </figure>
-          </div>
-        </section>
-
-        <section class="project-media-section project-video-section">
-          <div class="project-section-heading">
-            <p class="project-section-kicker">VIDEO</p>
-            <h2>플레이 영상</h2>
-          </div>
-
-          <div class="project-video-grid">
-            <div
-              class="project-video-card"
-              data-youtube-url=""
-              data-video-label="VIDEO 01"
-            ></div>
-            <div
-              class="project-video-card"
-              data-youtube-url=""
-              data-video-label="VIDEO 02"
-            ></div>
-            <div
-              class="project-video-card"
-              data-youtube-url=""
-              data-video-label="VIDEO 03"
-            ></div>
-          </div>
-        </section>
-
-        <section class="project-contribution-section">
-          <div class="project-section-heading"><p class="project-section-kicker">MY CONTRIBUTION</p><h2>담당 작업</h2></div>
-          <div class="project-contribution-grid">
-            <div class="project-contribution-intro"><p>LLM을 행동 주체로 과대평가하지 않고 사용자 통제와 기존 도구의 연결성을 중심으로 제품 역할을 제한했습니다.</p></div>
-            <ol class="project-contribution-list">            <li><span>01</span><div><strong>제품 역할 정의</strong><p>AI 에이전트가 아니라 인터페이스 어댑터로 범위를 설정했습니다.</p></div></li>
-            <li><span>02</span><div><strong>Human-in-the-loop 설계</strong><p>생성된 행동을 사용자가 확인·수정한 뒤 실행하도록 구성했습니다.</p></div></li>
-            <li><span>03</span><div><strong>음성 인식 실험</strong><p>Whisper 기반 한국어 롤링 인식의 오인식 사례를 수집하고 분석했습니다.</p></div></li>
-            <li><span>04</span><div><strong>스키마 기반 UI 구조</strong><p>LLM 출력이 정해진 컴포넌트 구조 안에서 표시되도록 설계했습니다.</p></div></li>
-            <li><span>05</span><div><strong>데이터 배포 원칙</strong><p>원본 음성은 학습용으로만 사용하고 배포물에는 모델만 포함하도록 정했습니다.</p></div></li></ol>
-          </div>
-        </section>
-
-        <aside class="project-reflection"><h2>REFLECTION</h2><p>음성 인터페이스는 인식 정확도만 높인다고 완성되지 않습니다. 잘못 들었을 때 무엇을 실행하지 않아야 하는지, 사용자가 얼마나 쉽게 수정할 수 있는지가 신뢰를 결정합니다.</p></aside>
-
-        <nav class="project-detail-navigation" aria-label="다른 프로젝트">
-          <a href="salgut.html"><span>PREVIOUS PROJECT</span><strong>← SALGUT</strong></a>
-          <a href="deco.html"><span>NEXT PROJECT</span><strong>DE.CO →</strong></a>
-        </nav>
-      </div>
-    </div>
-  </main>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>페르낭 | 곽태웅</title>
+<script defer="" src="project-detail.js"></script>
+<link href="../site-core.css" rel="stylesheet"/><link href="project-detail.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><meta content="페르낭 | 곽태웅 프로젝트 디자인 케이스 스터디" name="description"/></head>
+<body class="project-detail-body project-theme-fernand"><a class="skip-link" href="#project-main">프로젝트 본문으로 건너뛰기</a>
+<header class="site-header">
+<a aria-label="곽태웅 포트폴리오 홈" class="site-logo site-brand" href="../index.html#home">
+<img alt="" class="site-brand-mark" src="../assets/brand/kt-mark.svg"/>
+<span class="site-brand-copy"><strong>KWAK TAEWOONG</strong><small>PORTFOLIO / 2026</small></span>
+</a>
+<nav aria-label="메인 메뉴" class="site-navigation">
+<a href="../index.html#home">HOME</a><a href="../index.html#about">ABOUT</a><a aria-current="page" href="../index.html#portfolio">WORK</a><a href="../index.html#contact">CONTACT</a>
+</nav>
+</header>
+<button aria-label="이전 페이지로 돌아가기" class="project-back-button" data-fallback="index.html" data-project-back="" type="button"><span>←</span> BACK</button>
+<main class="project-detail-page" id="project-main">
+<section class="project-detail-hero" data-project-index="03" style="background-image:url('../assets/images/projects/fernand/cover.jpg');">
+<div class="project-detail-overlay"></div>
+<div class="project-detail-heading"><div class="project-case-meta"><span>CASE STUDY</span><strong>03 / 05</strong></div>
+<p>03 / AI DESKTOP INTERFACE</p>
+<h1>FERNAND</h1>
+<h2>페르낭</h2>
+</div>
+</section>
+<div class="project-content-shell">
+<div class="project-content-inner">
+<div aria-hidden="true" class="project-progress-rail"><span class="">01</span><span class="">02</span><span class="is-current">03</span><span class="">04</span><span class="">05</span></div><section aria-label="프로젝트 개요" class="project-overview-layout">
+<div class="project-overview-copy">
+<p class="project-section-kicker">PROJECT OVERVIEW</p>
+<h2>프로젝트 개요</h2>
+<p>음성 인식과 LLM을 결합해 사용자의 말을 구조화된 데스크톱 인터페이스로 변환하는 AI 인터랙션 프로젝트입니다. AI가 모든 행동을 대신하는 에이전트가 아니라 사용자의 의도와 기존 프로그램 사이를 연결하는 인터페이스 어댑터로 작동하도록 설계했습니다.</p>
+</div>
+<dl class="project-facts"> <div><dt>TYPE</dt><dd>개인 AI 인터랙션 프로젝트</dd></div>
+<div><dt>ROLE</dt><dd>기획 · Interaction Design · MVP 검증</dd></div>
+<div><dt>INPUT</dt><dd>한국어 음성 인식</dd></div>
+<div><dt>CORE</dt><dd>Schema-driven UI · LLM</dd></div>
+<div><dt>STATUS</dt><dd>MVP 개발 및 음성 파이프라인 검증</dd></div></dl>
+</section>
+<section class="project-pillars"> <article class="project-pillar"><span>01</span><h3>말을 UI로 변환</h3><p>자연어를 그대로 실행하지 않고 구조화된 스키마와 확인 가능한 UI로 변환합니다.</p></article>
+<article class="project-pillar"><span>02</span><h3>Human-in-the-loop</h3><p>AI가 최종 행동을 독점하지 않고 사용자가 검토하고 수정한 뒤 실행합니다.</p></article>
+<article class="project-pillar"><span>03</span><h3>기존 도구를 연결</h3><p>새로운 만능 앱보다 기존 데스크톱 프로그램의 기능을 하나의 호출 인터페이스로 묶습니다.</p></article></section>
+<header class="project-chapter-heading"><p>DESIGN / SYSTEM</p><h2>설계와 구현</h2></header><div class="project-feature-list"> <section class="project-feature">
+<div class="project-feature-copy"><h2>음성 호출형 인터페이스</h2><p>사용자는 복잡한 메뉴를 탐색하는 대신 원하는 결과를 말합니다. 페르낭은 발화를 분석해 필요한 도구와 입력값을 추출하고 실행 전에 구조화된 화면으로 보여줍니다.</p></div>
+<figure class="project-feature-media">
+<img alt="페르낭 음성 호출 인터페이스 이미지" loading="lazy" src="../assets/images/projects/fernand/overview/01.jpg"/>
+<figcaption>VOICE INTERFACE</figcaption>
+</figure>
+</section>
+<section class="project-feature">
+<div class="project-feature-copy"><h2>Schema-driven UI</h2><p>LLM이 자유 형식 화면을 직접 생성하지 않고 사전에 정의된 컴포넌트와 스키마 안에서 UI를 조합하도록 설계했습니다.</p></div>
+<figure class="project-feature-media">
+<img alt="페르낭 스키마 기반 UI 이미지" loading="lazy" src="../assets/images/projects/fernand/overview/02.jpg"/>
+<figcaption>SCHEMA-DRIVEN UI</figcaption>
+</figure>
+</section>
+<section class="project-feature">
+<div class="project-feature-copy"><h2>한국어 음성 인식 MVP 검증</h2><p>초기 실험에서는 상시 마이크 스트림과 Whisper 한국어 롤링 인식을 사용했으며 2.8초 창에서 짧은 발화와 주변 소리를 문장으로 오인식하는 문제가 나타났습니다.</p></div>
+<figure class="project-feature-media">
+<img alt="페르낭 음성 인식 로그 이미지" loading="lazy" src="../assets/images/projects/fernand/overview/03.jpg"/>
+<figcaption>ASR VALIDATION</figcaption>
+</figure>
+</section>
+<section class="project-feature">
+<div class="project-feature-copy"><h2>한국어 음성 데이터 학습 계획</h2><p>음성–텍스트 쌍 12,854개, 총 약 12시간 51분의 데이터셋을 학습용 원재료로 분석했습니다. 원본 음성은 제품에 포함하지 않고 학습 결과 모델만 배포합니다.</p></div>
+<figure class="project-feature-media">
+<img alt="페르낭 음성 데이터 분석 이미지" loading="lazy" src="../assets/images/projects/fernand/overview/04.jpg"/>
+<figcaption>VOICE DATASET</figcaption>
+</figure>
+</section></div>
+<section class="project-media-section">
+<div class="project-section-heading">
+<p class="project-section-kicker">MEDIA GALLERY</p>
+<h2>스크린샷</h2>
+</div>
+<div class="project-media-grid">
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 1" loading="lazy" src="../assets/images/projects/fernand/screenshots/01.jpg"/>
+</figure>
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 2" loading="lazy" src="../assets/images/projects/fernand/screenshots/02.jpg"/>
+</figure>
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 3" loading="lazy" src="../assets/images/projects/fernand/screenshots/03.jpg"/>
+</figure>
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 4" loading="lazy" src="../assets/images/projects/fernand/screenshots/04.jpg"/>
+</figure>
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 5" loading="lazy" src="../assets/images/projects/fernand/screenshots/05.jpg"/>
+</figure>
+<figure class="project-gallery-item">
+<img alt="fernand 프로젝트 스크린샷 6" loading="lazy" src="../assets/images/projects/fernand/screenshots/06.jpg"/>
+</figure>
+</div>
+</section>
+<section class="project-media-section project-video-section">
+<div class="project-section-heading">
+<p class="project-section-kicker">VIDEO</p>
+<h2>플레이 영상</h2>
+</div>
+<div class="project-video-grid">
+<div class="project-video-card" data-video-label="VIDEO 01" data-youtube-url=""></div>
+<div class="project-video-card" data-video-label="VIDEO 02" data-youtube-url=""></div>
+<div class="project-video-card" data-video-label="VIDEO 03" data-youtube-url=""></div>
+</div>
+</section>
+<section class="project-contribution-section">
+<div class="project-section-heading"><p class="project-section-kicker">ROLE / RESPONSIBILITY</p><h2>담당 작업</h2></div>
+<div class="project-contribution-grid">
+<div class="project-contribution-intro"><p>LLM을 행동 주체로 과대평가하지 않고 사용자 통제와 기존 도구의 연결성을 중심으로 제품 역할을 제한했습니다.</p></div>
+<ol class="project-contribution-list"> <li><span>01</span><div><strong>제품 역할 정의</strong><p>AI 에이전트가 아니라 인터페이스 어댑터로 범위를 설정했습니다.</p></div></li>
+<li><span>02</span><div><strong>Human-in-the-loop 설계</strong><p>생성된 행동을 사용자가 확인·수정한 뒤 실행하도록 구성했습니다.</p></div></li>
+<li><span>03</span><div><strong>음성 인식 실험</strong><p>Whisper 기반 한국어 롤링 인식의 오인식 사례를 수집하고 분석했습니다.</p></div></li>
+<li><span>04</span><div><strong>스키마 기반 UI 구조</strong><p>LLM 출력이 정해진 컴포넌트 구조 안에서 표시되도록 설계했습니다.</p></div></li>
+<li><span>05</span><div><strong>데이터 배포 원칙</strong><p>원본 음성은 학습용으로만 사용하고 배포물에는 모델만 포함하도록 정했습니다.</p></div></li></ol>
+</div>
+</section>
+<aside class="project-reflection"><h2>REFLECTION</h2><p>음성 인터페이스는 인식 정확도만 높인다고 완성되지 않습니다. 잘못 들었을 때 무엇을 실행하지 않아야 하는지, 사용자가 얼마나 쉽게 수정할 수 있는지가 신뢰를 결정합니다.</p></aside>
+<nav aria-label="다른 프로젝트" class="project-detail-navigation">
+<a href="salgut.html"><span>PREVIOUS PROJECT</span><strong>← SALGUT</strong></a>
+<a href="deco.html"><span>NEXT PROJECT</span><strong>DE.CO →</strong></a>
+</nav>
+</div>
+</div>
+</main>
 </body>
 </html>
