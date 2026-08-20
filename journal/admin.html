@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Journal Owner — KWAK TAEWOONG</title>
+<style>
+:root{--bg:#091012;--ink:#f4f5f1;--muted:rgba(255,255,255,.48);--line:rgba(255,255,255,.13);--pad:clamp(18px,3vw,46px);--latin:"Helvetica Neue",Arial,sans-serif;--ko:"Pretendard Variable","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0%,rgba(52,87,87,.22),transparent 30%),var(--bg);color:var(--ink);font-family:var(--ko);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}h1,h2,p{margin:0}.top{position:fixed;z-index:50;top:16px;left:50%;transform:translateX(-50%);width:min(820px,calc(100% - var(--pad)*2));min-height:48px;border:1px solid var(--line);border-radius:999px;background:rgba(9,16,18,.72);display:flex;align-items:center;justify-content:space-between;padding:8px 14px}.brand,.top a{font:600 8px/1 Consolas,monospace;letter-spacing:.08em}.brand{width:max-content}.top a:last-child{color:var(--muted)}main{padding:130px var(--pad) 90px}.head{max-width:840px;margin:0 auto 58px;text-align:center}.head span{font:600 8px/1 Consolas,monospace;color:var(--muted)}.head h1{margin-top:20px;font:400 clamp(58px,9vw,118px)/.85 var(--latin);letter-spacing:-.06em}.head p{max-width:650px;margin:24px auto 0;color:var(--muted);font-size:13px;line-height:1.7}.owner{width:min(980px,100%);margin:auto}.auth,.editor{border:1px solid var(--line);border-radius:24px;padding:26px;background:rgba(255,255,255,.025)}.auth h2,.editor h2{font:500 28px/1 var(--latin)}.auth p{margin-top:12px;color:var(--muted);font-size:12px;line-height:1.7}.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}label{display:grid;gap:7px;color:var(--muted);font:600 8px/1 Consolas,monospace}input,textarea{width:100%;border:1px solid var(--line);background:#10181a;color:#fff;border-radius:12px;padding:12px;font:13px/1.5 var(--ko)}textarea{min-height:130px;resize:vertical}button{border:1px solid var(--line);background:none;color:#fff;border-radius:999px;padding:10px 14px;font:600 8px/1 Consolas,monospace;cursor:pointer}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.editor{display:none;margin-top:18px}.editor.on{display:block}.postlist{margin-top:22px;border-top:1px solid var(--line)}.item{display:grid;grid-template-columns:1fr auto;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}.item strong{display:block}.item span{display:block;margin-top:6px;color:var(--muted);font-size:11px}.status{margin-top:14px;color:#9db9b5;font-size:11px;line-height:1.5}.full{grid-column:1/-1}.danger{border-color:rgba(255,130,130,.25)}@media(max-width:650px){main{padding:105px 16px 70px}.fields{grid-template-columns:1fr}.top{top:10px;width:calc(100% - 20px)}}</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="../index.html">KWAK TAEWOONG</a><a href="index.html">JOURNAL</a></header>
+<main>
+<header class="head"><span>OWNER / JOURNAL CMS</span><h1>OWNER MODE</h1><p>편집 권한은 사이트에 저장된 비밀번호가 아니라 GitHub 저장소의 본인 쓰기 권한으로 확인합니다. 토큰은 소스에 포함되지 않습니다.</p></header>
+<div class="owner">
+<section class="auth"><h2>GitHub authentication</h2><p>Fine-grained Personal Access Token에서 이 포트폴리오 저장소만 선택하고 <b>Contents: Read and write</b> 권한만 허용하세요. 토큰은 현재 탭의 sessionStorage에만 보관됩니다.</p><div class="fields"><label>OWNER<input id="owner" placeholder="github username"></label><label>REPOSITORY<input id="repo" placeholder="repository name"></label><label>BRANCH<input id="branch" value="main"></label><label>TOKEN<input id="token" type="password" autocomplete="off" placeholder="github_pat_..."></label></div><div class="actions"><button id="login">VERIFY & LOAD</button></div><div class="status" id="status"></div></section>
+<section class="editor" id="editor"><h2>Posts</h2><div class="fields"><label>TITLE<input id="title"></label><label>SLUG<input id="slug"></label><label>DATE<input id="date" type="date"></label><label>CATEGORY<input id="category" value="PROCESS"></label><label class="full">EXCERPT<textarea id="excerpt"></textarea></label><label class="full">BODY — 빈 줄로 문단 구분<textarea id="content"></textarea></label></div><div class="actions"><button id="new">NEW</button><button id="apply">APPLY</button><button id="commit">COMMIT TO GITHUB</button></div><div class="postlist" id="postlist"></div></section>
+</div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+let posts = [];
+let sha = '';
+let editing = -1;
+
+const cfg = () => ({
+  owner: $('#owner').value.trim(),
+  repo: $('#repo').value.trim(),
+  branch: $('#branch').value.trim() || 'main',
+  token: $('#token').value.trim()
+});
+const setStatus = (text) => { $('#status').textContent = text; };
+const encode64 = (text) => btoa(unescape(encodeURIComponent(text)));
+const decode64 = (text) => decodeURIComponent(escape(atob(text.replace(/\n/g, ''))));
+
+function renderPosts() {
+  const list = $('#postlist');
+  list.innerHTML = '';
+  posts.slice().sort((a,b) => b.date.localeCompare(a.date)).forEach((post) => {
+    const index = posts.indexOf(post);
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div><strong>${post.title}</strong><span>${post.date} · ${post.category}</span></div><div class="actions"><button data-edit="${index}">EDIT</button><button class="danger" data-delete="${index}">DELETE</button></div>`;
+    list.appendChild(row);
+  });
+  list.querySelectorAll('[data-edit]').forEach((button) => {
+    button.addEventListener('click', () => loadPost(Number(button.dataset.edit)));
+  });
+  list.querySelectorAll('[data-delete]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const index = Number(button.dataset.delete);
+      if (!confirm(`삭제할까요?\n${posts[index]?.title || ''}`)) return;
+      posts.splice(index, 1);
+      if (editing === index) editing = -1;
+      renderPosts();
+      setStatus('삭제를 편집 상태에 반영했습니다. 실제 사이트 반영은 COMMIT TO GITHUB가 필요합니다.');
+    });
+  });
+}
+
+function loadPost(index) {
+  editing = index;
+  const post = posts[index];
+  $('#title').value = post.title || '';
+  $('#slug').value = post.slug || '';
+  $('#date').value = (post.date || '').replace(/\./g, '-');
+  $('#category').value = post.category || '';
+  $('#excerpt').value = post.excerpt || '';
+  $('#content').value = (post.content || []).join('\n\n');
+  window.scrollTo({ top: $('#editor').offsetTop - 90, behavior: 'smooth' });
+}
+
+function readForm() {
+  return {
+    title: $('#title').value.trim(),
+    slug: $('#slug').value.trim(),
+    date: $('#date').value.replace(/-/g, '.'),
+    category: $('#category').value.trim(),
+    excerpt: $('#excerpt').value.trim(),
+    content: $('#content').value.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+  };
+}
+
+$('#new').addEventListener('click', () => {
+  editing = -1;
+  ['title','slug','excerpt','content'].forEach((id) => { $('#'+id).value = ''; });
+  $('#category').value = 'PROCESS';
+  $('#date').value = new Date().toISOString().slice(0,10);
+});
+
+$('#apply').addEventListener('click', () => {
+  const post = readForm();
+  if (!post.title || !post.slug || !post.date) {
+    setStatus('TITLE / SLUG / DATE가 필요합니다.');
+    return;
+  }
+  const duplicate = posts.findIndex((p, i) => p.slug === post.slug && i !== editing);
+  if (duplicate >= 0) {
+    setStatus('같은 SLUG가 이미 있습니다.');
+    return;
+  }
+  if (editing < 0) posts.push(post); else posts[editing] = post;
+  editing = -1;
+  renderPosts();
+  setStatus('편집 상태에 적용했습니다. COMMIT TO GITHUB를 눌러야 실제 저장됩니다.');
+});
+
+$('#login').addEventListener('click', async () => {
+  const c = cfg();
+  if (!c.owner || !c.repo || !c.token) {
+    setStatus('OWNER / REPOSITORY / TOKEN을 입력하세요.');
+    return;
+  }
+  try {
+    localStorage.setItem('journalRepo', JSON.stringify({ owner:c.owner, repo:c.repo, branch:c.branch }));
+    sessionStorage.setItem('journalToken', c.token);
+    setStatus('GitHub 쓰기 권한과 posts.js를 확인하는 중...');
+    const url = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/journal/posts.js?ref=${encodeURIComponent(c.branch)}`;
+    const response = await fetch(url, { headers: { Authorization:`Bearer ${c.token}`, Accept:'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' } });
+    if (!response.ok) throw new Error(`GitHub ${response.status}`);
+    const data = await response.json();
+    sha = data.sha;
+    const source = decode64(data.content).replace(/^window\.JOURNAL_POSTS\s*=\s*/, '').replace(/;\s*$/, '');
+    posts = JSON.parse(source);
+    $('#editor').classList.add('on');
+    renderPosts();
+    setStatus('인증 완료. 이 저장소의 journal/posts.js를 불러왔습니다.');
+  } catch (error) {
+    setStatus('인증/로드 실패: ' + error.message);
+  }
+});
+
+$('#commit').addEventListener('click', async () => {
+  const c = cfg();
+  if (!c.token || !sha) {
+    setStatus('먼저 VERIFY & LOAD로 인증하세요.');
+    return;
+  }
+  try {
+    const content = 'window.JOURNAL_POSTS = ' + JSON.stringify(posts, null, 2) + ';\n';
+    const url = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/journal/posts.js`;
+    const response = await fetch(url, {
+      method:'PUT',
+      headers:{ Authorization:`Bearer ${c.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json', 'X-GitHub-Api-Version':'2022-11-28' },
+      body:JSON.stringify({ message:'Update portfolio journal', content:encode64(content), sha, branch:c.branch })
+    });
+    if (!response.ok) throw new Error(`GitHub ${response.status}`);
+    const data = await response.json();
+    sha = data.content.sha;
+    setStatus('커밋 완료. GitHub/Netlify 자동 배포가 연결되어 있으면 배포 후 사이트에 반영됩니다.');
+  } catch (error) {
+    setStatus('커밋 실패: ' + error.message);
+  }
+});
+
+try {
+  const saved = JSON.parse(localStorage.getItem('journalRepo') || '{}');
+  $('#owner').value = saved.owner || '';
+  $('#repo').value = saved.repo || '';
+  $('#branch').value = saved.branch || 'main';
+  $('#token').value = sessionStorage.getItem('journalToken') || '';
+} catch (error) {}
+</script>
+</body>
+</html>

@@ -1,11 +1,6 @@
-const backButton = document.querySelector('[data-project-back]');
-
-if (backButton) {
-  backButton.addEventListener('click', function () {
-    window.history.back();
-  });
-}
-
+const backButton=document.querySelector('[data-project-back]');
+if(backButton){backButton.addEventListener('click',()=>{window.location.href='../index.html#portfolio';});}
+window.addEventListener('pageshow',()=>{document.documentElement.style.overflow='';});
 /*
   설명 문단 아래의 overview 이미지:
   파일이 없으면 해당 figure 전체를 제거한다.
@@ -193,17 +188,6 @@ document
       section.remove();
     }
   });
-
-/* V26: direct-entry fallback for the BACK control. */
-if (backButton) {
-  const fallback = backButton.dataset.fallback || 'index.html';
-  const original = backButton.cloneNode(true);
-  backButton.replaceWith(original);
-  original.addEventListener('click', () => {
-    if (window.history.length > 1 && document.referrer) window.history.back();
-    else window.location.href = fallback;
-  });
-}
 
 /* V26: lightweight native-dialog image viewer. */
 const galleryImages = [...document.querySelectorAll('.project-gallery-item img, .project-feature-media img')];
