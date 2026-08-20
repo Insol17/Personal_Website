@@ -1,449 +1,964 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="세계와 규칙을 설계하는 게임 디자이너 곽태웅의 포트폴리오" name="description"/>
-<meta content="#08090b" name="theme-color"/>
-<link href="assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/>
-<title>곽태웅 | Game Designer</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="redesign.css?v=25" rel="stylesheet"/>
-<style id="boot-critical">
-    .boot-screen { display: none; }
-    .boot-screen.is-active {
-      display: grid;
-      animation: bootAutoExit .82s both;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101010" />
+  <meta name="description" content="게임 디자이너 / 개발자 곽태웅 포트폴리오" />
+  <title>KWAK TAEWOONG — Game Designer / Developer</title>
+  <style>
+    :root{
+      --paper:#f5f5f2;
+      --white:#fff;
+      --ink:#0b0b0b;
+      --muted:#6d6d69;
+      --line:rgba(11,11,11,.17);
+      --glass:rgba(255,255,255,.13);
+      --glass-line:rgba(255,255,255,.38);
+      --hero-ink:#fff;
+      --ease:cubic-bezier(.19,1,.22,1);
+      --pad:clamp(20px,3.2vw,52px);
+      --max:1500px;
+      --font-display:"Neue Montreal","Helvetica Neue",Arial,ui-sans-serif,system-ui,sans-serif;
     }
-    @keyframes bootAutoExit {
-      0%, 58% { opacity: 1; visibility: visible; pointer-events: none; }
-      100% { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:var(--paper);
+      font-family:Inter,"Pretendard Variable",Pretendard,"Noto Sans KR",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+    p,h1,h2,h3,h4{margin:0}
+    p,h1,h2,h3,h4,span,strong,a{word-break:keep-all;overflow-wrap:break-word}
+    ::selection{background:#0b0b0b;color:#fff}
+
+    .mono{
+      font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    /* ---------- fixed navigation ---------- */
+    .site-nav{
+      position:fixed;
+      z-index:100;
+      inset:18px var(--pad) auto;
+      min-height:52px;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:24px;
+      padding:7px 9px 7px 17px;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.26);
+      background:rgba(10,10,10,.13);
+      backdrop-filter:blur(22px) saturate(140%);
+      -webkit-backdrop-filter:blur(22px) saturate(140%);
+      border-radius:999px;
+      transition:color .65s var(--ease),background .65s var(--ease),border-color .65s var(--ease);
+    }
+    .site-nav.is-light{
+      color:var(--ink);
+      border-color:rgba(11,11,11,.16);
+      background:rgba(245,245,242,.69);
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;white-space:nowrap}
+    .brand-mark{width:15px;height:15px;border:1px solid currentColor;border-radius:50%;position:relative;display:block}
+    .brand-mark:after{content:"";position:absolute;inset:3px;border:1px solid currentColor;border-radius:50%;opacity:.55}
+    .nav-links{display:flex;align-items:center;gap:clamp(16px,2.4vw,38px);font-size:10px}
+    .nav-links a,.nav-contact{position:relative;opacity:.78;transition:opacity .35s ease}
+    .nav-links a:hover,.nav-contact:hover{opacity:1}
+    .nav-contact{justify-self:end;border:1px solid currentColor;border-radius:999px;padding:10px 18px;font-size:10px}
+
+    /* ---------- hero / liquid video ---------- */
+    .hero{
+      min-height:100svh;
+      position:relative;
+      overflow:hidden;
+      color:var(--hero-ink);
+      background:
+        radial-gradient(ellipse at 52% 48%,rgba(169,184,179,.62) 0%,rgba(72,116,116,.54) 26%,rgba(47,42,66,.42) 54%,rgba(7,16,15,1) 100%),
+        linear-gradient(135deg,#315e60 0%,#1a3136 42%,#332b43 72%,#07100f 100%);
+      isolation:isolate;
+    }
+    .liquid-canvas{
+      position:absolute;
+      inset:0;
+      z-index:-4;
+      width:100%;
+      height:100%;
+      display:block;
+      background:transparent;
+      pointer-events:none;
+    }
+    .liquid-grain{
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      opacity:.035;
+      pointer-events:none;
+      mix-blend-mode:soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.74' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+      background:
+        radial-gradient(ellipse at 50% 49%,rgba(0,0,0,.00) 22%,rgba(0,0,0,.035) 62%,rgba(0,0,0,.19) 100%),
+        linear-gradient(180deg,rgba(3,6,4,.045),rgba(3,6,4,.09));
+    }
+
+    .hero-shell{
+      width:min(var(--max),calc(100% - var(--pad)*2));
+      min-height:100svh;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:clamp(104px,12vh,146px) 0 48px;
+      position:relative;
+    }
+    .hero-center{
+      width:min(1080px,91vw);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      transform:translateY(1vh);
+    }
+    .hero-title{
+      margin:0;
+      width:100%;
+      font-family:var(--font-display);
+      font-size:clamp(78px,8.6vw,142px);
+      font-weight:400;
+      letter-spacing:-.047em;
+      line-height:.82;
+      text-align:center;
+      color:#fffdf9;
+      text-shadow:0 2px 24px rgba(0,0,0,.16);
+    }
+    .hero-title span{display:block}
+    .hero-title .worlds{font-weight:400}
+    .hero-tagline{
+      margin-top:clamp(28px,3.4vh,38px);
+      font-size:clamp(14px,.98vw,16px);
+      line-height:1.35;
+      font-weight:400;
+      letter-spacing:-.018em;
+      color:rgba(255,253,249,.74);
+      text-align:center;
+      text-shadow:0 1px 16px rgba(0,0,0,.2);
+    }
+
+    .hero-scroll{
+      position:absolute;
+      left:50%;
+      bottom:clamp(18px,2.6vh,28px);
+      z-index:2;
+      transform:translateX(-50%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      color:rgba(255,253,249,.52);
+      font-size:8px;
+      line-height:1;
+      letter-spacing:.13em;
+      white-space:nowrap;
+      pointer-events:none;
+      user-select:none;
+    }
+    .hero-scroll-arrow{
+      font-family:Arial,sans-serif;
+      font-size:14px;
+      font-weight:300;
+      line-height:1;
+      animation:heroScrollArrow 2.35s ease-in-out infinite;
+    }
+    @keyframes heroScrollArrow{
+      0%,100%{transform:translateY(0);opacity:.48}
+      50%{transform:translateY(4px);opacity:.9}
+    }
+
+
+    /* ---------- shared editorial sections ---------- */
+    .section{padding:clamp(94px,12vw,184px) var(--pad)}
+    .section-shell{width:min(var(--max),100%);margin:0 auto}
+    .section-head{
+      display:grid;
+      grid-template-columns:180px minmax(0,1fr) minmax(260px,420px);
+      gap:clamp(24px,5vw,80px);
+      align-items:end;
+      padding-bottom:30px;
+      border-bottom:1px solid var(--line);
+    }
+    .eyebrow{font-size:10px;color:var(--muted)}
+    .section-head h2{font-size:clamp(66px,10vw,150px);font-weight:300;letter-spacing:-.065em;line-height:.78}
+    .section-note{font-size:15px;line-height:1.55;color:#3b3b38;max-width:390px}
+
+    /* ---------- about ---------- */
+    .about{background:var(--paper)}
+    .about-intro{
+      display:grid;
+      grid-template-columns:180px minmax(0,1.1fr) minmax(300px,.9fr);
+      gap:clamp(24px,5vw,80px);
+      padding:62px 0 88px;
+      border-bottom:1px solid var(--line);
+    }
+    .about-index{font-size:10px;color:var(--muted)}
+    .about-lead{font-size:clamp(34px,5vw,70px);line-height:1.02;letter-spacing:-.045em;font-weight:350}
+    .about-copy{display:grid;gap:20px;align-content:start}
+    .about-copy p{font-size:16px;line-height:1.7;color:#3a3a37}
+    .about-meta{display:grid;gap:0;margin-top:22px;border-top:1px solid var(--line)}
+    .about-meta div{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:12px 0;border-bottom:1px solid var(--line);font-size:11px}
+    .about-meta dt{color:var(--muted);font-family:"SFMono-Regular",Consolas,monospace;text-transform:uppercase}
+    .about-meta dd{margin:0;text-align:right}
+
+    .discipline-list{border-bottom:1px solid var(--line)}
+    .discipline{
+      display:grid;
+      grid-template-columns:180px minmax(0,.8fr) minmax(300px,1.2fr);
+      gap:clamp(24px,5vw,80px);
+      padding:24px 0;
+      border-top:1px solid var(--line);
+      align-items:start;
+    }
+    .discipline:first-child{border-top:0}
+    .discipline .no{font-size:10px;color:var(--muted)}
+    .discipline h3{font-size:clamp(25px,3vw,42px);font-weight:400;letter-spacing:-.035em}
+    .discipline p{font-size:15px;line-height:1.6;color:#464643;max-width:650px}
+
+    .timeline-wrap{padding-top:96px}
+    .timeline-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:clamp(24px,5vw,80px);margin-bottom:18px}
+    .timeline-head h3{font-size:clamp(34px,5vw,72px);font-weight:300;letter-spacing:-.05em}
+    .timeline-row{
+      display:grid;
+      grid-template-columns:180px minmax(0,1fr) minmax(320px,1fr);
+      gap:clamp(24px,5vw,80px);
+      align-items:baseline;
+      padding:20px 0;
+      border-top:1px solid var(--line);
+    }
+    .timeline-row:last-child{border-bottom:1px solid var(--line)}
+    .timeline-year{font-size:11px;color:var(--muted)}
+    .timeline-title strong{display:block;font-size:22px;font-weight:450;letter-spacing:-.02em}
+    .timeline-title span{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+    .timeline-desc{font-size:14px;line-height:1.5;color:#3f3f3c}
+    .org-tag{display:inline-flex!important;width:max-content;border:1px solid var(--line);border-radius:999px;padding:5px 9px;margin-top:8px!important;color:#4e4e4a!important}
+
+    /* ---------- portfolio ---------- */
+    .portfolio{background:#fff}
+    .portfolio .section-head{margin-bottom:52px}
+    .works{display:grid}
+    .work{
+      --accent:#888;
+      display:grid;
+      grid-template-columns:180px minmax(260px,.72fr) minmax(360px,1.1fr) minmax(260px,.72fr);
+      gap:clamp(24px,3.6vw,58px);
+      align-items:center;
+      min-height:clamp(340px,48vw,610px);
+      padding:46px 0;
+      border-top:1px solid var(--line);
+      position:relative;
+    }
+    .work:last-child{border-bottom:1px solid var(--line)}
+    .work-index{font-size:10px;color:var(--muted);align-self:start;padding-top:7px}
+    .work-title{font-size:clamp(48px,7vw,110px);font-weight:350;letter-spacing:-.065em;line-height:.82;align-self:start}
+    .work-media{
+      aspect-ratio:16/10;
+      overflow:hidden;
+      position:relative;
+      background:#ddd;
+      isolation:isolate;
+    }
+    .work-media img{transition:transform 1.15s var(--ease)}
+    .work:hover .work-media img{transform:scale(1.035)}
+    .work-media:after{content:"";position:absolute;inset:0;border:1px solid rgba(0,0,0,.10);pointer-events:none}
+    .work-fallback{position:absolute;inset:0;z-index:-1;background:
+      linear-gradient(130deg,color-mix(in srgb,var(--accent) 76%,#111),#111 68%)}
+    .work-fallback:before{content:"";position:absolute;inset:14%;border:1px solid rgba(255,255,255,.28);transform:rotate(-8deg)}
+    .work-fallback:after{content:"";position:absolute;width:42%;aspect-ratio:1;border:1px solid rgba(255,255,255,.44);border-radius:50%;right:11%;bottom:11%}
+    .work-meta{align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;padding:5px 0 2px}
+    .work-meta>p{font-size:15px;line-height:1.6;color:#373734}
+    .meta-list{font-size:10px;border-top:1px solid var(--line)}
+    .meta-row{display:grid;grid-template-columns:80px 1fr;gap:15px;padding:10px 0;border-bottom:1px solid var(--line)}
+    .meta-row span:first-child{color:var(--muted)}
+    .meta-row span:last-child{text-align:right}
+    .work-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:10px;width:max-content;padding-bottom:4px;border-bottom:1px solid currentColor}
+
+    /* ---------- journal ---------- */
+    .journal{background:#111;color:#fff}
+    .journal .section-head{border-color:rgba(255,255,255,.18)}
+    .journal .eyebrow,.journal .section-note{color:rgba(255,255,255,.58)}
+    .journal-list{margin-top:64px}
+    .journal-row{
+      display:grid;
+      grid-template-columns:180px minmax(0,1fr) 220px 34px;
+      gap:clamp(24px,5vw,80px);
+      align-items:center;
+      padding:24px 0;
+      border-top:1px solid rgba(255,255,255,.18);
+      transition:opacity .4s ease,transform .8s var(--ease);
+    }
+    .journal-row:last-child{border-bottom:1px solid rgba(255,255,255,.18)}
+    .journal-row:hover{transform:translateX(8px)}
+    .journal-date,.journal-tag{font-size:10px;color:rgba(255,255,255,.5)}
+    .journal-row h3{font-size:clamp(21px,3vw,38px);font-weight:350;letter-spacing:-.025em}
+    .journal-arrow{text-align:right;font-size:20px}
+
+    /* ---------- contact ---------- */
+    .contact{background:#111;color:#fff;padding-top:0}
+    .contact-card{
+      min-height:70vh;
+      border-top:1px solid rgba(255,255,255,.18);
+      padding:70px 0 34px;
+      display:grid;
+      grid-template-rows:1fr auto;
+    }
+    .contact-title{font-size:clamp(76px,13.5vw,210px);font-weight:300;letter-spacing:-.075em;line-height:.72;max-width:1200px}
+    .contact-bottom{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:30px;padding-top:75px}
+    .contact-bottom>span{font-size:10px;color:rgba(255,255,255,.52)}
+    .contact-bottom>span:last-child{text-align:right}
+    .contact-email{font-size:clamp(18px,2.5vw,34px);border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:5px}
+
+    /* ---------- reveal ---------- */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media (max-width:1100px){
+      .site-nav{grid-template-columns:1fr auto}.nav-links{display:none}
+      .section-head,.about-intro,.discipline,.timeline-row{grid-template-columns:120px minmax(0,1fr)}
+      .section-head .section-note{grid-column:2}.about-copy{grid-column:2}.about-intro .about-copy{grid-column:2}
+      .discipline p{grid-column:2}.timeline-desc{grid-column:2}.timeline-title{grid-column:2}
+      .timeline-row{align-items:start}.timeline-desc{padding-top:8px}
+      .work{grid-template-columns:100px minmax(220px,.68fr) minmax(320px,1.2fr);min-height:0}
+      .work-meta{grid-column:2/4;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-top:0}
+      .journal-row{grid-template-columns:120px 1fr 160px 28px}
+    }
+
+    @media (max-width:760px){
+      :root{--pad:18px}
+      .site-nav{inset:12px 12px auto;padding-left:13px}.brand{font-size:9px}.nav-contact{font-size:9px;padding:9px 12px}
+      .hero-shell{padding-top:98px;padding-bottom:22px}
+      .hero-center{align-items:center}.hero-title{font-size:clamp(62px,19vw,108px);line-height:.86;letter-spacing:-.04em}
+      .hero-tagline{margin-top:28px;font-size:14px}.hero-scroll{bottom:16px;font-size:7px;gap:5px}
+      .section{padding:86px var(--pad)}
+      .section-head,.about-intro,.discipline,.timeline-head,.timeline-row{grid-template-columns:1fr;gap:18px}
+      .section-head .section-note,.about-copy,.discipline p,.timeline-desc,.timeline-title{grid-column:auto}
+      .section-head h2{font-size:20vw;line-height:.82}.section-note{font-size:14px}
+      .about-intro{padding:42px 0 60px}.about-lead{font-size:11vw}.about-meta div{grid-template-columns:95px 1fr}
+      .discipline{padding:22px 0}.discipline .no{display:none}.timeline-wrap{padding-top:70px}.timeline-row{gap:7px;padding:18px 0}.timeline-desc{padding-top:4px}
+      .portfolio .section-head{margin-bottom:24px}
+      .work{grid-template-columns:1fr;gap:18px;padding:30px 0;min-height:0}.work-index{padding:0}.work-title{font-size:17vw;line-height:.86}.work-media{grid-row:auto}.work-meta{grid-column:auto;display:grid;grid-template-columns:1fr;gap:25px}.meta-list{margin-top:4px}
+      .journal-list{margin-top:40px}.journal-row{grid-template-columns:80px 1fr 24px;gap:13px}.journal-tag{display:none}.journal-row h3{font-size:22px}
+      .contact-card{min-height:58vh;padding-top:58px}.contact-title{font-size:18vw;line-height:.78}.contact-bottom{grid-template-columns:1fr;gap:22px}.contact-bottom>span:last-child{text-align:left}.contact-email{grid-row:1;font-size:22px}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
     }
   </style>
-<script>
-    (function () {
-      var forceBoot =
-        new URLSearchParams(window.location.search).get('boot') === '1';
-      var navigation = performance.getEntriesByType('navigation')[0];
-      var navigationType = navigation ? navigation.type : 'navigate';
-      var seenInTab = false;
+</head>
+<body>
+  <nav class="site-nav" aria-label="메인 메뉴">
+    <a class="brand mono" href="#home"><span class="brand-mark" aria-hidden="true"></span><span>KWAK TAEWOONG</span></a>
+    <div class="nav-links mono">
+      <a href="#about">ABOUT</a>
+      <a href="#portfolio">PORTFOLIO</a>
+      <a href="#journal">JOURNAL</a>
+    </div>
+    <a class="nav-contact mono" href="#contact">CONTACT ↗</a>
+  </nav>
 
-      try {
-        seenInTab = sessionStorage.getItem('portfolioBootV25') === 'true';
-      } catch (error) {
-        seenInTab = true;
+  <main>
+    <section id="home" class="hero" data-dark>
+      <canvas class="liquid-canvas" id="liquidCanvas" aria-hidden="true"></canvas>
+      <div class="liquid-grain" aria-hidden="true"></div>
+
+      <div class="hero-shell">
+        <div class="hero-center" data-liquid-parallax>
+          <h1 class="hero-title" aria-label="I DESIGN WORLDS"><span>I DESIGN</span><span class="worlds">WORLDS</span></h1>
+          <p class="hero-tagline">규칙과 시스템으로 세계를 설계합니다.</p>
+        </div>
+      </div>
+      <div class="hero-scroll mono" aria-hidden="true">
+        <span>SCROLL DOWN</span>
+        <span class="hero-scroll-arrow">↓</span>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="section-shell">
+        <header class="section-head reveal">
+          <div class="eyebrow mono">ABOUT / PROFILE</div>
+          <h2>ABOUT</h2>
+          <p class="section-note">무엇을 만들었는지만이 아니라, 어떤 문제를 보고 어떤 규칙과 구조로 풀었는지를 보여주는 포트폴리오입니다.</p>
+        </header>
+
+        <div class="about-intro reveal">
+          <div class="about-index mono">GAME DESIGN<br>DEVELOPMENT<br>DIRECTION</div>
+          <p class="about-lead">세계와 규칙을<br>설계합니다.</p>
+          <div class="about-copy">
+            <p>게임의 세계는 배경만이 아니라, 플레이어가 이해하고 행동하는 규칙 전체라고 생각합니다. 저는 핵심 경험을 정의하고 이를 시스템·수치·레벨·UI로 구체화합니다.</p>
+            <p>전투와 시스템 기획을 중심으로 내러티브, UX와 프로젝트 디렉션까지 연결합니다. 특정 엔진에 역할을 한정하기보다 설계 의도와 문제에 적합한 도구를 선택해 결과를 완성합니다.</p>
+            <dl class="about-meta">
+              <div><dt>Education</dt><dd>중부대학교 게임소프트웨어전공</dd></div>
+              <div><dt>Role</dt><dd>Game Design / Development</dd></div>
+              <div><dt>Focus</dt><dd>Worlds · Rules · Player Experience</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="discipline-list reveal">
+          <article class="discipline">
+            <span class="no mono">01</span><h3>GAME DESIGN</h3>
+            <p>콘셉트와 핵심 재미를 코어 루프, 게임 규칙, 자원 구조와 밸런스 수치로 설계합니다.</p>
+          </article>
+          <article class="discipline">
+            <span class="no mono">02</span><h3>GAME DEVELOPMENT</h3>
+            <p>기획 의도를 실제 구현 구조와 상호작용으로 연결하며, 플레이에서 드러나는 문제를 다시 설계 판단으로 환류합니다.</p>
+          </article>
+          <article class="discipline">
+            <span class="no mono">03</span><h3>PROJECT DIRECTION</h3>
+            <p>프로젝트 범위와 우선순위를 정하고 역할·일정·기획 문서를 관리해 팀의 제작 방향을 조율합니다.</p>
+          </article>
+        </div>
+
+        <div class="timeline-wrap">
+          <header class="timeline-head reveal"><span class="eyebrow mono">EXPERIENCE / TIMELINE</span><h3>프로젝트와 활동</h3></header>
+          <div class="timeline reveal">
+            <article class="timeline-row">
+              <time class="timeline-year mono">2025</time>
+              <div class="timeline-title"><strong>베네딕트 오브 신즈</strong><span class="mono">DECKBUILDING ROGUELIKE</span></div>
+              <p class="timeline-desc">팀장 · 게임 기획 · 시스템 구현 · UI 제작</p>
+            </article>
+            <article class="timeline-row">
+              <time class="timeline-year mono">2025—26</time>
+              <div class="timeline-title"><strong>CCIT 게임융합소학회</strong><span class="mono org-tag">ORGANIZATION / ACTIVITY</span></div>
+              <p class="timeline-desc">게임 제작과 발표를 중심으로 한 조직 활동. 개별 프로젝트와는 별도의 경험으로 기록합니다.</p>
+            </article>
+            <article class="timeline-row">
+              <time class="timeline-year mono">2026</time>
+              <div class="timeline-title"><strong>살굿</strong><span class="mono">HYPER ACTION FPS · CCIT</span></div>
+              <p class="timeline-desc">팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표</p>
+            </article>
+            <article class="timeline-row">
+              <time class="timeline-year mono">2026</time>
+              <div class="timeline-title"><strong>페르낭</strong><span class="mono">DESKTOP WORKSPACE</span></div>
+              <p class="timeline-desc">제품 기획 · 데스크톱 UI · 작업 흐름 · 개발</p>
+            </article>
+            <article class="timeline-row">
+              <time class="timeline-year mono">W.I.P.</time>
+              <div class="timeline-title"><strong>De.Co</strong><span class="mono">TACTICAL TOWER DEFENSE</span></div>
+              <p class="timeline-desc">타워디펜스 시스템 · 준비/전투 전략 루프 · 레벨 구조 기획</p>
+            </article>
+            <article class="timeline-row">
+              <time class="timeline-year mono">ARCHIVE</time>
+              <div class="timeline-title"><strong>마키나토르</strong><span class="mono">DIESELPUNK NARRATIVE</span></div>
+              <p class="timeline-desc">세계관 · 세력 · 선택 구조 설계</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section portfolio">
+      <div class="section-shell">
+        <header class="section-head reveal">
+          <div class="eyebrow mono">PORTFOLIO / 05 WORKS</div>
+          <h2>WORK</h2>
+          <p class="section-note">프로젝트 이미지는 모두 동일한 16:10 프레임을 사용합니다. 원본이 세로여도 카드 높이는 변하지 않고, 핵심 역할과 설계 판단이 같은 기준선에서 읽힙니다.</p>
+        </header>
+
+        <div class="works" id="works"></div>
+      </div>
+    </section>
+
+    <section id="journal" class="section journal" data-dark>
+      <div class="section-shell">
+        <header class="section-head reveal">
+          <div class="eyebrow mono">JOURNAL / PROCESS</div>
+          <h2>JOURNAL</h2>
+          <p class="section-note">프로젝트 결과와 분리된 판단 기록. 무엇을 바꿨는지보다 왜 바꿨는지를 남기는 아카이브입니다.</p>
+        </header>
+        <div class="journal-list reveal" id="journalList"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact" data-dark>
+      <div class="section-shell contact-card reveal">
+        <h2 class="contact-title">LET’S TALK<br>ABOUT SYSTEMS.</h2>
+        <div class="contact-bottom mono">
+          <span>KWAK TAEWOONG<br>GAME DESIGN / DEVELOPMENT</span>
+          <a class="contact-email" href="mailto:gtw7208@naver.com">gtw7208@naver.com ↗</a>
+          <span>KR / 2026<br>PORTFOLIO INDEX</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /*
+      CONTENT INDEX
+      ------------------------------------------------------------
+      이후 텍스트/상태/이미지는 여기만 바꾸면 됩니다.
+      이미지가 없거나 경로가 틀리면 CSS 그래픽이 자동으로 남습니다.
+    */
+    const SITE_DATA = {
+      projects: [
+        {
+          no:'01 / GAME', title:'Benedict of Sins', accent:'#74272b',
+          image:'assets/images/projects/benedict/cover.jpg', href:'projects/benedict.html',
+          desc:'덱빌딩 로그라이크의 전투를 공방·ATB·리스크 선택 구조로 재설계한 시스템 프로젝트.',
+          meta:[['Role','System / UI / Narrative'],['Focus','Combat iteration'],['Status','W.I.P.']]
+        },
+        {
+          no:'02 / GAME', title:'Salgut', accent:'#23a8c9',
+          image:'assets/images/projects/salgut/cover.jpg', href:'projects/salgut.html',
+          desc:'속도와 공격 리듬을 중심으로 자원 회수와 5속성×2입력을 결합한 하이퍼 FPS 전투 설계.',
+          meta:[['Role','Lead / Combat'],['Context','CCIT'],['Status','Prototype']]
+        },
+        {
+          no:'03 / APP', title:'Fernand', accent:'#7a86ff',
+          image:'assets/images/projects/fernand/cover.jpg', href:'projects/fernand.html',
+          desc:'작업 일정 자체보다 ‘왜 바뀌었는지’를 남기는 개인 작업 보조 환경. 위젯·트랙·맥락 기록을 하나로 묶는다.',
+          meta:[['Role','Product / UX / Dev'],['Stack','WPF · .NET 8'],['Status','W.I.P.']]
+        },
+        {
+          no:'04 / GAME', title:'De.Co', accent:'#d3ad23',
+          image:'assets/images/projects/deco/cover.jpg', href:'projects/deco.html',
+          desc:'타워디펜스의 준비–전투 사이에 시간 배분과 출정의 기회비용을 넣어 전략 판단을 확장한 재설계.',
+          meta:[['Role','Game / System Design'],['Focus','Strategic loop'],['Status','W.I.P.']]
+        },
+        {
+          no:'05 / GAME', title:'Machinator', accent:'#df613f',
+          image:'assets/images/projects/machinator/cover.jpg', href:'projects/machinator.html',
+          desc:'AI 붕괴 이후의 디젤펑크 중앙도시, 세력, 세계관과 선택 구조를 설계한 내러티브 프로젝트.',
+          meta:[['Role','Narrative / World'],['Focus','Choice structure'],['Status','Archive']]
+        }
+      ],
+      journal:[
+        ['2026.08','Why context matters more than a task list','Fernand / Process'],
+        ['2026.08','Rebuilding combat around attack and defense','Benedict / Combat'],
+        ['2026.08','Designing time as a strategic resource','De.Co / System']
+      ]
+    };
+
+
+
+    // ORIGINAL LIQUID HERO --------------------------------------------------
+    // Procedural WebGL only. No reference footage or external visual asset is used.
+    // The motion is continuous, so there is no bounce/reverse loop or visible reset.
+    (()=>{
+      const canvas=document.querySelector('#liquidCanvas');
+      if(!canvas) return;
+      const gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
+      if(!gl){ canvas.style.background='radial-gradient(circle at 30% 30%,#456b68,#07100f 52%,#161529)'; return; }
+
+      const vert=`
+        attribute vec2 a_position;
+        void main(){ gl_Position=vec4(a_position,0.0,1.0); }
+      `;
+
+      const frag=`
+        precision highp float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        #define PI 3.14159265359
+
+        float hash21(vec2 p){
+          p=fract(p*vec2(123.34,456.21));
+          p+=dot(p,p+45.32);
+          return fract(p.x*p.y);
+        }
+
+        float noise(vec2 p){
+          vec2 i=floor(p), f=fract(p);
+          f=f*f*(3.0-2.0*f);
+          float a=hash21(i);
+          float b=hash21(i+vec2(1.0,0.0));
+          float c=hash21(i+vec2(0.0,1.0));
+          float d=hash21(i+vec2(1.0,1.0));
+          return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
+        }
+
+        float fbm(vec2 p){
+          float f=0.0;
+          mat2 m=mat2(1.62,1.15,-1.15,1.62);
+          f+=0.5000*noise(p); p=m*p+0.17;
+          f+=0.2500*noise(p); p=m*p+0.23;
+          f+=0.1250*noise(p); p=m*p+0.31;
+          f+=0.0625*noise(p);
+          return f/0.9375;
+        }
+
+        // Continuous curl-like domain warp.
+        // Everything is derived from one field, so there are no disconnected
+        // metaball edges or threshold cuts that can look "broken".
+        vec2 flowWarp(vec2 p,float t){
+          float q1=fbm(p*0.72+vec2( t*0.026,-t*0.018));
+          float q2=fbm(p*0.68+vec2(-t*0.021, t*0.024)+4.73);
+
+          vec2 q=vec2(q1,q2)-0.5;
+          p += q*0.34;
+
+          float r1=fbm(p*1.08+q*1.4+vec2(-t*0.018,t*0.012)+1.8);
+          float r2=fbm(p*0.96-q*1.2+vec2( t*0.014,t*0.019)+8.1);
+
+          return p + (vec2(r1,r2)-0.5)*0.22;
+        }
+
+        vec3 paletteField(vec2 uv,float t){
+          vec2 p=flowWarp(uv,t);
+
+          float a=fbm(p*0.78+vec2(t*0.010,-t*0.006));
+          float b=fbm(p*0.54+vec2(-t*0.008,t*0.011)+5.2);
+
+          float ribbonA=0.5+0.5*sin(
+            p.x*4.35 +
+            p.y*1.55 +
+            a*2.55 +
+            t*0.055
+          );
+
+          float ribbonB=0.5+0.5*sin(
+            -p.x*2.15 +
+            p.y*3.60 +
+            b*2.20 -
+            t*0.038 +
+            1.35
+          );
+
+          // wide gradients, not hard bands
+          ribbonA=smoothstep(0.08,0.94,ribbonA);
+          ribbonB=smoothstep(0.10,0.92,ribbonB);
+
+          vec3 deep   = vec3(0.022,0.052,0.060);
+          vec3 teal   = vec3(0.190,0.390,0.405);
+          vec3 pearl  = vec3(0.665,0.720,0.700);
+          vec3 violet = vec3(0.245,0.215,0.330);
+          vec3 amber  = vec3(0.540,0.400,0.275);
+
+          vec3 col=mix(deep,teal,ribbonA*0.74);
+          col=mix(col,violet,ribbonB*0.44);
+
+          float pearlBand=smoothstep(
+            0.55,0.91,
+            0.60*ribbonA+0.40*ribbonB + (a-0.5)*0.18
+          );
+          col=mix(col,pearl,pearlBand*0.40);
+
+          float warm=smoothstep(
+            0.66,0.94,
+            0.68*ribbonB+0.32*b
+          );
+          col=mix(col,amber,warm*0.21);
+
+          return col;
+        }
+
+        // A soft height field representing one continuous sheet of liquid glass.
+        // No thresholded silhouette: the field gently rises and falls everywhere.
+        float glassHeight(vec2 uv,float t){
+          vec2 p=flowWarp(uv*0.96+0.02,t*0.92);
+
+          float h1=fbm(p*0.92+vec2(t*0.014,-t*0.010));
+          float h2=fbm(p*1.42+vec2(-t*0.010,t*0.013)+3.6);
+          float h3=0.5+0.5*sin(
+            p.x*2.75 - p.y*1.55 +
+            h1*2.2 +
+            t*0.046
+          );
+
+          float h =
+            h1*0.48 +
+            h2*0.27 +
+            h3*0.25;
+
+          // broad breathing movement through the center, still continuous
+          vec2 c=uv-vec2(
+            0.50+0.035*sin(t*0.032),
+            0.52+0.030*cos(t*0.027)
+          );
+          float swell=exp(-dot(c*vec2(1.0,0.78),c*vec2(1.0,0.78))*2.5);
+          h += swell*0.10;
+
+          return h;
+        }
+
+        vec2 glassNormal(vec2 uv,float t){
+          float e=1.55/u_resolution.y;
+          float l=glassHeight(uv-vec2(e,0.0),t);
+          float r=glassHeight(uv+vec2(e,0.0),t);
+          float d=glassHeight(uv-vec2(0.0,e),t);
+          float u=glassHeight(uv+vec2(0.0,e),t);
+
+          vec2 g=vec2(r-l,u-d)/(2.0*e);
+          return normalize(g+vec2(0.00001));
+        }
+
+        void main(){
+          vec2 frag=gl_FragCoord.xy/u_resolution.xy;
+          vec2 uv=frag;
+
+          float aspect=u_resolution.x/u_resolution.y;
+          uv.x=(uv.x-.5)*aspect+.5;
+
+          float t=u_time;
+
+          // mouse affects the flow very slightly, never enough to deform it into blobs
+          vec2 mouse=(u_mouse-.5)*vec2(aspect,1.0);
+          uv += mouse*0.010;
+
+          float h=glassHeight(uv,t);
+          vec2 n=glassNormal(uv,t);
+
+          // surface curvature: strongest around rolling ridges, but continuous
+          float ridge=smoothstep(0.18,0.72,abs(h-0.53)*1.65);
+          float refractAmt=0.010 + ridge*0.018 + h*0.004;
+
+          vec2 ruv=uv+n*refractAmt;
+
+          vec3 base=paletteField(uv,t);
+
+          // subtle chromatic refraction; kept soft to avoid "shattered glass"
+          vec3 refr;
+          refr.r=paletteField(ruv+n*0.0026,t).r;
+          refr.g=paletteField(ruv,t).g;
+          refr.b=paletteField(ruv-n*0.0022,t).b;
+
+          vec2 lightDir=normalize(vec2(-0.52,0.86));
+          float ndl=max(dot(n,lightDir),0.0);
+          float back=max(dot(n,-lightDir),0.0);
+
+          // broad wet-glass highlight instead of a hard rim
+          float sheen=pow(ndl,5.0)*(0.28+0.72*h);
+          float hotSpec=pow(ndl,24.0)*(0.10+0.90*ridge);
+
+          // moving caustic lines carried by the same flow field
+          vec2 cp=flowWarp(uv*1.18,t*1.03);
+          float caustic=0.5+0.5*sin(
+            cp.x*7.2 -
+            cp.y*4.4 +
+            fbm(cp*2.1+t*0.010)*4.7 +
+            t*0.085
+          );
+          caustic=pow(caustic,6.0)*(0.20+0.80*h);
+
+          // center light exposure — gives the liquid a luminous wet core
+          vec2 lc=frag-vec2(
+            0.50+0.055*sin(t*0.021),
+            0.48+0.045*cos(t*0.018)
+          );
+          float bloom=exp(-dot(lc*vec2(1.2,0.9),lc*vec2(1.2,0.9))*10.0);
+
+          vec3 liquid=mix(base,refr,0.72);
+          liquid += vec3(.68,.80,.78)*sheen*0.14;
+          liquid += vec3(.90,.96,.92)*hotSpec*0.19;
+          liquid += vec3(.64,.76,.72)*caustic*0.08;
+          liquid += vec3(.64,.72,.68)*bloom*0.095;
+          liquid -= vec3(.040,.036,.030)*pow(back,3.5)*0.16;
+
+          // The whole background is liquid; no binary body mask means no broken outline.
+          vec3 col=mix(base,liquid,0.78);
+
+          float vig=smoothstep(
+            1.08,0.22,
+            length((frag-.5)*vec2(1.04,.90))
+          );
+          col*=mix(.80,1.0,vig);
+
+          float grain=hash21(gl_FragCoord.xy+fract(t)*37.0)-.5;
+          col+=grain/255.0*1.7;
+
+          col=pow(max(col,0.0),vec3(.94));
+          gl_FragColor=vec4(col,1.0);
+        }
+      `;
+
+
+      function shader(type,src){
+        const sh=gl.createShader(type); gl.shaderSource(sh,src); gl.compileShader(sh);
+        if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){
+          console.error(gl.getShaderInfoLog(sh)); return null;
+        }
+        return sh;
       }
+      const vs=shader(gl.VERTEX_SHADER,vert), fs=shader(gl.FRAGMENT_SHADER,frag);
+      if(!vs||!fs) return;
+      const prog=gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+      if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ console.error(gl.getProgramInfoLog(prog)); return; }
+      gl.useProgram(prog);
+      const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]),gl.STATIC_DRAW);
+      const pos=gl.getAttribLocation(prog,'a_position'); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+      const uRes=gl.getUniformLocation(prog,'u_resolution');
+      const uTime=gl.getUniformLocation(prog,'u_time');
+      const uMouse=gl.getUniformLocation(prog,'u_mouse');
 
-      window.__portfolioBootShouldRun =
-        forceBoot || (navigationType === 'navigate' && !seenInTab);
+      const hero=document.querySelector('.hero');
+      let mouse=[.5,.5], target=[.5,.5];
+      let pageVisible=!document.hidden;
+      let heroVisible=true;
+      let running=false;
+      let rafId=0;
+      let resizeRaf=0;
+      let lastFrame=0;
+      const FRAME_INTERVAL=1000/24;
+      const start=performance.now();
 
-      if (window.__portfolioBootShouldRun) {
-        try {
-          sessionStorage.setItem('portfolioBootV25', 'true');
-        } catch (error) {
-          /* Boot remains non-blocking even without storage. */
+      function resize(){
+        const cssW=Math.max(1,canvas.clientWidth);
+        const cssH=Math.max(1,canvas.clientHeight);
+
+        // Preserve the exact shader/composition, but prevent it from rendering
+        // millions of unnecessary high-DPI pixels. The liquid is a soft field,
+        // so CSS upscaling is visually negligible while GPU cost drops sharply.
+        const nativeDpr=Math.min(window.devicePixelRatio||1,1.0);
+        const maxPixels=700000.0;
+        const wantedPixels=cssW*cssH*nativeDpr*nativeDpr;
+        const pixelScale=wantedPixels>maxPixels
+          ? Math.sqrt(maxPixels/wantedPixels)
+          : 1.0;
+        const dpr=nativeDpr*pixelScale;
+
+        const w=Math.max(1,Math.floor(cssW*dpr));
+        const h=Math.max(1,Math.floor(cssH*dpr));
+
+        if(canvas.width!==w||canvas.height!==h){
+          canvas.width=w;
+          canvas.height=h;
+          gl.viewport(0,0,w,h);
         }
       }
-    })();
-  </script>
-<script defer="" src="script.js?v=25"></script>
-</head>
-<body class="portfolio-home"><a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
-<!-- 최초 탭 진입에서만 재생되는 비차단 인트로 -->
-<div aria-hidden="true" class="boot-screen" id="bootScreen">
-<div class="boot-grid"></div>
-<div class="boot-scan"></div>
-<div class="boot-interface boot-interface-v19">
-<div class="boot-header">
-<span class="boot-brand-inline">
-<img alt="" src="assets/brand/kt-mark.svg"/>
-          KWAK TAEWOONG / WORLD SYSTEM
-        </span>
-<span>INITIALIZING</span>
-</div>
-<div class="boot-center">
-<p>GAME DESIGN PORTFOLIO</p>
-<h1>DESIGN INDEX</h1>
-<strong>READY</strong>
-</div>
-<div class="boot-footer">
-<div aria-hidden="true" class="boot-progress">
-<span></span>
-</div>
-<div aria-hidden="true" class="boot-log">
-<span>IDENTITY</span>
-<span>EXPERIENCE</span>
-<span>WORK</span>
-<span>ENTER</span>
-</div>
-</div>
-</div>
-</div>
-<script>
-    (function () {
-      var screen = document.getElementById('bootScreen');
-      if (!screen) return;
 
-      if (!window.__portfolioBootShouldRun) {
-        screen.remove();
-        return;
+      function frame(now){
+        if(!running) return;
+
+        if(now-lastFrame>=FRAME_INTERVAL){
+          lastFrame=now-(now-lastFrame)%FRAME_INTERVAL;
+
+          mouse[0]+=(target[0]-mouse[0])*.035;
+          mouse[1]+=(target[1]-mouse[1])*.035;
+
+          gl.uniform2f(uRes,canvas.width,canvas.height);
+          gl.uniform1f(uTime,(now-start)/1000);
+          gl.uniform2f(uMouse,mouse[0],mouse[1]);
+          gl.drawArrays(gl.TRIANGLES,0,6);
+        }
+
+        rafId=requestAnimationFrame(frame);
       }
 
-      screen.classList.add('is-active');
-      screen.setAttribute('aria-hidden', 'false');
-
-      function removeBoot() {
-        if (screen && screen.isConnected) screen.remove();
+      function syncRenderLoop(){
+        const shouldRun=pageVisible&&heroVisible;
+        if(shouldRun&&!running){
+          running=true;
+          resize();
+          rafId=requestAnimationFrame(frame);
+        }else if(!shouldRun&&running){
+          running=false;
+          cancelAnimationFrame(rafId);
+        }
       }
 
-      window.setTimeout(removeBoot, 1640);
-      window.setTimeout(removeBoot, 2200);
-      window.addEventListener('pageshow', function (event) {
-        if (event.persisted) removeBoot();
-      }, { once: true });
+      window.addEventListener('resize',()=>{
+        if(resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf=requestAnimationFrame(()=>{
+          resizeRaf=0;
+          resize();
+        });
+      },{passive:true});
+
+      window.addEventListener('pointermove',e=>{
+        if(!heroVisible) return;
+        target=[e.clientX/window.innerWidth,1.0-e.clientY/window.innerHeight];
+      },{passive:true});
+
+      document.addEventListener('visibilitychange',()=>{
+        pageVisible=!document.hidden;
+        syncRenderLoop();
+      });
+
+      if('IntersectionObserver' in window&&hero){
+        const liquidVisibility=new IntersectionObserver(([entry])=>{
+          heroVisible=entry.isIntersecting;
+          syncRenderLoop();
+        },{threshold:0,rootMargin:'80px 0px'});
+        liquidVisibility.observe(hero);
+      }
+
+      resize();
+      syncRenderLoop();
     })();
+
+    const works = document.querySelector('#works');
+    SITE_DATA.projects.forEach((p) => {
+      const article = document.createElement('article');
+      article.className = 'work reveal';
+      article.style.setProperty('--accent',p.accent);
+      article.innerHTML = `
+        <div class="work-index mono">${p.no}</div>
+        <h3 class="work-title">${p.title}</h3>
+        <a class="work-media" href="${p.href}" aria-label="${p.title} case study">
+          <div class="work-fallback" aria-hidden="true"></div>
+          <img src="${p.image}" alt="${p.title} 프로젝트 이미지" loading="lazy" decoding="async" fetchpriority="low" onerror="this.remove()" />
+        </a>
+        <div class="work-meta">
+          <p>${p.desc}</p>
+          <div>
+            <div class="meta-list mono">${p.meta.map(([k,v])=>`<div class="meta-row"><span>${k}</span><span>${v}</span></div>`).join('')}</div>
+            <a class="work-link mono" href="${p.href}">VIEW CASE STUDY ↗</a>
+          </div>
+        </div>`;
+      works.appendChild(article);
+    });
+
+    const journal = document.querySelector('#journalList');
+    SITE_DATA.journal.forEach(([date,title,tag])=>{
+      const a=document.createElement('a');
+      a.className='journal-row'; a.href='#';
+      a.innerHTML=`<span class="journal-date mono">${date}</span><h3>${title}</h3><span class="journal-tag mono">${tag}</span><span class="journal-arrow">↗</span>`;
+      journal.appendChild(a);
+    });
+
+    const reveal = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');reveal.unobserve(e.target)}})
+    },{threshold:.09,rootMargin:'0px 0px -5%'});
+    document.querySelectorAll('.reveal').forEach(el=>reveal.observe(el));
+
+    const nav=document.querySelector('.site-nav');
+    const darkSections=[...document.querySelectorAll('[data-dark]')];
+
+    let navTick=false;
+    function updateNavTone(){
+      const y=window.scrollY+45;
+      const onDark=darkSections.some(s=>y>=s.offsetTop && y<s.offsetTop+s.offsetHeight);
+      nav.classList.toggle('is-light',!onDark);
+      navTick=false;
+    }
+
+    window.addEventListener('scroll',()=>{
+      if(navTick) return;
+      navTick=true;
+      requestAnimationFrame(updateNavTone);
+    },{passive:true});
+    updateNavTone();
+
   </script>
-<!-- 고정 상단 메뉴 -->
-<header class="site-header">
-<a aria-label="곽태웅 포트폴리오 홈" class="site-logo site-brand" href="#home">
-<img alt="" class="site-brand-mark" src="assets/brand/kt-mark.svg"/>
-<span class="site-brand-copy">
-<strong>KWAK TAEWOONG</strong>
-<small>PORTFOLIO / 2026</small>
-</span>
-</a>
-<nav aria-label="메인 메뉴" class="site-navigation">
-<a href="#home">HOME</a>
-<a href="#about">ABOUT</a>
-<a href="#portfolio">WORK</a>
-<a href="#contact">CONTACT</a>
-</nav>
-</header>
-<main id="main-content">
-<!-- 메인: 정체성 → 대표 작업 → 다음 행동 -->
-<section class="hero hero-v19" id="home">
-<img alt="" aria-hidden="true" class="hero-background-image" src="assets/images/main.jpg"/>
-<div class="hero-overlay"></div>
-<div aria-hidden="true" class="hero-orbital-system">
-<img alt="" src="assets/design/orbital-spectrum.svg"/>
-<span class="orbit orbit-a"></span>
-<span class="orbit orbit-b"></span>
-<span class="orbit orbit-c"></span>
-<b>W</b>
-</div>
-<div class="hero-layout-v19">
-<div class="hero-copy-v19">
-<p class="hero-eyebrow">
-            GAME DESIGNER / DEVELOPER
-          </p>
-<h1 aria-label="I DESIGN WORLDS" class="hero-statement">
-<span>I DESIGN</span>
-<strong>WORLDS</strong>
-</h1>
-<p class="hero-description">
-            플레이어가 이해하고 행동할 세계를 만들기 위해,<br/>
-            규칙과 시스템을 설계하고 플레이 가능한 경험으로 구현합니다.
-          </p>
-<div class="hero-actions-v19">
-<a class="hero-primary-cta" href="#portfolio">
-<span>VIEW PORTFOLIO</span>
-<strong>↓</strong>
-</a>
-<a class="hero-secondary-cta" href="#about">
-              PROFILE / EXPERIENCE
-              <span>↓</span>
-</a>
-</div>
-<div aria-label="소셜 링크" class="social-links hero-social-links">
-<a aria-label="GitHub" href="https://github.com/Insol17" rel="noopener noreferrer" target="_blank" title="GitHub">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.71.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.85.09-.66.35-1.12.64-1.37-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.28 9.28 0 0 1 12 6.92c.85 0 1.7.12 2.5.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.64 1.03 2.76 0 3.95-2.34 4.82-4.57 5.08.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.22 10.22 0 0 0 22 12.23C22 6.58 17.52 2 12 2Z"></path></svg>
-</a>
-<a aria-label="Instagram" href="https://www.instagram.com/gtw0711/" rel="noopener noreferrer" target="_blank" title="Instagram">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.75 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"></path></svg>
-</a>
-<a aria-label="LinkedIn" href="https://www.linkedin.com/in/%ED%83%9C%EC%9B%85-%EA%B3%BD-9b1228295/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5.2 3.5A2.2 2.2 0 1 1 5.2 8a2.2 2.2 0 0 1 0-4.5ZM3.3 9.5h3.8V21H3.3V9.5Zm6.1 0H13v1.57h.05c.5-.95 1.72-1.95 3.55-1.95 3.8 0 4.5 2.5 4.5 5.76V21h-3.78v-5.42c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.41-2.08 2.87V21H9.4V9.5Z"></path></svg>
-</a>
-<a aria-label="YouTube" href="https://www.youtube.com/@realinsol" rel="noopener noreferrer" target="_blank" title="YouTube">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M21.58 7.19a2.96 2.96 0 0 0-2.08-2.1C17.66 4.58 12 4.58 12 4.58s-5.66 0-7.5.51a2.96 2.96 0 0 0-2.08 2.1A30.86 30.86 0 0 0 1.9 12a30.86 30.86 0 0 0 .52 4.81 2.96 2.96 0 0 0 2.08 2.1c1.84.51 7.5.51 7.5.51s5.66 0 7.5-.51a2.96 2.96 0 0 0 2.08-2.1A30.86 30.86 0 0 0 22.1 12a30.86 30.86 0 0 0-.52-4.81ZM9.9 15.4V8.6L15.8 12l-5.9 3.4Z"></path></svg>
-</a>
-</div>
-</div>
-<a aria-label="대표 프로젝트 살굿 보기" class="hero-feature-card" href="projects/salgut.html">
-<img alt="살굿 프로젝트" src="assets/images/projects/salgut/cover.jpg"/>
-<div class="hero-feature-shade"></div>
-<div class="hero-feature-meta">
-<span>FEATURED PROJECT</span>
-<strong>SALGUT</strong>
-<p>HYPER ACTION FPS · 2026</p>
-</div>
-<b>VIEW PROJECT →</b>
-</a>
-</div>
-<div class="hero-footer-v19">
-<div class="hero-location-v19">
-<span>KR / 2026</span>
-</div>
-<a class="scroll-guide scroll-guide-v19" href="#about">
-<span>SCROLL DOWN</span>
-<i aria-hidden="true"></i>
-<strong>↓</strong>
-</a>
-</div>
-</section>
-<!-- About: 역할과 역량을 빠르게 전달하는 이력서형 섹션 -->
-<section class="about-section about-v16" id="about">
-<div class="about-container">
-<header class="about-heading-v16" data-reveal="">
-<div>
-<h2>ABOUT</h2>
-</div>
-</header>
-<div class="about-intro-v16">
-<div class="about-copy-v16">
-<p class="about-role-v16" data-reveal="">GAME DESIGN · SYSTEMS · DEVELOPMENT</p>
-<h3 data-reveal="" style="--reveal-delay: 70ms;">규칙으로 경험을 설계하고, 플레이로 검증합니다.</h3>
-<div class="about-description-v16" data-reveal="" style="--reveal-delay: 130ms;"><p>게임의 세계를 배경 설정이 아니라 플레이어가 이해하고 선택하며 결과를 확인하는 규칙의 집합으로 봅니다. 핵심 경험을 먼저 정의한 뒤 전투·자원·레벨·UI를 하나의 플레이 루프로 연결합니다.</p><p>기획은 문서에서 끝내지 않습니다. 필요한 기능을 직접 프로토타이핑하고 수치와 피드백을 반복 조정해, 의도한 선택이 실제 플레이에서도 성립하는지 확인합니다.</p><p>프로젝트를 진행할수록 아이디어의 크기보다 검증 가능한 규칙, 명확한 우선순위, 팀이 공유할 수 있는 기준이 중요하다는 것을 배웠습니다. 이 포트폴리오는 그 설계 방식이 01에서 05까지 어떻게 발전했는지를 기록합니다.</p></div>
-<dl class="about-identity-grid" data-reveal="" style="--reveal-delay: 190ms;">
-<div>
-<dt>EDUCATION</dt>
-<dd>중부대학교 게임소프트웨어전공</dd>
-</div>
-<div>
-<dt>PRIMARY</dt>
-<dd>Combat / System Design</dd>
-</div>
-<div>
-<dt>METHOD</dt>
-<dd>Prototype · Test · Iterate</dd>
-</div>
-</dl>
-<div class="about-actions-v16" data-reveal="" style="--reveal-delay: 240ms;">
-<a href="mailto:gtw7208@naver.com">
-                EMAIL ME
-                <span>→</span>
-</a>
-<a aria-disabled="true" class="is-disabled" data-disabled-link="true" download="" href="#">RESUME / COMING SOON <span>—</span></a>
-</div>
-</div>
-<figure class="about-portrait-card" data-reveal="image">
-<div class="about-portrait-inner">
-<img alt="게임 디자이너 곽태웅 프로필" src="assets/images/profile.jpg"/>
-<div class="about-portrait-shade"></div>
-<figcaption>
-<span>KWAK TAEWOONG</span>
-</figcaption>
-<div aria-hidden="true" class="about-portrait-coordinate">
-<span>PORTRAIT</span>
-<span>KR / 2026</span>
-</div>
-</div>
-</figure>
-</div>
-<div aria-hidden="true" class="about-orbital-note">
-<span>WORLD / RULE / EXPERIENCE</span>
-<img alt="" src="assets/design/orbital-spectrum.svg"/>
-</div>
-<section class="about-role-section">
-<header class="about-subheading-v16" data-reveal="">
-<h3>주요 업무</h3>
-</header>
-<div class="about-role-list">
-<article data-reveal="" data-role-index="01" style="--reveal-delay: 0ms;">
-<span>01</span>
-<div>
-<h4>GAME DESIGN</h4>
-<p>
-                  콘셉트와 핵심 재미를 코어 루프,
-                  게임 규칙, 자원 구조와 밸런스 수치로 설계합니다.
-                </p>
-<small class="role-scope">CORE LOOP · COMBAT RULES · ECONOMY · BALANCE</small></div>
-</article>
-<article data-reveal="" data-role-index="02" style="--reveal-delay: 70ms;">
-<span>02</span>
-<div>
-<h4>GAME DEVELOPMENT</h4>
-<p>
-                  프로토타입과 주요 게임플레이 기능을 직접 구현해,
-                  설계가 실제 플레이에서 작동하는지 검증합니다.
-                </p>
-<small class="role-scope">PROTOTYPING · GAMEPLAY · UI · UNITY / C#</small></div>
-</article>
-<article data-reveal="" data-role-index="03" style="--reveal-delay: 140ms;">
-<span>03</span>
-<div>
-<h4>PROJECT DIRECTION</h4>
-<p>
-                  프로젝트 범위와 우선순위를 정하고,
-                  역할·일정·기획 문서를 관리해 팀의 제작 방향을 조율합니다.
-                </p>
-<small class="role-scope">SCOPE · DOCUMENTATION · PRIORITY · TEAM ALIGNMENT</small></div>
-</article>
-</div>
-</section>
-<section class="about-career-section">
-<header class="about-subheading-v16" data-reveal="">
-<h3>프로젝트 연혁</h3>
-</header>
-<div class="about-timeline" data-timeline="">
-<article aria-label="01 프로젝트 상세 보기" class="about-timeline-item" data-href="projects/benedict.html" data-reveal="" role="link" tabindex="0"><span class="timeline-sequence">01</span>
-<time>2025</time>
-<div class="timeline-project">
-<p>DECKBUILDING ROGUELIKE</p>
-<h4>베네딕트 오브 신즈</h4>
-</div>
-<p class="timeline-role">팀장 · 게임 기획 · 시스템 구현 · UI 제작</p>
-</article>
-<article aria-label="02 프로젝트 상세 보기" class="about-timeline-item" data-href="projects/salgut.html" data-reveal="" role="link" style="--reveal-delay: 55ms;" tabindex="0"><span class="timeline-sequence">02</span>
-<time>2026</time>
-<div class="timeline-project">
-<p>HYPER ACTION FPS</p>
-<h4>살굿</h4>
-</div>
-<p class="timeline-role">팀장 · 전투/시스템 기획 · 게임플레이 구현 · 발표</p>
-</article>
-<article aria-label="03 프로젝트 상세 보기" class="about-timeline-item" data-href="projects/fernand.html" data-reveal="" role="link" style="--reveal-delay: 110ms;" tabindex="0"><span class="timeline-sequence">03</span>
-<time>2026</time>
-<div class="timeline-project">
-<p>AI DESKTOP APPLICATION</p>
-<h4>페르낭</h4>
-</div>
-<p class="timeline-role">AI 인터랙션 · 데스크톱 UI · MVP 설계</p>
-</article>
-<article aria-label="04 프로젝트 상세 보기" class="about-timeline-item" data-href="projects/deco.html" data-reveal="" role="link" style="--reveal-delay: 165ms;" tabindex="0"><span class="timeline-sequence">04</span>
-<time>TBD</time>
-<div class="timeline-project">
-<p>TOWER DEFENSE</p>
-<h4>De.Co</h4>
-</div>
-<p class="timeline-role">타워디펜스 시스템 및 레벨 구조 기획</p>
-</article>
-<article aria-label="05 프로젝트 상세 보기" class="about-timeline-item" data-href="projects/machinator.html" data-reveal="" role="link" style="--reveal-delay: 220ms;" tabindex="0"><span class="timeline-sequence">05</span>
-<time>TBD</time>
-<div class="timeline-project">
-<p>DIESELPUNK NARRATIVE</p>
-<h4>마키나토르</h4>
-</div>
-<p class="timeline-role">세계관 · 세력 · 선택 구조 설계</p>
-</article>
-</div>
-</section>
-</div>
-</section>
-<!-- 포트폴리오: 축소된 가로 스크롤 카드 -->
-<section class="projects-section" id="portfolio">
-<div class="projects-toolbar projects-toolbar-v19">
-<div class="portfolio-heading-v19"><p class="portfolio-kicker">CHRONOLOGICAL WORK / 01—05</p>
-<h2>PORTFOLIO</h2>
-<p class="portfolio-intro">완성도만 나열하지 않고, 프로젝트마다 달라진 문제 정의와 설계 방식을 시간 순서로 기록합니다.</p></div>
-<div class="portfolio-toolbar-actions">
-<div aria-label="프로젝트 슬라이더 이동" class="portfolio-slider-controls">
-<button aria-label="이전 프로젝트" data-project-prev="" type="button">←</button>
-<button aria-label="다음 프로젝트" data-project-next="" type="button">→</button>
-</div>
-<a class="all-projects-link all-projects-link-v19" href="projects/index.html">
-<small>ALL PROJECTS</small>
-<strong>05</strong>
-<span class="all-projects-arrow">→</span>
-</a>
-</div>
-</div>
-<div class="project-slider-viewport">
-<div aria-label="프로젝트 목록" class="project-slider" id="projectSlider"><a class="project-card" draggable="false" href="projects/benedict.html">
-<img alt="베네딕트 오브 신즈 프로젝트" draggable="false" src="assets/images/projects/benedict/cover.jpg"/>
-<div class="project-card-vignette"></div>
-<div class="project-card-heading">
-<p>DECKBUILDING ROGUELIKE</p>
-<h3>BENEDICT<br/>OF SINS</h3>
-<span>베네딕트 오브 신즈</span>
-</div>
-<div class="project-card-number">01</div>
-<div class="project-card-bottom">GAME <strong>VIEW PROJECT →</strong></div>
-</a><a class="project-card" draggable="false" href="projects/salgut.html">
-<img alt="살굿 프로젝트" draggable="false" src="assets/images/projects/salgut/cover.jpg"/>
-<div class="project-card-vignette"></div>
-<div class="project-card-heading">
-<p>HYPER ACTION FPS</p>
-<h3>SALGUT</h3>
-<span>살굿</span>
-</div>
-<div class="project-card-number">02</div>
-<div class="project-card-bottom">GAME <strong>VIEW PROJECT →</strong></div>
-</a><a class="project-card" draggable="false" href="projects/fernand.html">
-<img alt="페르낭 프로젝트" draggable="false" src="assets/images/projects/fernand/cover.jpg"/>
-<div class="project-card-vignette"></div>
-<div class="project-card-heading">
-<p>AI DESKTOP INTERFACE</p>
-<h3>FERNAND</h3>
-<span>페르낭</span>
-</div>
-<div class="project-card-number">03</div>
-<div class="project-card-bottom">APPLICATION <strong>VIEW PROJECT →</strong></div>
-</a><a class="project-card" draggable="false" href="projects/deco.html">
-<img alt="De.Co 프로젝트" draggable="false" src="assets/images/projects/deco/cover.jpg"/>
-<div class="project-card-vignette"></div>
-<div class="project-card-heading">
-<p>TOWER DEFENSE</p>
-<h3>DE.CO</h3>
-<span>De.Co</span>
-</div>
-<div class="project-card-number">04</div>
-<div class="project-card-bottom">GAME <strong>VIEW PROJECT →</strong></div>
-</a><a class="project-card" draggable="false" href="projects/machinator.html">
-<img alt="마키나토르 프로젝트" draggable="false" src="assets/images/projects/machinator/cover.jpg"/>
-<div class="project-card-vignette"></div>
-<div class="project-card-heading">
-<p>DIESELPUNK NARRATIVE</p>
-<h3>MACHINATOR</h3>
-<span>마키나토르</span>
-</div>
-<div class="project-card-number">05</div>
-<div class="project-card-bottom">GAME <strong>VIEW PROJECT →</strong></div>
-</a></div>
-</div>
-<div aria-hidden="true" class="portfolio-scroll-status">
-<span class="portfolio-scroll-line"><i data-project-progress=""></i></span>
-<b>01 → 05 / DRAG</b>
-</div>
-</section>
-<!-- Contact -->
-<section class="contact-section" id="contact">
-<div class="contact-shell">
-<header class="contact-heading" data-reveal="">
-<h2>CONTACT</h2>
-<p class="contact-statement">
-            새로운 세계와 규칙을<br/>
-            함께 설계할 이야기가 있다면.
-          </p>
-</header>
-<div class="contact-editorial" data-reveal="" style="--reveal-delay: 90ms;">
-<div aria-hidden="true" class="contact-art">
-<span></span><span></span><span></span>
-<strong>KT</strong>
-</div>
-<div class="contact-labels">
-<span>PRIMARY CONTACT</span>
-<span>OPEN TO COLLABORATION</span>
-</div>
-<a class="contact-email-card" href="mailto:gtw7208@naver.com">
-<span>NAVER MAIL</span>
-<strong>gtw7208@naver.com</strong>
-<b>WRITE TO ME →</b>
-</a>
-<div class="contact-meta">
-<span>GAME DESIGN / DEVELOPMENT</span>
-<span>KR / 2026</span>
-<button class="contact-copy" data-copy-email="gtw7208@naver.com" type="button">COPY EMAIL</button></div>
-</div>
-</div>
-</section>
-</main>
-<footer class="site-footer">
-<p>© 2026 KWAK TAEWOONG</p>
-<a href="#home">BACK TO TOP ↑</a>
-</footer>
 </body>
 </html>
