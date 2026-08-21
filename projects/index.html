@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <script>
-  (() => {try{
+  (() => {try{if('scrollRestoration' in history)history.scrollRestoration='manual';
     let data=null;
     const raw=sessionStorage.getItem('portfolioReturnTransition')||sessionStorage.getItem('portfolioReverseTransition');
     if(raw)data=JSON.parse(raw);
@@ -15,7 +15,7 @@
   </script>
   <style>html,body{margin:0;background:#081113}html.reverse-arrival-pending::before{content:"";position:fixed;inset:0;z-index:9997;background:#081113 var(--transition-image) center/cover no-repeat;pointer-events:none}</style><meta name="theme-color" content="#081113">
   <meta name="description" content="곽태웅 전체 프로젝트 아카이브"><title>ALL PROJECTS — KWAK TAEWOONG</title>
-  <link rel="stylesheet" href="../v33.css"><script defer src="../defaults/site-data.js"></script><script defer src="../v33.js"></script>
+  <link rel="stylesheet" href="../v34.css"><script defer src="../defaults/site-data.js"></script><script defer src="../v34.js"></script>
 </head>
 <body class="archive-body">
   <a class="skip-link" href="#archive-main">본문으로 건너뛰기</a>
@@ -25,6 +25,7 @@
     <a class="site-contact" href="../index.html#contact">CONTACT ↗</a>
   </nav>
   <main id="archive-main" class="archive-main">
+    <a class="archive-back-button" href="../index.html#portfolio" aria-label="메인 WORKS로 돌아가기">← BACK</a>
     <div class="shell">
       <header class="archive-hero"><span class="eyebrow" style="color:rgba(255,255,255,.45)">PROJECT ARCHIVE / 06</span><h1>ALL PROJECTS</h1><p>게임, 데스크톱 제품, 웹 서비스에서 설계하고 구현한 프로젝트를 모았습니다.</p></header>
       <div class="archive-grid" id="archiveGrid"></div>

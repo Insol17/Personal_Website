@@ -1,4 +1,4 @@
-# Portfolio v33 — Admin 사용법
+# Portfolio v34 — Admin 사용법
 
 ## 1. 접속
 
@@ -41,7 +41,7 @@ Admin Publish 결과는 다음 위치에 저장됩니다.
 - `user-content/projects/*.json`
 - `user-content/media/...`
 
-v33 패치 ZIP에는 `user-content/`를 넣지 않습니다.
+v34 패치 ZIP에는 `user-content/`를 넣지 않습니다.
 
 **새 버전은 기존 저장소/폴더 위에 병합해서 덮어쓰세요. 기존 저장소를 삭제하고 새 ZIP만 다시 올리면 `user-content/`도 함께 지워질 수 있습니다.**
 
