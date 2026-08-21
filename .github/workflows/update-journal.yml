@@ -1,27 +1,42 @@
 name: Update Naver Journal
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: '27 18 * * *' # 03:27 KST daily
+    # Once per hour, deliberately away from :00 where GitHub schedule load is often higher.
+    - cron: '17 * * * *'
+
 permissions:
   contents: write
+
+concurrency:
+  group: naver-journal-sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python scripts/sync_naver_journal.py
-      - name: Commit feed only when changed
+      - name: Sync Naver RSS
+        run: python scripts/sync_naver_journal.py
+      - name: Refresh inactivity keepalive when due
+        run: python scripts/refresh_keepalive.py
+      - name: Commit feed / media / keepalive only when changed
+        shell: bash
         run: |
-          if git diff --quiet -- assets/data/journal.json assets/data/journal-media; then
-            echo "No journal changes"
+          if git diff --quiet -- assets/data/journal.json assets/data/journal-media .github/journal-keepalive; then
+            echo "No journal or keepalive changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/journal.json assets/data/journal-media
+          git add assets/data/journal.json assets/data/journal-media .github/journal-keepalive
           git commit -m "chore: sync Naver journal"
-          git push
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

@@ -1,5 +1,5 @@
 window.PORTFOLIO_SITE_DATA = {
-  "version": 31,
+  "version": 33,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
@@ -152,7 +152,7 @@ window.PORTFOLIO_SITE_DATA = {
       "slug": "kinosis",
       "title": "Kinosis",
       "genre": "Film Library · Web Service",
-      "cardImage": "assets/images/projects/kinosis/overview/01.jpg",
+      "cardImage": "assets/images/projects/kinosis/cover.jpg",
       "href": "projects/kinosis.html",
       "visible": true,
       "selected": true
