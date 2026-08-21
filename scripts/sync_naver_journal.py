@@ -57,8 +57,16 @@ def fetch_with_retries(url,accept,referer,attempts=3,timeout=25):
             if attempt<attempts:time.sleep(1.2*attempt)
     raise last
 
+def clean_title(value):
+    # Post titles may intentionally contain literal angle brackets, e.g.
+    # <살굿> 중간 회고 or <BENEDICT of SINS> 개발일지.
+    # They arrive from RSS as decoded text, so treating <...> as HTML
+    # destroys the actual title. Only unescape entities and normalize space.
+    value=html.unescape(html.unescape(value or ''))
+    return re.sub(r'\s+',' ',value).strip()
+
 def title_quality(value):
-    value=clean(value)
+    value=clean_title(value)
     if not value:return -100
     low=value.lower()
     generic={'untitled','리뷰','review','네이버 블로그','blog','movies','games','devlog'}
@@ -70,7 +78,7 @@ def title_quality(value):
 
 def choose_title(rss_title,page_title):
     # RSS title is normally the canonical post title. Page metadata is only a repair fallback.
-    rss_title=clean(rss_title);page_title=clean(page_title)
+    rss_title=clean_title(rss_title);page_title=clean_title(page_title)
     return rss_title if title_quality(rss_title)>=title_quality(page_title) else page_title
 
 class MetaParser(HTMLParser):
@@ -133,7 +141,7 @@ def fetch_post_meta(log_no):
     for url in urls:
         try:
             raw,_=fetch_bytes(url,timeout=18);text=raw.decode('utf-8','replace');parser=MetaParser();parser.feed(text)
-            meta=parser.meta;title=clean(meta.get('og:title') or ''.join(parser.title));desc=clean(meta.get('og:description') or meta.get('description') or '')
+            meta=parser.meta;title=clean_title(meta.get('og:title') or ''.join(parser.title));desc=clean(meta.get('og:description') or meta.get('description') or '')
             image=html.unescape(meta.get('og:image') or '').strip()
             title=re.sub(r'\s*[:|]\s*네이버 블로그\s*$','',title).strip()
             if title or desc or image:return {'title':title,'excerpt':desc,'image':image,'page':url}
@@ -198,7 +206,10 @@ def main():
     for idx,item in enumerate(items,1):
         rss_link=child_text(item,'link') or child_text(item,'guid');log_no=post_id_from(rss_link,child_text(item,'guid'));page=fetch_post_meta(log_no)
         fragments=content_fragments(item);rss_desc=next((f for f in fragments if clean(f)),child_text(item,'description'))
-        title=choose_title(child_text(item,'title'),page.get('title')) or 'Untitled'
+        rss_title=child_text(item,'title')
+        title=choose_title(rss_title,page.get('title')) or 'Untitled'
+        if title != clean_title(rss_title) and clean_title(rss_title):
+            print(f'title repaired: {clean_title(rss_title)!r} -> {title!r}')
         excerpt=page.get('excerpt') or clean(rss_desc)
         categories=child_texts(item,'category');category=choose_category(categories)
         rss_image=first_rss_image(item);remote_image=(page.get('image') if usable_image(page.get('image','')) else '') or rss_image
