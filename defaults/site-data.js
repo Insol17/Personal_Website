@@ -1,5 +1,5 @@
 window.PORTFOLIO_SITE_DATA = {
-  "version": 35,
+  "version": 37,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
