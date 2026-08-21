@@ -1,5 +1,5 @@
-window.PORTFOLIO_SITE_DATA = {
-  "version": 30,
+{
+  "version": 31,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
@@ -118,7 +118,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Deckbuilding Roguelike",
       "cardImage": "assets/images/projects/benedict/cover.jpg",
       "href": "projects/benedict.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "salgut",
@@ -126,7 +127,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Hyper Action FPS",
       "cardImage": "assets/images/projects/salgut/cover.jpg",
       "href": "projects/salgut.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "fernand",
@@ -134,7 +136,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Desktop Workspace",
       "cardImage": "assets/images/projects/fernand/cover.jpg",
       "href": "projects/fernand.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "deco",
@@ -142,7 +145,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Tactical Tower Defense",
       "cardImage": "assets/images/projects/deco/cover.jpg",
       "href": "projects/deco.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "kinosis",
@@ -150,7 +154,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Film Library · Web Service",
       "cardImage": "assets/images/projects/kinosis/overview/01.jpg",
       "href": "projects/kinosis.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "machinator",
@@ -158,7 +163,8 @@ window.PORTFOLIO_SITE_DATA = {
       "genre": "Dieselpunk Narrative",
       "cardImage": "assets/images/projects/machinator/cover.jpg",
       "href": "projects/machinator.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     }
   ],
   "journal": {
@@ -177,4 +183,4 @@ window.PORTFOLIO_SITE_DATA = {
     "linkedin": "https://www.linkedin.com/in/%ED%83%9C%EC%9B%85-%EA%B3%BD-9b1228295/",
     "blog": "https://blog.naver.com/cine_insol"
   }
-};
+}

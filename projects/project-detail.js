@@ -2,13 +2,14 @@ const backButton=document.querySelector('[data-project-back]');
 if(backButton){
   backButton.addEventListener('click',()=>{
     const sameOrigin=(()=>{try{return !!document.referrer && new URL(document.referrer).origin===location.origin}catch{return false}})();
+    try{sessionStorage.removeItem('portfolioTransitionTarget')}catch{}
     if(sameOrigin && history.length>1) history.back();
-    else location.href=backButton.dataset.fallback||'../index.html#portfolio';
+    else location.replace(backButton.dataset.fallback||'../index.html#portfolio');
   });
 }
 
 const detailHero=document.querySelector('.project-detail-hero');
-const DETAIL_SLUG=detailHero?.dataset.projectSlug||'';
+const DETAIL_SLUG=window.PROJECT_PREVIEW_SLUG||detailHero?.dataset.projectSlug||'';
 let projectDetailData=null;
 
 function detailEsc(value=''){
@@ -17,7 +18,10 @@ function detailEsc(value=''){
 function applyProjectDetail(data,site){
   if(!data||!detailHero) return;
   projectDetailData=data;
-  const project=(site?.projects||window.DEFAULT_SITE?.projects||[]).find(p=>p.slug===DETAIL_SLUG);
+  const projects=(site?.projects||window.DEFAULT_SITE?.projects||[]).filter(p=>p.visible!==false);
+  const project=projects.find(p=>p.slug===DETAIL_SLUG);
+  const caseCount=detailHero.querySelector('.project-case-meta strong');
+  if(caseCount){const idx=Math.max(0,projects.findIndex(p=>p.slug===DETAIL_SLUG));caseCount.textContent=`${String(idx+1).padStart(2,'0')} / ${String(Math.max(1,projects.length)).padStart(2,'0')}`;}
   const heroImg=detailHero.querySelector('.project-detail-hero-image');
   if(heroImg&&project?.cardImage){const raw=project.cardImage;heroImg.src=/^(?:https?:|blob:|data:)/.test(raw)?raw:'../'+raw.replace(/^\.\//,'');}
   const heading=detailHero.querySelector('.project-detail-heading');
@@ -69,16 +73,26 @@ function applyProjectDetail(data,site){
 }
 window.applyProjectDetailPreview=(data,site)=>{if(!data||data.slug!==DETAIL_SLUG)return;applyProjectDetail(data,site)};
 
+async function detailFetchJSON(path){
+  const res=await fetch(path,{cache:'no-store'});
+  if(!res.ok) throw new Error(path);
+  return res.json();
+}
+async function detailLoadCascade(paths){
+  for(const path of paths){try{return await detailFetchJSON(path)}catch{}}
+  throw new Error('No project content source');
+}
 async function loadProjectDetail(){
   if(!DETAIL_SLUG)return;
   try{
-    const [detailRes,siteRes]=await Promise.all([
-      fetch(`../content/projects/${DETAIL_SLUG}.json`,{cache:'no-store'}),
-      fetch('../content/site.json',{cache:'no-store'})
+    const [detail,site]=await Promise.all([
+      detailLoadCascade([
+        `../user-content/projects/${DETAIL_SLUG}.json`,
+        `../content/projects/${DETAIL_SLUG}.json`,
+        `../defaults/projects/${DETAIL_SLUG}.json`
+      ]),
+      detailLoadCascade(['../user-content/site.json','../content/site.json','../defaults/site.json']).catch(()=>null)
     ]);
-    if(!detailRes.ok)throw new Error('detail');
-    const detail=await detailRes.json();
-    const site=siteRes.ok?await siteRes.json():null;
     applyProjectDetail(detail,site);
   }catch{}
 }

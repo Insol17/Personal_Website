@@ -1,9 +1,9 @@
 const $=(q,r=document)=>r.querySelector(q);
 const $$=(q,r=document)=>[...r.querySelectorAll(q)];
 const editor=$('#editorPane'), iframe=$('#sitePreview'), toast=$('#toast');
-let site=null, details={}, currentPanel='home', currentProject='benedict', previewMode='home';
-let queuedImages=new Map(), previewImages=new Map(), coverChangedSlugs=new Set(), dirty=false;
-const DRAFT_KEY='portfolioAdminDraftV30';
+let site=null, details={}, currentPanel='home', currentProject='', previewMode='home';
+let queuedImages=new Map(), previewImages=new Map(), coverChangedSlugs=new Set(), newProjects=new Set(), dirty=false, newProjectFormOpen=false, contentSource='defaults';
+const DRAFT_KEY='portfolioAdminDraftV31';
 
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function clone(v){return JSON.parse(JSON.stringify(v));}
@@ -19,10 +19,20 @@ function field(label,path,value,opts={}){
 }
 function panelHead(kicker,title,desc){return `<header class="editor-head"><span class="eyebrow">${esc(kicker)}</span><h1>${esc(title)}</h1><p>${esc(desc)}</p></header>`}
 
+async function loadJSONCascade(paths){
+  for(const path of paths){
+    try{const r=await fetch(path,{cache:'no-store'});if(r.ok)return {data:await r.json(),path}}catch{}
+  }
+  throw new Error('content unavailable');
+}
 async function init(){
-  try{site=await fetch('../content/site.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()})}catch{editor.innerHTML='<div class="editor-loading">content/site.json을 불러오지 못했습니다. GitHub Pages 또는 로컬 서버에서 열어주세요.</div>';return}
-  const draft=localStorage.getItem(DRAFT_KEY);
-  if(draft){try{const d=JSON.parse(draft);if(d.site){site=d.site;details=d.details||{};setDirty(true);showToast('저장된 로컬 Draft를 복원했습니다.')}}catch{}}
+  try{
+    const loaded=await loadJSONCascade(['../user-content/site.json','../content/site.json','../defaults/site.json']);
+    site=loaded.data;contentSource=loaded.path.includes('user-content')?'user-content':loaded.path.includes('/content/')?'legacy-content':'defaults';
+  }catch{editor.innerHTML='<div class="editor-loading">사이트 데이터를 불러오지 못했습니다. GitHub Pages 또는 로컬 서버에서 열어주세요.</div>';return}
+  currentProject=site.projects?.[0]?.slug||'';
+  const draft=localStorage.getItem(DRAFT_KEY)||localStorage.getItem('portfolioAdminDraftV30');
+  if(draft){try{const d=JSON.parse(draft);if(d.site){site=d.site;details=d.details||{};currentProject=site.projects?.[0]?.slug||'';setDirty(true);showToast('저장된 로컬 Draft를 복원했습니다.')}}catch{}}
   setupNav(); setupPreviewControls(); renderPanel(); populateProjectSelect(); sendPreview();
 }
 function setupNav(){
@@ -75,24 +85,58 @@ function renderBackground(){
 }
 function backgroundItem(group,x,i,hasStatus=false){return `<div class="array-item">${field('DATE',`background.${group}.${i}.date`,x.date||'')} ${field('TITLE',`background.${group}.${i}.title`,x.title||'')} ${field('DETAIL',`background.${group}.${i}.detail`,x.detail||'',{textarea:true,rows:3})}${hasStatus?field('STATUS',`background.${group}.${i}.status`,x.status||''):''}<div class="array-actions"><button class="danger" data-remove-group="${group}" data-index="${i}">REMOVE</button></div></div>`}
 
-async function ensureDetail(slug){if(details[slug])return details[slug];try{details[slug]=await fetch(`../content/projects/${slug}.json`,{cache:'no-store'}).then(r=>r.json())}catch{details[slug]={slug,hero:{},overview:{paragraphs:[]},facts:[],pillars:[],chapter:{},features:[]}}return details[slug]}
+function emptyDetail(slug,title='NEW PROJECT',genre=''){
+  return {slug,hero:{kicker:`CASE STUDY / ${genre||'PROJECT'}`,title:title.toUpperCase(),subtitle:title},overview:{heading:'프로젝트 개요',paragraphs:['프로젝트의 문제, 목표와 설계 의도를 입력하세요.']},facts:[{label:'GENRE',value:genre}],pillars:[],chapter:{kicker:'DESIGN / SYSTEM',title:'설계와 구현'},features:[],responsibility:{kicker:'ROLE / RESPONSIBILITY',heading:'담당 작업',intro:'',items:[]},reflection:{heading:'REFLECTION',paragraphs:[]}};
+}
+async function ensureDetail(slug){
+  if(details[slug])return details[slug];
+  const project=site.projects.find(p=>p.slug===slug);
+  try{
+    const loaded=await loadJSONCascade([`../user-content/projects/${slug}.json`,`../content/projects/${slug}.json`,`../defaults/projects/${slug}.json`]);
+    details[slug]=loaded.data;
+  }catch{details[slug]=emptyDetail(slug,project?.title||slug,project?.genre||'')}
+  return details[slug];
+}
 async function renderProjects(){
   if(!site.projects.find(p=>p.slug===currentProject))currentProject=site.projects[0]?.slug||'';
-  const selected=site.projects.find(p=>p.slug===currentProject);
-  const d=await ensureDetail(currentProject);
-  editor.innerHTML=panelHead('CONTENT / ORDER','Projects','⠿ 핸들을 드래그해 공개 순서를 바꿀 수 있습니다. 카드 이미지는 상세 Hero에도 동일하게 사용됩니다.')+
-    `<div class="project-sort" id="projectSort">${site.projects.map(p=>`<div class="project-sort-row ${p.slug===currentProject?'is-selected':''}" draggable="true" data-slug="${esc(p.slug)}"><span class="drag-handle">⠿</span><div><strong>${esc(p.title)}</strong><small>${esc(p.genre)}</small></div><button data-select-project="${esc(p.slug)}">EDIT</button></div>`).join('')}</div>`+
-    `<div class="project-detail-divider"></div><div class="section-card"><div class="section-card-head"><strong>${esc(selected?.title||'PROJECT')} / CARD</strong><button class="mini-button" id="previewThisProject">PREVIEW DETAIL</button></div>
-      <div class="image-field"><div class="image-thumb"><img id="projectThumb" src="${esc(previewImages.get(`project:${currentProject}`)||'../'+(selected?.cardImage||''))}" alt=""></div><label class="file-label">REPLACE COVER<input type="file" id="projectUpload" accept="image/png,image/jpeg,image/webp"></label></div>
-      ${field('TITLE',`projects.${site.projects.indexOf(selected)}.title`,selected?.title||'')}${field('GENRE',`projects.${site.projects.indexOf(selected)}.genre`,selected?.genre||'')}
-      <div class="field toggle-line"><input type="checkbox" id="projectVisible" ${selected?.visible!==false?'checked':''}><label for="projectVisible">PUBLIC / VISIBLE</label></div>
-    </div>`+renderDetailEditor(d);
+  const slug=currentProject;
+  const selected=site.projects.find(p=>p.slug===slug);
+  const d=slug?await ensureDetail(slug):null;
+  if(slug!==currentProject)return renderProjects();
+  const projectOptions=site.projects.map(p=>`<option value="${esc(p.slug)}" ${p.slug===slug?'selected':''}>${esc(p.title)}</option>`).join('');
+  const addForm=newProjectFormOpen?`<div class="section-card new-project-card"><div class="section-card-head"><strong>NEW PROJECT</strong><button class="mini-button" id="cancelNewProject">CANCEL</button></div><div class="field-row">${rawField('TITLE','newProjectTitle','')}${rawField('SLUG','newProjectSlug','')}</div>${rawField('GENRE','newProjectGenre','')}<div class="field-note">SLUG는 URL에 사용됩니다. 영문 소문자/숫자/하이픈만 권장합니다. 생성 즉시 Selected Works와 All Projects에 모두 추가됩니다.</div><button class="primary full-button" id="createNewProject">CREATE PROJECT</button></div>`:'';
+  editor.innerHTML=panelHead('CONTENT / ORDER','Projects','프로젝트 선택, 순서, 공개 여부와 상세 내용을 관리합니다. 새 프로젝트도 코드 없이 추가할 수 있습니다.')+
+    `<div class="project-editor-toolbar"><select id="editProjectSelect" class="editor-select">${projectOptions}</select><button class="mini-button" id="addProjectButton">+ NEW PROJECT</button></div>${addForm}`+
+    `<div class="project-sort" id="projectSort">${site.projects.map(p=>`<div class="project-sort-row ${p.slug===currentProject?'is-selected':''}" data-slug="${esc(p.slug)}"><span class="drag-handle" draggable="true" title="드래그해서 순서 변경">⠿</span><div><strong>${esc(p.title)}</strong><small>${esc(p.genre)}</small></div><button type="button" data-select-project="${esc(p.slug)}">EDIT</button></div>`).join('')}</div>`+
+    (selected&&d?`<div class="project-detail-divider"></div><div class="section-card"><div class="section-card-head"><strong>${esc(selected.title||'PROJECT')} / CARD</strong><button class="mini-button" id="previewThisProject">PREVIEW DETAIL</button></div>
+      <div class="image-field"><div class="image-thumb project-image-thumb"><img id="projectThumb" src="${esc(previewImages.get(`project:${currentProject}`)||'../'+(selected.cardImage||'assets/images/projects/_placeholder.jpg'))}" alt=""></div><label class="file-label">REPLACE COVER<input type="file" id="projectUpload" accept="image/png,image/jpeg,image/webp"></label></div>
+      ${field('TITLE',`projects.${site.projects.indexOf(selected)}.title`,selected.title||'')}${field('GENRE',`projects.${site.projects.indexOf(selected)}.genre`,selected.genre||'')}
+      <div class="project-toggle-grid"><label class="toggle-line"><input type="checkbox" id="projectVisible" ${selected.visible!==false?'checked':''}><span>PUBLIC / ALL PROJECTS</span></label><label class="toggle-line"><input type="checkbox" id="projectSelected" ${selected.selected!==false?'checked':''}><span>SELECTED WORKS</span></label></div>
+    </div>`+renderDetailEditor(d):'<div class="field-note">프로젝트를 추가하거나 선택하세요.</div>');
   bindProjectSort();
+  $('#editProjectSelect')?.addEventListener('change',e=>{currentProject=e.target.value;renderProjects();});
+  $('#addProjectButton')?.addEventListener('click',()=>{newProjectFormOpen=!newProjectFormOpen;renderProjects()});
+  $('#cancelNewProject')?.addEventListener('click',()=>{newProjectFormOpen=false;renderProjects()});
+  $('#newProjectTitle')?.addEventListener('input',e=>{const slugInput=$('#newProjectSlug');if(slugInput&&!slugInput.dataset.touched)slugInput.value=slugify(e.target.value)});
+  $('#newProjectSlug')?.addEventListener('input',e=>e.target.dataset.touched='1');
+  $('#createNewProject')?.addEventListener('click',createProjectFromForm);
   $('#projectUpload')?.addEventListener('change',e=>queueProjectImage(e.target.files[0],selected));
   $('#projectVisible')?.addEventListener('change',e=>{selected.visible=e.target.checked;changed()});
+  $('#projectSelected')?.addEventListener('change',e=>{selected.selected=e.target.checked;changed()});
   $('#previewThisProject')?.addEventListener('click',()=>showProjectPreview(currentProject));
-  bindDetailInputs(d);
+  if(d)bindDetailInputs(d);
   bindPanelInputs();
+}
+function slugify(value=''){
+  const clean=String(value).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  return clean||`project-${Date.now().toString().slice(-6)}`;
+}
+function createProjectFromForm(){
+  const title=$('#newProjectTitle')?.value.trim(),genre=$('#newProjectGenre')?.value.trim();let slug=slugify($('#newProjectSlug')?.value.trim()||title);
+  if(!title){showToast('프로젝트 제목을 입력하세요.');return}
+  if(site.projects.some(p=>p.slug===slug)){showToast('이미 사용 중인 SLUG입니다.');return}
+  const project={slug,title,genre,cardImage:'assets/images/projects/_placeholder.jpg',href:`projects/${slug}.html`,visible:true,selected:true};
+  site.projects.push(project);details[slug]=emptyDetail(slug,title,genre);newProjects.add(slug);currentProject=slug;newProjectFormOpen=false;setDirty();populateProjectSelect();renderProjects();sendPreview();showToast('프로젝트를 추가했습니다. 커버와 상세 내용을 입력한 뒤 Publish하세요.');
 }
 function renderDetailEditor(d){
   const feats=d.features||[], facts=d.facts||[], pillars=d.pillars||[], resp=d.responsibility||null, refl=d.reflection||null;
@@ -134,24 +178,47 @@ function bindDetailInputs(d){
 function bindProjectSort(){
   let dragged='';
   $$('#projectSort .project-sort-row').forEach(row=>{
-    row.addEventListener('dragstart',()=>{dragged=row.dataset.slug;row.classList.add('is-dragging')});row.addEventListener('dragend',()=>row.classList.remove('is-dragging'));
-    row.addEventListener('dragover',e=>e.preventDefault());row.addEventListener('drop',e=>{e.preventDefault();const target=row.dataset.slug;if(!dragged||dragged===target)return;const from=site.projects.findIndex(p=>p.slug===dragged),to=site.projects.findIndex(p=>p.slug===target);const [item]=site.projects.splice(from,1);site.projects.splice(to,0,item);changed();renderProjects();populateProjectSelect()});
+    const handle=$('.drag-handle',row);
+    handle?.addEventListener('dragstart',e=>{dragged=row.dataset.slug;row.classList.add('is-dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',dragged)});
+    handle?.addEventListener('dragend',()=>{row.classList.remove('is-dragging');dragged=''})
+    row.addEventListener('dragover',e=>{if(dragged){e.preventDefault();e.dataTransfer.dropEffect='move'}});
+    row.addEventListener('drop',e=>{e.preventDefault();const target=row.dataset.slug;if(!dragged||dragged===target)return;const from=site.projects.findIndex(p=>p.slug===dragged),to=site.projects.findIndex(p=>p.slug===target);if(from<0||to<0)return;const [item]=site.projects.splice(from,1);site.projects.splice(to,0,item);changed();renderProjects();populateProjectSelect()});
   });
   $$('[data-select-project]',editor).forEach(btn=>btn.addEventListener('click',()=>{currentProject=btn.dataset.selectProject;renderProjects()}));
 }
-function queueProjectImage(file,project){if(!file||!project)return;const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace('jpeg','jpg');const path=`assets/images/projects/${project.slug}/card-v30.${ext}`;queuedImages.set(path,file);if(previewImages.has(`project:${project.slug}`))URL.revokeObjectURL(previewImages.get(`project:${project.slug}`));previewImages.set(`project:${project.slug}`,URL.createObjectURL(file));project.cardImage=path;coverChangedSlugs.add(project.slug);changed();renderProjects();}
-function queueProfileImage(file){if(!file)return;const ext=(file.name.split('.').pop()||'png').toLowerCase().replace('jpeg','jpg');const path=`assets/images/profile-about-v30.${ext}`;queuedImages.set(path,file);if(previewImages.has('profile'))URL.revokeObjectURL(previewImages.get('profile'));previewImages.set('profile',URL.createObjectURL(file));site.about.profileImage=path;changed();renderPanel();}
+function queueProjectImage(file,project){
+  if(!file||!project)return;
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace('jpeg','jpg');
+  const path=`user-content/media/projects/${project.slug}/cover-${Date.now()}.${ext}`;
+  queuedImages.set(path,file);
+  if(previewImages.has(`project:${project.slug}`))URL.revokeObjectURL(previewImages.get(`project:${project.slug}`));
+  previewImages.set(`project:${project.slug}`,URL.createObjectURL(file));
+  project.cardImage=path;coverChangedSlugs.add(project.slug);changed();renderProjects();
+}
+function queueProfileImage(file){
+  if(!file)return;
+  const ext=(file.name.split('.').pop()||'png').toLowerCase().replace('jpeg','jpg');
+  const path=`user-content/media/profile/profile-${Date.now()}.${ext}`;
+  queuedImages.set(path,file);
+  if(previewImages.has('profile'))URL.revokeObjectURL(previewImages.get('profile'));
+  previewImages.set('profile',URL.createObjectURL(file));site.about.profileImage=path;changed();renderPanel();
+}
 
 function renderJournal(){editor.innerHTML=panelHead('NAVER RSS','Journal','글 작성·수정·삭제는 네이버 블로그에서 합니다. 이 사이트는 최신 글을 읽어와 보여줍니다.')+field('BLOG URL','journal.blogUrl',site.journal.blogUrl,{type:'url'})+`<div class="publish-box"><h3>GEMEINSCHAFT → Portfolio</h3><p>GitHub Actions의 RSS 동기화가 네이버 블로그 글을 assets/data/journal.json으로 갱신합니다. 포트폴리오 홈에는 최신 3개만 카드 뉴스 형태로 노출됩니다.</p></div>`;}
 function renderContact(){const c=site.contact;editor.innerHTML=panelHead('LINKS','Contact','공개 사이트 하단의 4개 아이콘 링크를 수정합니다.')+field('EMAIL','contact.email',c.email)+field('GITHUB','contact.github',c.github,{type:'url'})+field('LINKEDIN','contact.linkedin',c.linkedin,{type:'url'})+field('BLOG','contact.blog',c.blog,{type:'url'});}
 function renderPublish(){
   const saved=JSON.parse(sessionStorage.getItem('portfolioGithubSettings')||'{}');
-  editor.innerHTML=panelHead('GITHUB / CONTENTS API','Publish','GitHub Pages 저장소에 JSON과 선택한 이미지만 커밋합니다. 토큰은 저장소 파일에 기록되지 않습니다.')+`
+  editor.innerHTML=panelHead('GITHUB / CONTENTS API','Publish','편집 내용은 코드와 분리된 user-content/에 저장됩니다. 이후 버전을 덮어써도 이 폴더를 삭제하지 않는 한 내용이 유지됩니다.')+`
+  <div class="publish-box"><h3>Content storage</h3><p>현재 로드 소스: <b>${esc(contentSource)}</b><br>Publish하면 user-content/site.json과 user-content/projects/*.json으로 마이그레이션됩니다. v31 이후 업데이트 ZIP은 user-content를 포함하지 않습니다.</p></div>
+  <div class="publish-box"><h3>Backup</h3><p>업데이트 전 JSON 백업을 내려받을 수 있습니다. 새 PC에서도 다시 Import할 수 있습니다.</p><div class="publish-actions"><button class="ghost" id="exportBackup">EXPORT BACKUP</button><label class="ghost import-label">IMPORT BACKUP<input type="file" id="importBackup" accept="application/json"></label></div></div>
   <div class="publish-box"><h3>1. Repository</h3><div class="field-row">${rawField('OWNER','ghOwner',saved.owner||'Insol17')}${rawField('REPOSITORY','ghRepo',saved.repo||'Personal_Website')}</div>${rawField('BRANCH','ghBranch',saved.branch||'main')}</div>
-  <div class="publish-box"><h3>2. GitHub token</h3>${rawField('FINE-GRAINED PAT','ghToken',sessionStorage.getItem('portfolioGithubToken')||'','password')}<p>Fine-grained token은 이 저장소 하나만 선택하고 <b>Contents: Read and write</b> 권한만 주는 것을 권장합니다. 브라우저 탭을 닫으면 토큰을 지울 수 있습니다.</p></div>
-  <div class="publish-box"><h3>3. Publish</h3><p>site.json, 수정한 프로젝트 상세 JSON, 새 이미지가 GitHub에 커밋됩니다. GitHub Pages 배포에는 보통 수십 초 정도 걸립니다.</p><div class="publish-actions"><button class="ghost" id="clearDraft">CLEAR DRAFT</button><button class="primary" id="publishNow">PUBLISH TO GITHUB</button></div></div>
+  <div class="publish-box"><h3>2. GitHub token</h3>${rawField('FINE-GRAINED PAT','ghToken',sessionStorage.getItem('portfolioGithubToken')||'','password')}<p>Fine-grained token은 이 저장소 하나만 선택하고 <b>Contents: Read and write</b> 권한만 주는 것을 권장합니다.</p></div>
+  <div class="publish-box"><h3>3. Publish</h3><p>사이트 데이터, 모든 프로젝트 상세 JSON, 새 이미지와 새 프로젝트 HTML을 GitHub에 발행합니다.</p><div class="publish-actions"><button class="ghost" id="clearDraft">CLEAR DRAFT</button><button class="primary" id="publishNow">PUBLISH TO GITHUB</button></div></div>
   <div class="status-log" id="publishLog">Ready.</div>`;
-  $('#clearDraft')?.addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);showToast('로컬 Draft를 삭제했습니다.')});$('#publishNow')?.addEventListener('click',publishGithub);
+  $('#clearDraft')?.addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);showToast('로컬 Draft를 삭제했습니다.')});
+  $('#publishNow')?.addEventListener('click',publishGithub);
+  $('#exportBackup')?.addEventListener('click',exportBackup);
+  $('#importBackup')?.addEventListener('change',e=>importBackup(e.target.files?.[0]));
 }
 function rawField(label,id,value,type='text'){return `<div class="field"><label>${esc(label)}</label><input type="${type}" id="${id}" value="${esc(value)}"></div>`}
 
@@ -167,25 +234,56 @@ function previewSiteData(){const d=clone(site);if(previewImages.has('profile'))d
 function sendPreview(){if(!iframe?.contentWindow)return;iframe.contentWindow.postMessage({type:'portfolio-preview-data',payload:previewSiteData()},'*');if(previewMode!=='home')sendProjectPreview()}
 function sendProjectPreview(){if(previewMode==='home'||!details[previewMode])return;iframe.contentWindow?.postMessage({type:'project-preview-data',payload:details[previewMode],site:previewSiteData()},'*')}
 function showHomePreview(){previewMode='home';$('#previewHome').classList.add('is-active');$('#previewProject').value='';iframe.src='../index.html?adminPreview=1'}
-async function showProjectPreview(slug){previewMode=slug;currentProject=slug;await ensureDetail(slug);$('#previewHome').classList.remove('is-active');$('#previewProject').value=slug;iframe.src=`../projects/${slug}.html?adminPreview=1`}
+async function showProjectPreview(slug){previewMode=slug;currentProject=slug;await ensureDetail(slug);$('#previewHome').classList.remove('is-active');$('#previewProject').value=slug;iframe.src=`../projects/_preview.html?project=${encodeURIComponent(slug)}&adminPreview=1`}
 
 function bytesToBase64(bytes){let out='';const step=0x8000;for(let i=0;i<bytes.length;i+=step)out+=String.fromCharCode(...bytes.subarray(i,i+step));return btoa(out)}
 function textBase64(text){return bytesToBase64(new TextEncoder().encode(text))}
 async function githubGet(owner,repo,path,branch,token){const r=await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${path}?ref=${encodeURIComponent(branch)}`,{headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28'}});if(r.status===404)return null;if(!r.ok)throw new Error(`${path}: ${r.status} ${await r.text()}`);return r.json()}
 function base64Text(value=''){const clean=value.replace(/\n/g,'');const bin=atob(clean);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes)}
 async function githubPut(owner,repo,path,branch,token,content,message){const existing=await githubGet(owner,repo,path,branch,token);const body={message,content,branch};if(existing?.sha)body.sha=existing.sha;const r=await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${path}`,{method:'PUT',headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error(`${path}: ${r.status} ${await r.text()}`);return r.json()}
+async function exportBackup(){
+  await Promise.all((site.projects||[]).map(p=>ensureDetail(p.slug)));
+  const payload={schema:31,exportedAt:new Date().toISOString(),site,details};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`portfolio-content-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('콘텐츠 백업을 저장했습니다.');
+}
+async function importBackup(file){
+  if(!file)return;
+  try{
+    const payload=JSON.parse(await file.text());if(!payload.site||!payload.details)throw new Error('invalid');
+    site=payload.site;details=payload.details;currentProject=site.projects?.[0]?.slug||'';setDirty();populateProjectSelect();renderPanel();sendPreview();showToast('백업을 불러왔습니다. Publish해야 사이트에 반영됩니다.');
+  }catch{showToast('올바른 v31 콘텐츠 백업이 아닙니다.');}
+}
+async function projectTemplateHTML(project){
+  const r=await fetch('../projects/_template.html',{cache:'no-store'});if(!r.ok)throw new Error('projects/_template.html을 읽지 못했습니다.');let html=await r.text();
+  const cover='../'+(project.cardImage||'assets/images/projects/_placeholder.jpg').replace(/^\.\//,'');
+  return html.replaceAll('__SLUG__',project.slug).replaceAll('__TITLE__',project.title).replaceAll('__TITLE_UPPER__',project.title.toUpperCase()).replaceAll('__GENRE__',project.genre||'PROJECT').replaceAll('__COVER__',cover);
+}
 async function publishGithub(){
   const owner=$('#ghOwner').value.trim(),repo=$('#ghRepo').value.trim(),branch=$('#ghBranch').value.trim()||'main',token=$('#ghToken').value.trim(),log=$('#publishLog');
   if(!owner||!repo||!token){showToast('Repository와 GitHub token을 입력하세요.');return}
   sessionStorage.setItem('portfolioGithubSettings',JSON.stringify({owner,repo,branch}));sessionStorage.setItem('portfolioGithubToken',token);
   const write=t=>{log.textContent+=`\n${t}`;log.scrollTop=log.scrollHeight};log.textContent='Publishing…';$('#publishNow').disabled=true;
   try{
-    await githubPut(owner,repo,'content/site.json',branch,token,textBase64(JSON.stringify(site,null,2)+'\n'),'Update portfolio content (site editor)');write('✓ content/site.json');
-    await githubPut(owner,repo,'content/site-data.js',branch,token,textBase64('window.PORTFOLIO_SITE_DATA = '+JSON.stringify(site,null,2)+';\n'),'Update portfolio runtime data (site editor)');write('✓ content/site-data.js');
-    for(const p of site.projects){const d=details[p.slug];if(!d)continue;await githubPut(owner,repo,`content/projects/${p.slug}.json`,branch,token,textBase64(JSON.stringify(d,null,2)+'\n'),`Update ${p.title} case study (site editor)`);write(`✓ content/projects/${p.slug}.json`)}
+    await Promise.all((site.projects||[]).map(p=>ensureDetail(p.slug)));
+    // Publish dependencies first; site.json is committed last so the public site never points at half-created content.
     for(const [path,file] of queuedImages){const bytes=new Uint8Array(await file.arrayBuffer());await githubPut(owner,repo,path,branch,token,bytesToBase64(bytes),`Update portfolio image: ${path.split('/').pop()}`);write(`✓ ${path}`)}
-    for(const slug of coverChangedSlugs){const p=site.projects.find(x=>x.slug===slug);if(!p)continue;const htmlPath=`projects/${slug}.html`;const current=await githubGet(owner,repo,htmlPath,branch,token);if(!current?.content)continue;let html=base64Text(current.content);const nextSrc=`../${p.cardImage}`;html=html.replace(/(<img(?=[^>]*class="project-detail-hero-image")[^>]*\ssrc=")[^"]*(")/,`$1${nextSrc}$2`);await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} detail hero image (site editor)`);write(`✓ ${htmlPath} hero image`) }
-    localStorage.removeItem(DRAFT_KEY);queuedImages.clear();coverChangedSlugs.clear();setDirty(false);write('\nDone. GitHub Pages deployment will follow.');showToast('GitHub에 발행했습니다.');
+    for(const p of site.projects){
+      const d=details[p.slug]||emptyDetail(p.slug,p.title,p.genre);
+      await githubPut(owner,repo,`user-content/projects/${p.slug}.json`,branch,token,textBase64(JSON.stringify(d,null,2)+'\n'),`Update ${p.title} case study`);write(`✓ user-content/projects/${p.slug}.json`);
+    }
+    for(const p of site.projects){
+      const htmlPath=p.href||`projects/${p.slug}.html`;const existing=await githubGet(owner,repo,htmlPath,branch,token);
+      if(!existing){
+        const html=await projectTemplateHTML(p);await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Create ${p.title} project page`);write(`✓ ${htmlPath} (created)`);
+      }else if(coverChangedSlugs.has(p.slug)&&existing.content){
+        let html=base64Text(existing.content);const nextSrc='../'+p.cardImage.replace(/^\.\//,'');
+        html=html.replace(/(<img(?=[^>]*class="project-detail-hero-image")[^>]*\ssrc=")[^"]*(")/,`$1${nextSrc}$2`);
+        await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} detail hero image`);write(`✓ ${htmlPath} hero image`);
+      }
+    }
+    await githubPut(owner,repo,'user-content/site.json',branch,token,textBase64(JSON.stringify(site,null,2)+'\n'),'Update portfolio user content');write('✓ user-content/site.json (final)');
+    localStorage.removeItem(DRAFT_KEY);queuedImages.clear();coverChangedSlugs.clear();newProjects.clear();contentSource='user-content';setDirty(false);write('\nDone. GitHub Pages deployment will follow.');showToast('GitHub에 발행했습니다.');
   }catch(err){write(`\nERROR: ${err.message}`);showToast('발행 실패 — 로그를 확인하세요.')}finally{$('#publishNow').disabled=false}
 }
 

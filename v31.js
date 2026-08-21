@@ -1,5 +1,5 @@
 const DEFAULT_SITE = {
-  "version": 30,
+  "version": 31,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
@@ -118,7 +118,8 @@ const DEFAULT_SITE = {
       "genre": "Deckbuilding Roguelike",
       "cardImage": "assets/images/projects/benedict/cover.jpg",
       "href": "projects/benedict.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "salgut",
@@ -126,7 +127,8 @@ const DEFAULT_SITE = {
       "genre": "Hyper Action FPS",
       "cardImage": "assets/images/projects/salgut/cover.jpg",
       "href": "projects/salgut.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "fernand",
@@ -134,7 +136,8 @@ const DEFAULT_SITE = {
       "genre": "Desktop Workspace",
       "cardImage": "assets/images/projects/fernand/cover.jpg",
       "href": "projects/fernand.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "deco",
@@ -142,7 +145,8 @@ const DEFAULT_SITE = {
       "genre": "Tactical Tower Defense",
       "cardImage": "assets/images/projects/deco/cover.jpg",
       "href": "projects/deco.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "kinosis",
@@ -150,7 +154,8 @@ const DEFAULT_SITE = {
       "genre": "Film Library · Web Service",
       "cardImage": "assets/images/projects/kinosis/overview/01.jpg",
       "href": "projects/kinosis.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     },
     {
       "slug": "machinator",
@@ -158,7 +163,8 @@ const DEFAULT_SITE = {
       "genre": "Dieselpunk Narrative",
       "cardImage": "assets/images/projects/machinator/cover.jpg",
       "href": "projects/machinator.html",
-      "visible": true
+      "visible": true,
+      "selected": true
     }
   ],
   "journal": {
@@ -210,12 +216,21 @@ function stripHTML(value=''){
   const tmp=document.createElement('div'); tmp.innerHTML=value; return (tmp.textContent||'').replace(/\s+/g,' ').trim();
 }
 
+async function fetchJSON(path){
+  const res=await fetch(ROOT+path,{cache:'no-store'});
+  if(!res.ok) throw new Error(path);
+  return res.json();
+}
+async function loadJSONCascade(paths){
+  for(const path of paths){
+    try{return await fetchJSON(path)}catch{}
+  }
+  throw new Error('No content source available');
+}
 async function loadSiteData(){
   try{
-    const res=await fetch(ROOT+'content/site.json',{cache:'no-store'});
-    if(!res.ok) throw new Error('site data');
-    SITE_DATA=await res.json();
-  }catch{ /* site-data.js / embedded fallback stays available */ }
+    SITE_DATA=await loadJSONCascade(['user-content/site.json','content/site.json','defaults/site.json']);
+  }catch{ /* defaults/site-data.js / embedded fallback remains available */ }
   applySiteContent(SITE_DATA);
 }
 
@@ -255,10 +270,10 @@ function applyAbout(about){
 
 function projectCard(p, archive=false){
   const href=archive ? p.href.replace(/^projects\//,'') : p.href;
-  const img=archive ? '../'+p.cardImage : asset(p.cardImage);
+  const img=asset(p.cardImage||'assets/images/projects/_placeholder.jpg');
   return `<article class="project-card" data-project="${esc(p.slug)}">
-    <a class="project-card-link project-transition-link" href="${esc(href)}" aria-label="${esc(p.title)} 상세 보기" data-project="${esc(p.slug)}">
-      <img class="project-card-image" src="${esc(img)}" alt="${esc(p.title)} 프로젝트 대표 이미지" loading="lazy" decoding="async">
+    <a class="project-card-link project-transition-link" href="${esc(href)}" aria-label="${esc(p.title)} 상세 보기" data-project="${esc(p.slug)}" draggable="false">
+      <img class="project-card-image" src="${esc(img)}" alt="${esc(p.title)} 프로젝트 대표 이미지" loading="lazy" decoding="async" draggable="false">
       <div class="project-card-shade"></div>
       <div class="project-card-copy"><h3>${esc(p.title)}</h3><p>${esc(p.genre)}</p></div>
     </a>
@@ -266,8 +281,8 @@ function projectCard(p, archive=false){
 }
 function renderProjects(projects){
   const rail=document.querySelector('#projectRail'); if(!rail) return;
-  const visible=projects.filter(p=>p.visible!==false);
-  rail.innerHTML=visible.map(p=>projectCard(p,false)).join('');
+  const selected=projects.filter(p=>p.visible!==false && p.selected!==false);
+  rail.innerHTML=selected.map(p=>projectCard(p,false)).join('');
   bindProjectTransitions(rail);
   dragController?.destroy?.();
   dragController=bindDragRail(document.querySelector('#worksStage'),rail,document.querySelector('#projectProgress'));
@@ -280,7 +295,8 @@ function renderArchive(projects){
 
 function bindDragRail(stage,rail,progress){
   if(!stage||!rail) return null;
-  let x=0,startPointer=0,startX=0,max=0,dragging=false,moved=false,velocity=0,lastX=0,lastT=0,raf=0,cardStep=240;
+  let x=0,startPointer=0,startX=0,max=0,pointerDown=false,dragging=false,lastX=0,lastT=0,cardStep=240,activePointer=null,suppressClickUntil=0,startIndex=0,lastDelta=0;
+  const threshold=7;
   const clamp=v=>Math.max(-max,Math.min(0,v));
   const cardMetrics=()=>{
     const cards=[...rail.children]; const gap=parseFloat(getComputedStyle(rail).columnGap||getComputedStyle(rail).gap||'14')||14;
@@ -293,39 +309,46 @@ function bindDragRail(stage,rail,progress){
     rail.style.width=`${Math.max(w,total)}px`;
     max=Math.max(0,total-w);
     x=clamp(x); draw();
+    stage.classList.toggle('has-overflow',max>1);
   };
   const draw=()=>{
     rail.style.transform=`translate3d(${x}px,0,0)`;
     const ratio=max?Math.abs(x)/max:0;
     if(progress) progress.style.transform=`scaleX(${max?Math.max(.16,ratio):1})`;
   };
-  const settle=()=>{
-    if(!max) return;
-    const index=Math.round(Math.abs(x)/cardStep); x=clamp(-index*cardStep); rail.classList.add('is-settling'); draw();
-    setTimeout(()=>rail.classList.remove('is-settling'),420);
-  };
-  const inertia=()=>{
-    cancelAnimationFrame(raf);
-    const tick=()=>{ velocity*=.91; x=clamp(x+velocity*16); draw(); if(Math.abs(velocity)>.03 && x<0 && x>-max) raf=requestAnimationFrame(tick); else settle(); };
-    raf=requestAnimationFrame(tick);
+  const settleTo=index=>{
+    if(!max){x=0;draw();return;}
+    const maxIndex=Math.ceil(max/cardStep);
+    const safe=Math.max(0,Math.min(maxIndex,index));
+    x=clamp(-safe*cardStep);rail.classList.add('is-settling');draw();
+    clearTimeout(settleTo.t);settleTo.t=setTimeout(()=>rail.classList.remove('is-settling'),360);
   };
   const down=e=>{
     if(e.pointerType==='mouse'&&e.button!==0) return;
-    cancelAnimationFrame(raf); dragging=true;moved=false;startPointer=e.clientX;startX=x;lastX=e.clientX;lastT=performance.now();velocity=0;stage.classList.add('is-dragging');stage.setPointerCapture?.(e.pointerId);
+    pointerDown=true;dragging=false;activePointer=e.pointerId;startPointer=e.clientX;startX=x;lastX=e.clientX;lastT=performance.now();lastDelta=0;startIndex=Math.round(Math.abs(x)/cardStep);
   };
   const move=e=>{
-    if(!dragging) return; const dx=e.clientX-startPointer; if(Math.abs(dx)>5)moved=true;
-    x=clamp(startX+dx); const now=performance.now(),dt=Math.max(1,now-lastT);velocity=(e.clientX-lastX)/dt;lastX=e.clientX;lastT=now;draw();
+    if(!pointerDown||e.pointerId!==activePointer)return;
+    const dx=e.clientX-startPointer;lastDelta=dx;
+    if(!dragging&&Math.abs(dx)>=threshold){dragging=true;stage.classList.add('is-dragging');try{stage.setPointerCapture(e.pointerId)}catch{}}
+    if(!dragging)return;
+    e.preventDefault();x=clamp(startX+dx);lastX=e.clientX;lastT=performance.now();draw();
   };
   const up=e=>{
-    if(!dragging)return;dragging=false;stage.classList.remove('is-dragging');try{stage.releasePointerCapture(e.pointerId)}catch{}
-    if(moved) inertia(); else settle();
+    if(!pointerDown||e.pointerId!==activePointer)return;
+    const wasDragging=dragging;pointerDown=false;dragging=false;activePointer=null;stage.classList.remove('is-dragging');try{stage.releasePointerCapture(e.pointerId)}catch{}
+    if(wasDragging){
+      suppressClickUntil=performance.now()+260;
+      if(Math.abs(lastDelta)>=45){const steps=Math.max(1,Math.round(Math.abs(lastDelta)/cardStep));settleTo(startIndex+(lastDelta<0?steps:-steps));}
+      else settleTo(Math.round(Math.abs(x)/cardStep));
+    }
   };
-  const clickCapture=e=>{ if(moved){ e.preventDefault();e.stopPropagation();moved=false; } };
-  const key=e=>{ if(e.key==='ArrowRight'){e.preventDefault();x=clamp(x-cardStep);settle();} if(e.key==='ArrowLeft'){e.preventDefault();x=clamp(x+cardStep);settle();} };
-  stage.addEventListener('pointerdown',down);stage.addEventListener('pointermove',move);stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('click',clickCapture,true);rail.addEventListener('keydown',key);
+  const clickCapture=e=>{if(performance.now()<suppressClickUntil){e.preventDefault();e.stopPropagation();}};
+  const key=e=>{if(e.key==='ArrowRight'){e.preventDefault();settleTo(Math.round(Math.abs(x)/cardStep)+1)}if(e.key==='ArrowLeft'){e.preventDefault();settleTo(Math.round(Math.abs(x)/cardStep)-1)}};
+  const nativeDrag=e=>e.preventDefault();
+  stage.addEventListener('pointerdown',down);stage.addEventListener('pointermove',move,{passive:false});stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('click',clickCapture,true);stage.addEventListener('dragstart',nativeDrag);rail.addEventListener('keydown',key);
   const ro=new ResizeObserver(cardMetrics);ro.observe(stage);cardMetrics();
-  return {destroy(){cancelAnimationFrame(raf);ro.disconnect();stage.removeEventListener('pointerdown',down);stage.removeEventListener('pointermove',move);stage.removeEventListener('pointerup',up);stage.removeEventListener('pointercancel',up);stage.removeEventListener('click',clickCapture,true);rail.removeEventListener('keydown',key);}};
+  return {destroy(){clearTimeout(settleTo.t);ro.disconnect();stage.removeEventListener('pointerdown',down);stage.removeEventListener('pointermove',move);stage.removeEventListener('pointerup',up);stage.removeEventListener('pointercancel',up);stage.removeEventListener('click',clickCapture,true);stage.removeEventListener('dragstart',nativeDrag);rail.removeEventListener('keydown',key);}};
 }
 
 function renderBackground(bg){
@@ -381,7 +404,11 @@ function renderContact(c){
   root.innerHTML=`<div class="contact-kicker">CONTACT / OPEN FOR CONVERSATION</div><h2><span>${esc(head[0]||'')}</span><span>${esc(head[1]||'')}</span></h2><div class="contact-actions">${links.map(([label,href,icon])=>`<a class="contact-icon-link" href="${esc(href)}" ${href.startsWith('mailto:')?'':'target="_blank" rel="noreferrer"'}><span class="contact-icon">${icon}</span><span>${label}</span><b>↗</b></a>`).join('')}</div>`;
 }
 
-function supportsCrossDocumentViewTransition(){return false;}
+function cleanupProjectTransition(){
+  document.querySelectorAll('.transition-clone,.transition-shade').forEach(el=>el.remove());
+  document.documentElement.classList.remove('project-transition-active');
+  document.querySelectorAll('.project-card.is-leaving').forEach(el=>el.classList.remove('is-leaving'));
+}
 function bindProjectTransitions(scope=document){
   scope.querySelectorAll('.project-transition-link').forEach(link=>{
     if(link.dataset.transitionBound)return;link.dataset.transitionBound='1';
@@ -389,15 +416,28 @@ function bindProjectTransitions(scope=document){
       if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
       const image=link.querySelector('.project-card-image');if(!image)return;
       if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-      document.querySelectorAll('.project-card-image').forEach(img=>img.style.viewTransitionName='none');image.style.viewTransitionName='project-cover';
-      if(supportsCrossDocumentViewTransition())return;
-      event.preventDefault();const rect=image.getBoundingClientRect();const clone=image.cloneNode(true);clone.removeAttribute('style');clone.className='transition-clone';
-      Object.assign(clone.style,{left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`});const shade=document.createElement('div');shade.className='transition-shade';document.body.append(shade,clone);
-      requestAnimationFrame(()=>{shade.classList.add('is-on');Object.assign(clone.style,{left:'0px',top:'0px',width:'100vw',height:'100vh',borderRadius:'0px'});});setTimeout(()=>location.href=link.href,560);
+      event.preventDefault();cleanupProjectTransition();
+      const rect=image.getBoundingClientRect();
+      const clone=image.cloneNode(true);clone.removeAttribute('style');clone.removeAttribute('loading');clone.removeAttribute('draggable');clone.className='transition-clone';
+      Object.assign(clone.style,{left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,borderRadius:getComputedStyle(image).borderRadius||'12px'});
+      const shade=document.createElement('div');shade.className='transition-shade';
+      document.documentElement.classList.add('project-transition-active');link.closest('.project-card')?.classList.add('is-leaving');
+      document.body.append(shade,clone);
+      // Force the browser to commit the source geometry before animating to full screen.
+      clone.getBoundingClientRect();getComputedStyle(clone).transform;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        shade.classList.add('is-on');clone.classList.add('is-expanding');
+        Object.assign(clone.style,{left:'0px',top:'0px',width:'100vw',height:'100vh',borderRadius:'0px'});
+      }));
+      const slug=link.dataset.project||'';
+      try{sessionStorage.setItem('portfolioTransitionTarget',slug)}catch{}
+      setTimeout(()=>{location.assign(link.href)},690);
     });
   });
 }
 window.bindProjectTransitions=bindProjectTransitions;
+window.addEventListener('pageshow',cleanupProjectTransition);
+window.addEventListener('pagehide',()=>{ /* BFCache restores are cleaned on pageshow. */ });
 
 function bindReveal(){
   const els=[...document.querySelectorAll('[data-reveal]')];if(!els.length)return;

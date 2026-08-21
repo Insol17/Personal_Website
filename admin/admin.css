@@ -7,3 +7,20 @@
 .preview-pane{min-width:0;display:grid;grid-template-rows:42px 1fr;background:#111}.preview-bar{display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;border-bottom:1px solid #222;background:#090d0e;color:#6f7c79;font:600 8px/1 var(--mono);letter-spacing:.1em}.preview-bar>div{display:flex;gap:6px;align-items:center}.tiny{padding:7px 10px}.tiny.is-active{background:#e8ece9;color:#111;border-color:#e8ece9}.tiny-select{max-width:160px;border:1px solid var(--line);border-radius:999px;background:#0d1517;padding:6px 9px;color:#a8b0ae;font:600 7px/1 var(--mono)}#sitePreview{width:100%;height:100%;border:0;background:#fff}
 .toast{position:fixed;z-index:100;right:18px;bottom:18px;max-width:360px;padding:11px 14px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:#132124;color:#eaf0ed;font-size:11px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.25s}.toast.is-on{opacity:1;transform:none}
 @media(max-width:1150px){.admin-shell{grid-template-columns:145px 390px 1fr}.admin-brand span{display:none}}@media(max-width:850px){body{overflow:auto}.admin-shell{height:auto;grid-template-columns:1fr}.admin-nav{display:none}.editor-pane{min-height:calc(100vh - 58px);border:0}.preview-pane{height:70vh}.admin-topbar{position:sticky;top:0;z-index:20}}
+
+/* V31 project management + durable content */
+.project-editor-toolbar{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:14px}
+.editor-select{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:#101b1e;padding:10px 11px;color:#eef2ef;font-size:11px;outline:none}
+.editor-select:focus{border-color:#759b95;box-shadow:0 0 0 2px rgba(117,155,149,.11)}
+.project-sort-row{cursor:default}
+.drag-handle{display:grid;place-items:center;width:26px;height:30px;border-radius:5px;cursor:grab;user-select:none;-webkit-user-select:none}
+.drag-handle:hover{background:rgba(255,255,255,.06);color:#b8c7c4}.drag-handle:active{cursor:grabbing}
+.project-image-thumb{aspect-ratio:2/3;height:130px;width:87px}
+.project-toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.toggle-line{min-height:38px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#101b1e;color:#9ba7a5;font:600 8px/1.2 var(--mono);letter-spacing:.06em}
+.toggle-line span{cursor:pointer}.toggle-line input{margin:0;flex:0 0 auto}
+.new-project-card{border-color:rgba(119,164,156,.52);background:#102023}
+.full-button{width:100%;margin-top:12px;min-height:38px}
+.import-label{display:flex;align-items:center;justify-content:center;cursor:pointer}.import-label input{display:none}
+.publish-box b{color:#c6d4d1;font-weight:600}
+@media(max-width:520px){.project-toggle-grid,.project-editor-toolbar{grid-template-columns:1fr}.project-image-thumb{height:120px}}
