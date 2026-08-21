@@ -1,0 +1,54 @@
+{
+  "slug": "deco",
+  "hero": {
+    "kicker": "04 / Tactical Tower Defense",
+    "title": "DE.CO",
+    "subtitle": "De.Co"
+  },
+  "overview": {
+    "heading": "프로젝트 개요",
+    "paragraphs": [
+      "De.Co는 제한된 자원으로 방어선을 구축하고 변화하는 적 웨이브에 대응하는 타워디펜스 프로젝트입니다. 타워 배치, 경로 통제, 강화 우선순위가 매 순간 다른 선택을 만들도록 설계합니다."
+    ]
+  },
+  "facts": [
+    {
+      "label": "TYPE",
+      "value": "게임 디자인 프로젝트"
+    },
+    {
+      "label": "ROLE",
+      "value": "Game Design"
+    },
+    {
+      "label": "GENRE",
+      "value": "Tower Defense"
+    },
+    {
+      "label": "STATUS",
+      "value": "Concept Development"
+    }
+  ],
+  "pillars": [
+    {
+      "no": "01",
+      "title": "방어선 설계",
+      "body": "타워의 배치, 사거리와 적 이동 경로를 결합해 공간 자체가 핵심 전략 자원이 되도록 설계합니다."
+    },
+    {
+      "no": "02",
+      "title": "웨이브 대응",
+      "body": "적 구성과 등장 순서를 변화시켜 동일한 방어 조합만 반복해서 사용할 수 없도록 구성합니다."
+    },
+    {
+      "no": "03",
+      "title": "자원 의사결정",
+      "body": "설치, 강화와 재배치 사이의 비용을 조절해 한정된 자원의 우선순위를 판단하게 합니다."
+    }
+  ],
+  "chapter": {
+    "kicker": "",
+    "title": ""
+  },
+  "features": []
+}

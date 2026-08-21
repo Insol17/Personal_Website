@@ -1,53 +1,134 @@
 <!doctype html>
-<html lang="ko"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#091113"><meta name="description" content="게임 디자이너 / 개발자 곽태웅 포트폴리오"><title>KWAK TAEWOONG — Game Designer / Developer</title>
-<link rel="preload" as="image" href="assets/video/liquid-poster.webp" fetchpriority="high">
-<style>
-:root{--ink:#111718;--paper:#eef0ed;--dark:#091113;--dark2:#0e1719;--muted:#667173;--line:rgba(17,27,29,.14);--lineD:rgba(255,255,255,.14);--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(18px,3vw,46px);--max:1540px;--latin:"Helvetica Neue",Arial,sans-serif;--ko:"Pretendard Variable","SUIT Variable","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--dark)}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ko);-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}img{display:block;width:100%;height:100%;object-fit:cover}h1,h2,h3,p{margin:0}.mono{font-family:Consolas,"SFMono-Regular",monospace;letter-spacing:.08em;text-transform:uppercase}.section{padding:clamp(90px,10vw,150px) var(--pad)}.shell{width:min(var(--max),100%);margin:auto}.section-head{text-align:center;max-width:800px;margin:0 auto clamp(48px,6vw,76px)}.eyebrow{font:600 9px/1.2 Consolas,monospace;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.section-head h2{margin-top:17px;font:400 clamp(54px,7vw,104px)/.86 var(--latin);letter-spacing:-.065em}.section-head p{max-width:620px;margin:24px auto 0;color:var(--muted);font-size:14px;line-height:1.75}
-.site-nav{position:fixed;z-index:1000;top:18px;left:50%;transform:translateX(-50%);width:min(930px,calc(100% - var(--pad)*2));min-height:50px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:7px 9px 7px 16px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(8,14,15,.38);color:#fff;backdrop-filter:blur(10px);transition:.35s}.site-nav.is-light{background:rgba(239,241,238,.9);border-color:rgba(0,0,0,.13);color:#111718}.brand{justify-self:start;width:max-content;font:600 10px/1 Consolas,monospace;letter-spacing:.08em}.nav-links{display:flex;gap:30px;font:500 9px/1 Consolas,monospace}.nav-links a,.contact-link{opacity:.7}.nav-links a:hover,.contact-link:hover{opacity:1}.contact-link{justify-self:end;width:max-content;border:1px solid currentColor;border-radius:999px;padding:10px 14px;font:500 9px/1 Consolas,monospace}
-.hero{position:relative;min-height:100svh;overflow:hidden;background:#07100f;color:#fff;isolation:isolate}.liquid-video{position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover}.hero:after{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at center,transparent 16%,rgba(0,0,0,.1) 60%,rgba(0,0,0,.28) 100%)}.hero-inner{min-height:100svh;display:grid;place-items:center;padding:110px 20px 60px;text-align:center}.hero-title-block{display:inline-grid;justify-items:start;text-align:left}.hero h1{font:400 clamp(76px,8.8vw,144px)/.82 var(--latin);letter-spacing:-.055em;text-align:left}.hero h1 span{display:block;width:max-content}.hero p{justify-self:center;text-align:center;margin-top:30px;color:rgba(255,255,255,.73);font-size:15px}.scroll-cue{position:absolute;bottom:23px;left:50%;transform:translateX(-50%);display:grid;gap:7px;place-items:center;color:rgba(255,255,255,.47);font:500 8px/1 Consolas,monospace;letter-spacing:.14em}.scroll-cue b{font:300 14px/1 Arial}
-.about{background:radial-gradient(circle at 50% 0%,rgba(97,135,129,.18),transparent 31%),linear-gradient(#e8ece8,#f2f3f0)}.about-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,380px) minmax(0,1fr);gap:clamp(34px,6vw,92px);align-items:center;max-width:1240px;margin:auto}.about-column{min-width:0}.about-column.left{text-align:right}.about-column.right{text-align:left}.about-kicker{font:600 9px/1 Consolas,monospace;letter-spacing:.12em;color:#6e7b7b}.about-column h3{margin-top:18px;font-size:clamp(30px,3vw,46px);line-height:1.16;letter-spacing:-.045em;font-weight:500}.about-column p{margin-top:20px;font-size:14px;line-height:1.85;color:#566163}.portrait-wrap{justify-self:center;width:min(360px,82vw)}.portrait{position:relative;height:clamp(340px,27vw,380px);overflow:hidden;border-bottom:1px solid rgba(17,27,29,.13);background:radial-gradient(circle at 50% 47%,rgba(90,132,126,.18),transparent 58%)}.portrait:before{content:"";position:absolute;left:50%;top:52px;width:310px;height:310px;transform:translateX(-50%);border:1px solid rgba(54,98,93,.22);border-radius:50%}.portrait img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;object-position:50% 0}.portrait-caption{text-align:center;margin-top:18px}.portrait-caption strong{display:block;font:500 26px/1 var(--latin);letter-spacing:-.035em}.portrait-caption span{display:block;margin-top:7px;color:#6d7878;font:500 9px/1 Consolas,monospace;letter-spacing:.1em}.fact-list{display:grid;gap:0;margin-top:22px;border-top:1px solid var(--line)}.fact{display:grid;grid-template-columns:88px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.fact dt{color:#7b8585;font:500 9px/1.4 Consolas,monospace;letter-spacing:.08em}.fact dd{margin:0}.about-values{max-width:1100px;margin:82px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.value{padding:28px 24px;border-top:1px solid var(--line);text-align:center}.value span{font:600 8px/1 Consolas,monospace;color:#778282}.value h3{margin-top:15px;font:500 22px/1.05 var(--latin);letter-spacing:-.035em}.value p{margin-top:12px;font-size:12px;line-height:1.7;color:#697373}
-.credentials{max-width:1180px;margin:clamp(82px,9vw,126px) auto 0;border-top:1px solid var(--line)}.cred-head{padding:32px 0 22px;text-align:center}.cred-head h3{font:500 clamp(30px,4vw,52px)/1 var(--latin);letter-spacing:-.04em}.cred-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.cred-block{padding:28px 24px;min-height:178px}.cred-block+.cred-block{border-left:1px solid var(--line)}.cred-block>span{font:600 8px/1 Consolas,monospace;color:#798383}.cred-block strong{display:block;margin-top:18px;font-size:18px}.cred-block p{margin-top:8px;color:#697374;font-size:12px;line-height:1.65}.cred-empty{color:#919999!important;font-style:italic}
-.experience{padding-top:10px;background:#f2f3f0}.timeline{max-width:1040px;margin:auto;border-top:1px solid var(--line)}.trow{display:grid;grid-template-columns:110px 1fr 1fr;gap:30px;align-items:center;padding:21px 4px;border-bottom:1px solid var(--line)}.trow time{font:600 9px/1 Consolas,monospace;color:#748080}.trow strong{font:500 20px/1.2 var(--latin)}.trow p{text-align:right;color:#687272;font-size:12px}
-.portfolio{background:radial-gradient(circle at 50% 0%,rgba(55,93,91,.25),transparent 33%),linear-gradient(#0e1719,#091012);color:#fff}.portfolio .section-head p,.portfolio .eyebrow{color:rgba(255,255,255,.48)}.portfolio-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.portfolio-top span{color:rgba(255,255,255,.42);font:600 8px/1 Consolas,monospace;letter-spacing:.1em}.pill-link{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:10px 14px;font:600 8px/1 Consolas,monospace;letter-spacing:.08em}.pill-link:hover{background:#eef0ed;color:#111}.rail{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 0 18px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.28) rgba(255,255,255,.06)}.rail::-webkit-scrollbar{height:3px}.rail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.28)}.project-card{flex:0 0 calc((100% - 52px)/5);min-width:215px;aspect-ratio:1.586/1;position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.15);scroll-snap-align:start;background:#182326}.project-card a{position:absolute;inset:0;display:block}.project-card img{transition:transform .65s var(--ease)}.project-card:hover img{transform:scale(1.045)}.project-card:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,8,9,.03) 32%,rgba(5,8,9,.16) 58%,rgba(4,7,8,.83) 100%)}.card-copy{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;text-shadow:0 2px 16px rgba(0,0,0,.45)}.card-copy h3{font:500 clamp(19px,1.7vw,28px)/.94 var(--latin);letter-spacing:-.04em}.card-copy p{margin-top:7px;color:rgba(255,255,255,.64);font:600 7px/1 Consolas,monospace;letter-spacing:.1em}.rail-foot{display:flex;align-items:center;gap:12px;margin-top:9px}.rail-foot button{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:none;cursor:pointer}.rail-line{height:1px;flex:1;background:rgba(255,255,255,.1);overflow:hidden}.rail-line span{display:block;width:17%;height:100%;background:rgba(255,255,255,.52);transform-origin:left;transition:transform .15s linear}
-.journal{background:#091012;color:#fff;padding-top:clamp(90px,9vw,130px)}.journal .section-head{margin-bottom:44px}.journal .section-head p,.journal .eyebrow{color:rgba(255,255,255,.47)}.journal-top{display:flex;justify-content:flex-end;margin-bottom:17px}.journal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.journal-card{min-height:260px;border:1px solid rgba(255,255,255,.13);border-radius:22px;padding:23px;background:rgba(255,255,255,.025);display:flex;flex-direction:column;transition:.35s var(--ease)}.journal-card:hover{background:rgba(255,255,255,.055);transform:translateY(-4px)}.journal-card .meta{display:flex;justify-content:space-between;color:rgba(255,255,255,.4);font:600 8px/1 Consolas,monospace;letter-spacing:.07em}.journal-card h3{margin-top:44px;font-size:clamp(21px,2vw,29px);line-height:1.25;letter-spacing:-.035em;font-weight:500}.journal-card .excerpt{margin-top:15px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.75}.journal-card .read{margin-top:auto;padding-top:24px;color:rgba(255,255,255,.55);font:600 8px/1 Consolas,monospace}
-.contact{background:#091012;color:#fff;padding-top:20px}.contact-box{min-height:62svh;border-top:1px solid rgba(255,255,255,.13);display:grid;place-items:center;text-align:center}.contact-box h2{font:400 clamp(62px,9vw,136px)/.82 var(--latin);letter-spacing:-.07em}.contact-box p{margin-top:24px;color:rgba(255,255,255,.48);font-size:13px}.contact-box a{display:inline-block;margin-top:28px;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:5px}
-.transition-layer{position:fixed;inset:0;z-index:10000;pointer-events:none;overflow:hidden;background:#071011}.transition-img{position:fixed;object-fit:cover;transition:left .62s var(--ease),top .62s var(--ease),width .62s var(--ease),height .62s var(--ease),border-radius .62s var(--ease)}.transition-layer.on .transition-img{left:0!important;top:0!important;width:100vw!important;height:100vh!important;border-radius:0!important}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:none}
-@media(max-width:1150px){.project-card{flex-basis:calc((100% - 26px)/3)}.about-layout{grid-template-columns:1fr 300px 1fr;gap:34px}.about-column h3{font-size:32px}}
-@media(max-width:820px){.site-nav{grid-template-columns:1fr auto}.nav-links{display:none}.about-layout{grid-template-columns:1fr;text-align:center}.about-column.left,.about-column.right{text-align:center}.about-column.left{order:2}.portrait-wrap{order:1}.about-column.right{order:3}.fact{max-width:420px;margin:auto;text-align:left}.about-values,.cred-grid,.journal-grid{grid-template-columns:1fr}.cred-block+.cred-block{border-left:0;border-top:1px solid var(--line)}.trow{grid-template-columns:76px 1fr;gap:14px}.trow p{grid-column:2;text-align:left}.project-card{flex-basis:72vw;min-width:270px}.section{padding:82px 16px}.hero h1{font-size:18vw}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.001ms!important;animation-duration:.001ms!important;scroll-behavior:auto!important}}
-</style></head><body>
-<nav class="site-nav"><a class="brand" href="#home">KWAK TAEWOONG</a><div class="nav-links"><a href="#about">ABOUT</a><a href="#portfolio">PORTFOLIO</a><a href="#journal">JOURNAL</a></div><a class="contact-link" href="#contact">CONTACT ↗</a></nav>
-<main>
-<section id="home" class="hero" data-dark><video class="liquid-video" id="liquidVideo" autoplay muted loop playsinline preload="metadata" poster="assets/video/liquid-poster.webp"><source src="assets/video/liquid-bg.mp4" type="video/mp4"></video><div class="hero-inner"><div class="hero-title-block"><h1><span>I DESIGN</span><span>WORLDS</span></h1><p>규칙과 시스템으로 세계를 설계합니다.</p></div></div><div class="scroll-cue"><span>SCROLL DOWN</span><b>↓</b></div></section>
-<section id="about" class="section about"><div class="shell"><header class="section-head reveal"><span class="eyebrow">ABOUT / PROFILE</span><h2>ABOUT ME</h2><p>프로젝트보다 먼저, 어떤 문제를 보고 무엇을 중요하게 판단하는 사람인지 보여줍니다.</p></header>
-<div class="about-layout reveal"><div class="about-column left"><span class="about-kicker">GAME DESIGN</span><h3>플레이어가 반복해서<br>마주할 판단을 설계합니다.</h3><p>전투와 시스템을 중심으로 플레이어가 반복해서 마주할 판단을 정의하고, 이를 자원·상태·수치·레벨·UI로 구체화합니다. 기획 의도가 실제 플레이에서 어떻게 작동하는지까지 확인하기 위해 필요한 기능은 직접 구현합니다.</p></div>
-<div class="portrait-wrap"><figure class="portrait"><img src="assets/images/profile-crop.jpg" alt="곽태웅 프로필 사진"></figure><div class="portrait-caption"><strong>KWAK TAEWOONG</strong><span>GAME DESIGNER · DEVELOPER</span></div></div>
-<div class="about-column right"><span class="about-kicker">PROFILE</span><h3>기획과 구현을<br>분리해서 보지 않습니다.</h3><dl class="fact-list"><div class="fact"><dt>FOCUS</dt><dd>Combat · System · Narrative</dd></div><div class="fact"><dt>TOOLS</dt><dd>Unity · C# · WPF · Web</dd></div><div class="fact"><dt>ROLE</dt><dd>Game Design · Development · Direction</dd></div><div class="fact"><dt>EDUCATION</dt><dd>중부대학교 게임소프트웨어전공</dd></div></dl></div></div>
-<div class="about-values reveal"><article class="value"><span>01 / DEFINE</span><h3>문제를 먼저 정의합니다.</h3><p>기능보다 플레이어가 어떤 판단을 반복해야 하는지부터 잡습니다.</p></article><article class="value"><span>02 / SYSTEMIZE</span><h3>규칙으로 치환합니다.</h3><p>의도를 수치·자원·상태·레벨·UI가 같은 방향을 가리키게 만듭니다.</p></article><article class="value"><span>03 / ITERATE</span><h3>플레이에서 다시 판단합니다.</h3><p>구현 결과가 의도와 다르면 문서가 아니라 규칙을 다시 고칩니다.</p></article></div>
-<section class="credentials reveal"><header class="cred-head"><span class="eyebrow">CREDENTIALS</span><h3>Education · Competition · Awards</h3></header><div class="cred-grid"><article class="cred-block"><span>EDUCATION</span><strong>중부대학교</strong><p>게임소프트웨어전공 · 재학</p></article><article class="cred-block"><span>COMPETITION / PRESENTATION</span><strong>Kyber-Neuron</strong><p>XR · Digital Twin · UX 기획 및 발표 프로젝트</p></article><article class="cred-block"><span>AWARDS</span><strong>수상 / 선정 이력</strong><p class="cred-empty">확정된 이력만 추가하는 영역입니다.</p></article></div></section>
-</div></section>
-<section class="section experience"><div class="shell"><header class="section-head reveal"><span class="eyebrow">EXPERIENCE</span><h2>TIMELINE</h2><p>조직 자체보다 실제로 만든 프로젝트와 역할을 중심으로 정리했습니다.</p></header><div class="timeline reveal"><article class="trow"><time>2025</time><strong>Benedict of Sins</strong><p>팀장 · 게임 기획 · 시스템 구현 · UI</p></article><article class="trow"><time>2026</time><strong>Salgut</strong><p>팀장 · 전투/시스템 기획 · 게임플레이 구현</p></article><article class="trow"><time>2026</time><strong>Fernand</strong><p>제품 기획 · 데스크톱 UX · 개발</p></article><article class="trow"><time>2026</time><strong>Kinosis</strong><p>제품 기획 · 영화 라이브러리/디스커버리 · 웹 개발</p></article><article class="trow"><time>W.I.P.</time><strong>De.Co</strong><p>타워디펜스 · 준비/전투 전략 루프</p></article><article class="trow"><time>ARCHIVE</time><strong>Machinator</strong><p>세계관 · 세력 · 선택 구조</p></article></div></div></section>
-<section id="portfolio" class="section portfolio" data-dark><div class="shell"><header class="section-head reveal"><span class="eyebrow">SELECTED WORK</span><h2>PORTFOLIO</h2><p>카드에서는 작품의 인상만 보고, 상세 페이지에서 설계 과정과 결과를 읽습니다.</p></header><div class="portfolio-top"><span>06 PROJECTS · 5 VISIBLE</span><a class="pill-link" href="projects/index.html">ALL PROJECTS ↗</a></div><div class="rail" id="projectRail"></div><div class="rail-foot"><button id="prev" aria-label="이전 프로젝트">←</button><div class="rail-line"><span id="progress"></span></div><button id="next" aria-label="다음 프로젝트">→</button></div></div></section>
-<section id="journal" class="section journal" data-dark><div class="shell"><header class="section-head reveal"><span class="eyebrow">JOURNAL</span><h2>RECENT NOTES</h2><p>프로젝트를 만들며 바뀐 판단, 시행착오, 설계 이유를 글로 남깁니다.</p></header><div class="journal-top"><a class="pill-link" href="journal/index.html">ALL JOURNALS ↗</a></div><div class="journal-grid reveal" id="journalGrid"></div></div></section>
-<section id="contact" class="section contact" data-dark><div class="shell contact-box"><div><h2>LET'S TALK<br>ABOUT SYSTEMS.</h2><p>Game Design · Development · Project Direction</p><a href="mailto:gtw7208@naver.com">gtw7208@naver.com ↗</a></div></div></section>
-</main>
-<script src="journal/posts.js"></script><script>
-const PROJECTS=[
-{title:'Benedict of Sins',genre:'DECKBUILDING ROGUELIKE',image:'assets/images/projects/benedict/cover.jpg',href:'projects/benedict.html'},
-{title:'Salgut',genre:'HYPER ACTION FPS',image:'assets/images/projects/salgut/cover.jpg',href:'projects/salgut.html'},
-{title:'Fernand',genre:'DESKTOP WORKSPACE',image:'assets/images/projects/fernand/cover.jpg',href:'projects/fernand.html'},
-{title:'Kinosis',genre:'FILM LIBRARY · WEB',image:'assets/images/projects/kinosis/cover.jpg',href:'projects/kinosis.html'},
-{title:'De.Co',genre:'TACTICAL TOWER DEFENSE',image:'assets/images/projects/deco/cover.jpg',href:'projects/deco.html'},
-{title:'Machinator',genre:'DIESELPUNK NARRATIVE',image:'assets/images/projects/machinator/cover.jpg',href:'projects/machinator.html'}];
-const rail=document.querySelector('#projectRail');PROJECTS.forEach(p=>{const a=document.createElement('article');a.className='project-card';a.innerHTML=`<a class="project-link" href="${p.href}" aria-label="${p.title} 상세 보기"><img src="${p.image}" alt="${p.title} 프로젝트 대표 이미지" loading="lazy"><div class="card-copy"><h3>${p.title}</h3><p>${p.genre}</p></div></a>`;rail.appendChild(a)});
-const prev=document.querySelector('#prev'),next=document.querySelector('#next'),progress=document.querySelector('#progress');const step=()=>rail.querySelector('.project-card').getBoundingClientRect().width+13;prev.onclick=()=>rail.scrollBy({left:-step(),behavior:'smooth'});next.onclick=()=>rail.scrollBy({left:step(),behavior:'smooth'});function prog(){const max=rail.scrollWidth-rail.clientWidth;const r=max?rail.scrollLeft/max:0;progress.style.transform=`scaleX(${Math.max(.17,.17+r*.83)})`}rail.addEventListener('scroll',prog,{passive:true});prog();
-// Image-only handoff. Text appears only on the destination detail page.
-document.addEventListener('click',e=>{const link=e.target.closest('.project-link');if(!link||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const img=link.querySelector('img');if(!img)return;e.preventDefault();const r=img.getBoundingClientRect(),layer=document.createElement('div'),clone=document.createElement('img');layer.className='transition-layer';clone.className='transition-img';document.documentElement.style.overflow='hidden';clone.src=img.currentSrc||img.src;Object.assign(clone.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderRadius:getComputedStyle(link.closest('.project-card')).borderRadius});layer.appendChild(clone);document.body.appendChild(layer);requestAnimationFrame(()=>requestAnimationFrame(()=>layer.classList.add('on')));let go=false;const nav=()=>{if(go)return;go=true;location.href=link.href};clone.addEventListener('transitionend',ev=>{if(ev.propertyName==='width')setTimeout(nav,30)},{once:true});setTimeout(nav,700)});
-const posts=(window.JOURNAL_POSTS||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);const jg=document.querySelector('#journalGrid');posts.forEach(p=>{const a=document.createElement('a');a.className='journal-card';a.href='journal/post.html?slug='+encodeURIComponent(p.slug);a.innerHTML=`<div class="meta"><span>${p.date}</span><span>${p.category}</span></div><h3>${p.title}</h3><p class="excerpt">${p.excerpt}</p><span class="read">READ JOURNAL ↗</span>`;jg.appendChild(a)});
-const revealEls=[...document.querySelectorAll('.reveal')];if('IntersectionObserver'in window){const reveal=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');reveal.unobserve(e.target)}}),{threshold:.08});revealEls.forEach(x=>reveal.observe(x));}else revealEls.forEach(x=>x.classList.add('in'));
-const nav=document.querySelector('.site-nav'),dark=[...document.querySelectorAll('[data-dark]')];function tone(){const y=scrollY+45;nav.classList.toggle('is-light',!dark.some(s=>y>=s.offsetTop&&y<s.offsetTop+s.offsetHeight))}addEventListener('scroll',tone,{passive:true});tone();
-(()=>{const v=document.querySelector('#liquidVideo'),h=document.querySelector('.hero');if(!v||!h)return;let vis=true,page=!document.hidden;const sync=()=>vis&&page?v.play().catch(()=>{}):v.pause();new IntersectionObserver(([e])=>{vis=e.isIntersecting;sync()}).observe(h);document.addEventListener('visibilitychange',()=>{page=!document.hidden;sync()});sync()})();
-window.addEventListener('pageshow',()=>{document.querySelectorAll('.transition-layer').forEach(el=>el.remove());document.documentElement.style.overflow='';});</script></body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#081113">
+  <meta name="description" content="게임 디자이너 / 개발자 곽태웅 포트폴리오 — 시스템, 전투, UX, 내러티브 설계와 개발 프로젝트.">
+  <title>KWAK TAEWOONG — Game Designer / Developer</title>
+  <link rel="preload" as="image" href="assets/video/liquid-poster.webp" fetchpriority="high">
+  <link rel="stylesheet" href="v30.css">
+  <script defer src="content/site-data.js"></script>
+  <script defer src="v30.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <nav class="site-nav" aria-label="메인 메뉴">
+    <a class="site-brand" href="#home">KWAK TAEWOONG</a>
+    <div class="site-nav-links">
+      <a href="#portfolio">WORKS</a>
+      <a href="#about">ABOUT</a>
+      <a href="#background">BACKGROUND</a>
+      <a href="#journal">JOURNAL</a>
+    </div>
+    <a class="site-contact" href="#contact">CONTACT ↗</a>
+  </nav>
+
+  <main id="main">
+    <section id="home" class="hero">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/video/liquid-poster.webp" aria-hidden="true">
+        <source src="assets/video/liquid-bg.mp4" type="video/mp4">
+      </video>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1 aria-label="I DESIGN WORLDS"><span>I DESIGN</span><span>WORLDS</span></h1>
+          <p class="hero-sub">규칙과 시스템으로 세계를 설계합니다.</p>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true"><span>SCROLL DOWN</span><b>↓</b></div>
+    </section>
+
+    <section id="portfolio" class="section portfolio">
+      <div class="shell">
+        <header class="section-heading" data-reveal>
+          <span class="eyebrow">SELECTED PROJECTS</span>
+          <h2>WORKS</h2>
+          <p>게임과 소프트웨어 프로젝트에서 시스템, 전투, UX와 내러티브를 설계하고 구현했습니다.</p>
+        </header>
+        <div class="portfolio-toolbar" data-reveal>
+          <span>SELECTED PROJECTS</span>
+          <a class="text-link" href="projects/index.html">ALL PROJECTS</a>
+        </div>
+        <div class="works-stage" id="worksStage" data-reveal>
+          <div class="project-rail" id="projectRail" aria-label="선별 프로젝트. 마우스나 터치로 좌우 드래그할 수 있습니다." tabindex="0"></div>
+        </div>
+        <div class="drag-affordance" data-reveal aria-hidden="true"><span class="drag-grip">⠿</span><span>DRAG TO EXPLORE</span><b>↔</b><i><em id="projectProgress"></em></i></div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="shell">
+        <header class="section-heading" data-reveal>
+          <span class="eyebrow">ABOUT / PROFILE</span>
+          <h2>ABOUT</h2>
+          <p>시스템 기획을 중심으로 구현과 UX, 내러티브까지 연결합니다.</p>
+        </header>
+
+        <div class="about-profile" data-reveal>
+          <figure class="about-portrait">
+            <img src="assets/images/profile-about.png" alt="곽태웅 프로필 사진" width="689" height="706" decoding="async">
+          </figure>
+          <div class="about-copy">
+            <span class="eyebrow">GAME DESIGN · DEVELOPMENT</span>
+            <h3>규칙을 설계하고, 그 규칙이 플레이어의 선택과 감정으로 이어지게 만듭니다.</h3>
+            <div class="about-copy-text">
+              <p>게임의 세계는 배경 설정만으로 만들어지지 않는다고 생각합니다. 플레이어가 무엇을 보고, 어떤 선택을 하고, 어떤 대가를 치르는지를 결정하는 규칙 전체가 세계의 작동 방식입니다. 저는 핵심 경험을 먼저 정의한 뒤 이를 전투, 자원, 레벨, UI와 내러티브 구조로 구체화합니다.</p>
+              <p>기획과 구현을 완전히 분리해서 보지 않습니다. 설계 의도가 실제 플레이에서 어떻게 변형되는지 확인하고, 구현 과정에서 드러난 마찰을 다시 기획 판단으로 환류하는 방식으로 작업합니다. 시스템 기획을 중심으로 UX와 내러티브, 프로젝트 방향까지 연결하는 것이 강점입니다.</p>
+            </div>
+            <div class="about-facts" aria-label="프로필 요약">
+              <div class="about-fact"><span>ROLE</span><strong>Game Design / Development</strong></div>
+              <div class="about-fact"><span>FOCUS</span><strong>Systems · Combat · UX · Narrative</strong></div>
+              <div class="about-fact"><span>TOOLS</span><strong>Unity · C# · WPF · Web</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="capability-list" data-reveal>
+          <article class="capability"><span class="no">01 / SYSTEM</span><h4>GAME DESIGN</h4><p>코어 루프와 규칙, 자원 구조, 수치와 상태를 통해 플레이어의 판단 구조를 설계합니다.</p></article>
+          <article class="capability"><span class="no">02 / BUILD</span><h4>DEVELOPMENT</h4><p>설계가 실제 상호작용으로 작동하는지 직접 구현하고, 플레이 결과를 다시 설계에 반영합니다.</p></article>
+          <article class="capability"><span class="no">03 / ALIGN</span><h4>DIRECTION</h4><p>범위와 우선순위, 역할과 문서 기준을 정리해 팀이 같은 경험 목표를 향하도록 조율합니다.</p></article>
+        </div>
+
+        <div class="process-strip" data-reveal aria-label="작업 방식">
+          <div class="process-label">HOW I WORK</div>
+          <div class="process-step"><span>01</span><div><strong>DEFINE</strong><p>기능보다 먼저 플레이어 경험과 해결할 문제를 정의합니다.</p></div></div>
+          <div class="process-step"><span>02</span><div><strong>SYSTEMIZE</strong><p>행동을 규칙·상태·수치·정보 구조로 변환합니다.</p></div></div>
+          <div class="process-step"><span>03</span><div><strong>ITERATE</strong><p>플레이와 구현에서 드러난 마찰을 다시 설계 판단으로 환류합니다.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="background" class="section background">
+      <div class="shell background-shell">
+        <header class="background-head" data-reveal>
+          <div><span class="eyebrow">EXPERIENCE / CREDENTIALS</span><h2>BACKGROUND</h2></div>
+          <p>게임 제작과 제품 개발을 통해 쌓아온 경험과 학력을 정리했습니다.</p>
+        </header>
+        <div id="backgroundGroups" data-reveal></div>
+      </div>
+    </section>
+
+    <section id="journal" class="section journal">
+      <div class="shell">
+        <header class="section-heading" data-reveal>
+          <span class="eyebrow">LATEST JOURNALS / GEMEINSCHAFT</span>
+          <h2>JOURNAL</h2>
+          <p>개발 기록, 영화와 게임 비평, 일상에서 남긴 최근 기록을 모아봅니다.</p>
+        </header>
+        <div class="journal-toolbar" data-reveal>
+          <span class="journal-source">GEMEINSCHAFT / NAVER BLOG</span>
+          <a class="text-link" href="journal/index.html">ALL JOURNALS</a>
+        </div>
+        <div class="journal-news-grid" id="journalPreview" data-reveal><div class="journal-empty">Journal loading…</div></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="shell">
+        <div class="contact-inner" id="contactContent" data-reveal></div>
+        <footer class="footer"><span>KWAK TAEWOONG / GAME DESIGN · DEVELOPMENT</span><span>KR / 2026</span></footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

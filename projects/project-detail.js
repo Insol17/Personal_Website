@@ -1,211 +1,127 @@
 const backButton=document.querySelector('[data-project-back]');
-if(backButton){backButton.addEventListener('click',()=>{window.location.href='../index.html#portfolio';});}
-window.addEventListener('pageshow',()=>{document.documentElement.style.overflow='';});
-/*
-  설명 문단 아래의 overview 이미지:
-  파일이 없으면 해당 figure 전체를 제거한다.
-*/
-document
-  .querySelectorAll('.project-feature-media img')
-  .forEach(function (image) {
-    image.addEventListener('error', function () {
-      image.closest('.project-feature-media')?.remove();
-    });
+if(backButton){
+  backButton.addEventListener('click',()=>{
+    const sameOrigin=(()=>{try{return !!document.referrer && new URL(document.referrer).origin===location.origin}catch{return false}})();
+    if(sameOrigin && history.length>1) history.back();
+    else location.href=backButton.dataset.fallback||'../index.html#portfolio';
   });
+}
 
-/*
-  스크린샷:
-  존재하지 않는 이미지는 카드째 제거한다.
-  모든 스크린샷이 없으면 MEDIA GALLERY 섹션 전체를 숨긴다.
-*/
-const screenshotSections =
-  document.querySelectorAll(
-    '.project-media-section:not(.project-video-section)'
-  );
+const detailHero=document.querySelector('.project-detail-hero');
+const DETAIL_SLUG=detailHero?.dataset.projectSlug||'';
+let projectDetailData=null;
 
-screenshotSections.forEach(function (section) {
-  const gallery =
-    section.querySelector('.project-media-grid');
-
-  const images =
-    Array.from(
-      section.querySelectorAll('.project-gallery-item img')
-    );
-
-  if (!gallery || images.length === 0) {
-    section.remove();
-    return;
+function detailEsc(value=''){
+  return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function applyProjectDetail(data,site){
+  if(!data||!detailHero) return;
+  projectDetailData=data;
+  const project=(site?.projects||window.DEFAULT_SITE?.projects||[]).find(p=>p.slug===DETAIL_SLUG);
+  const heroImg=detailHero.querySelector('.project-detail-hero-image');
+  if(heroImg&&project?.cardImage){const raw=project.cardImage;heroImg.src=/^(?:https?:|blob:|data:)/.test(raw)?raw:'../'+raw.replace(/^\.\//,'');}
+  const heading=detailHero.querySelector('.project-detail-heading');
+  if(heading){
+    const p=heading.querySelector(':scope > p'); if(p&&data.hero?.kicker)p.textContent=data.hero.kicker;
+    const h1=heading.querySelector('h1'); if(h1&&data.hero?.title)h1.textContent=data.hero.title;
+    const h2=heading.querySelector('h2'); if(h2&&data.hero?.subtitle)h2.textContent=data.hero.subtitle;
   }
-
-  let settledCount = 0;
-
-  function finishScreenshotCheck() {
-    settledCount += 1;
-
-    if (settledCount !== images.length) {
-      return;
-    }
-
-    const remainingItems =
-      gallery.querySelectorAll('.project-gallery-item');
-
-    if (remainingItems.length === 0) {
-      section.remove();
-    }
+  const overview=document.querySelector('.project-overview-copy');
+  if(overview&&data.overview){
+    const h2=overview.querySelector('h2'); if(h2)h2.textContent=data.overview.heading||'';
+    overview.querySelectorAll(':scope > p:not(.project-section-kicker)').forEach(p=>p.remove());
+    (data.overview.paragraphs||[]).forEach(text=>{const p=document.createElement('p');p.textContent=text;overview.appendChild(p)});
   }
+  const facts=document.querySelector('.project-facts');
+  if(facts&&Array.isArray(data.facts)) facts.innerHTML=data.facts.map(f=>`<div><dt>${detailEsc(f.label)}</dt><dd>${detailEsc(f.value)}</dd></div>`).join('');
+  const pillars=document.querySelector('.project-pillars');
+  if(pillars){
+    if(data.pillars?.length){pillars.hidden=false;pillars.innerHTML=data.pillars.map(p=>`<article class="project-pillar"><span>${detailEsc(p.no)}</span><h3>${detailEsc(p.title)}</h3><p>${detailEsc(p.body)}</p></article>`).join('');}
+    else pillars.hidden=true;
+  }
+  const chapter=document.querySelector('.project-chapter-heading');
+  if(chapter&&data.chapter){
+    const k=chapter.querySelector('p');if(k)k.textContent=data.chapter.kicker||'';
+    const h=chapter.querySelector('h2');if(h)h.textContent=data.chapter.title||'';
+    chapter.hidden=!(data.chapter.kicker||data.chapter.title);
+  }
+  const featureRoot=document.querySelector('.project-feature-list');
+  if(featureRoot&&Array.isArray(data.features)){featureRoot.hidden=false;
+    const oldMedia=[...featureRoot.querySelectorAll(':scope > .project-feature')].map(s=>s.querySelector('.project-feature-media')?.cloneNode(true)||null);
+    featureRoot.innerHTML=data.features.map((f,i)=>`<section class="project-feature"><div class="project-feature-copy"><h2>${detailEsc(f.title)}</h2>${(f.paragraphs||[]).map(p=>`<p>${detailEsc(p)}</p>`).join('')}</div></section>`).join('');
+    [...featureRoot.children].forEach((section,i)=>{if(oldMedia[i])section.appendChild(oldMedia[i])});
+    featureRoot.hidden=!data.features.length;
+  }
+  const responsibility=document.querySelector('.project-contribution-section');
+  if(responsibility&&data.responsibility){
+    const k=responsibility.querySelector('.project-section-kicker');if(k)k.textContent=data.responsibility.kicker||'';
+    const h=responsibility.querySelector('.project-section-heading h2');if(h)h.textContent=data.responsibility.heading||'';
+    const intro=responsibility.querySelector('.project-contribution-intro p');if(intro)intro.textContent=data.responsibility.intro||'';
+    const list=responsibility.querySelector('.project-contribution-list');
+    if(list) list.innerHTML=(data.responsibility.items||[]).map(item=>`<li><span>${detailEsc(item.no)}</span><div><strong>${detailEsc(item.title)}</strong><p>${detailEsc(item.body)}</p></div></li>`).join('');
+  }
+  const reflection=document.querySelector('.project-reflection');
+  if(reflection&&data.reflection){
+    const h=reflection.querySelector('h2');if(h)h.textContent=data.reflection.heading||'REFLECTION';
+    reflection.querySelectorAll('p').forEach(p=>p.remove());
+    (data.reflection.paragraphs||[]).forEach(text=>{const p=document.createElement('p');p.textContent=text;reflection.appendChild(p)});
+  }
+}
+window.applyProjectDetailPreview=(data,site)=>{if(!data||data.slug!==DETAIL_SLUG)return;applyProjectDetail(data,site)};
 
-  images.forEach(function (image) {
-    image.addEventListener('load', function () {
-      finishScreenshotCheck();
-    });
+async function loadProjectDetail(){
+  if(!DETAIL_SLUG)return;
+  try{
+    const [detailRes,siteRes]=await Promise.all([
+      fetch(`../content/projects/${DETAIL_SLUG}.json`,{cache:'no-store'}),
+      fetch('../content/site.json',{cache:'no-store'})
+    ]);
+    if(!detailRes.ok)throw new Error('detail');
+    const detail=await detailRes.json();
+    const site=siteRes.ok?await siteRes.json():null;
+    applyProjectDetail(detail,site);
+  }catch{}
+}
 
-    image.addEventListener('error', function () {
-      image.closest('.project-gallery-item')?.remove();
-      finishScreenshotCheck();
-    });
-
-    /*
-      캐시에 이미 들어온 이미지도 정상 처리한다.
-    */
-    if (image.complete) {
-      if (image.naturalWidth > 0) {
-        finishScreenshotCheck();
-      } else {
-        image.closest('.project-gallery-item')?.remove();
-        finishScreenshotCheck();
-      }
-    }
-  });
+addEventListener('message',event=>{
+  const msg=event.data||{};
+  if(msg.type==='project-preview-data'&&msg.payload?.slug===DETAIL_SLUG) applyProjectDetail(msg.payload,msg.site||null);
 });
 
-/*
-  일반 유튜브 주소를 영상 ID로 변환한다.
-
-  지원:
-  youtube.com/watch?v=...
-  youtu.be/...
-  youtube.com/shorts/...
-  youtube.com/embed/...
-  영상 ID 직접 입력
-*/
-function getYouTubeVideoId(urlText) {
-  if (!urlText) {
-    return '';
-  }
-
-  const value = urlText.trim();
-
-  if (/^[a-zA-Z0-9_-]{6,}$/.test(value)) {
-    return value;
-  }
-
-  try {
-    const url = new URL(value);
-
-    if (url.hostname.includes('youtu.be')) {
-      return url.pathname.split('/').filter(Boolean)[0] || '';
-    }
-
-    if (url.pathname.startsWith('/watch')) {
-      return url.searchParams.get('v') || '';
-    }
-
-    const pathParts =
-      url.pathname.split('/').filter(Boolean);
-
-    if (
-      ['shorts', 'embed'].includes(pathParts[0]) &&
-      pathParts[1]
-    ) {
-      return pathParts[1];
-    }
-  } catch (error) {
-    return '';
-  }
-
-  return '';
-}
-
-/*
-  영상:
-  URL이 비어 있는 카드는 제거한다.
-  등록된 영상이 하나도 없으면 VIDEO 섹션 전체를 숨긴다.
-*/
-document
-  .querySelectorAll('.project-video-section')
-  .forEach(function (section) {
-    const grid =
-      section.querySelector('.project-video-grid');
-
-    const cards =
-      Array.from(
-        section.querySelectorAll('.project-video-card')
-      );
-
-    if (!grid || cards.length === 0) {
-      section.remove();
-      return;
-    }
-
-    cards.forEach(function (videoCard) {
-      const videoId =
-        getYouTubeVideoId(
-          videoCard.dataset.youtubeUrl || ''
-        );
-
-      if (!videoId) {
-        videoCard.remove();
-        return;
-      }
-
-      const iframe =
-        document.createElement('iframe');
-
-      iframe.src =
-        `https://www.youtube.com/embed/${videoId}`;
-
-      iframe.title =
-        videoCard.dataset.videoLabel ||
-        'YouTube project video';
-
-      iframe.loading = 'lazy';
-
-      iframe.allow =
-        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-
-      iframe.referrerPolicy =
-        'strict-origin-when-cross-origin';
-
-      iframe.allowFullscreen = true;
-
-      videoCard.appendChild(iframe);
+function bindMedia(){
+  // Missing media is removed instead of displaying placeholders.
+  document.querySelectorAll('.project-feature-media img').forEach(image=>image.addEventListener('error',()=>image.closest('.project-feature-media')?.remove()));
+  document.querySelectorAll('.project-media-section:not(.project-video-section)').forEach(section=>{
+    const images=[...section.querySelectorAll('.project-gallery-item img')];
+    if(!images.length){section.remove();return;}
+    let settled=0; const finish=()=>{settled++;if(settled===images.length&&!section.querySelector('.project-gallery-item')) section.remove();};
+    images.forEach(image=>{
+      image.addEventListener('load',finish,{once:true});
+      image.addEventListener('error',()=>{image.closest('.project-gallery-item')?.remove();finish();},{once:true});
+      if(image.complete){if(image.naturalWidth>0)finish();else{image.closest('.project-gallery-item')?.remove();finish();}}
     });
-
-    if (
-      grid.querySelectorAll('.project-video-card')
-        .length === 0
-    ) {
-      section.remove();
-    }
   });
-
-/* V26: lightweight native-dialog image viewer. */
-const galleryImages = [...document.querySelectorAll('.project-gallery-item img, .project-feature-media img')];
-if (galleryImages.length && 'HTMLDialogElement' in window) {
-  const dialog = document.createElement('dialog');
-  dialog.className = 'project-lightbox';
-  dialog.innerHTML = '<button type="button" aria-label="이미지 닫기">CLOSE ×</button><img alt="">';
-  document.body.appendChild(dialog);
-  const dialogImage = dialog.querySelector('img');
-  const closeButton = dialog.querySelector('button');
-  galleryImages.forEach((image) => {
-    image.tabIndex = 0;
-    image.setAttribute('role', 'button');
-    image.setAttribute('aria-label', `${image.alt || '프로젝트 이미지'} 크게 보기`);
-    const open = () => { dialogImage.src = image.currentSrc || image.src; dialogImage.alt = image.alt || ''; dialog.showModal(); };
-    image.addEventListener('click', open);
-    image.addEventListener('keydown', (event) => { if (event.key === 'Enter') open(); });
+  function youtubeId(value=''){
+    value=value.trim();if(!value)return'';if(/^[\w-]{6,}$/.test(value))return value;
+    try{const url=new URL(value);if(url.hostname.includes('youtu.be'))return url.pathname.split('/').filter(Boolean)[0]||'';if(url.pathname.startsWith('/watch'))return url.searchParams.get('v')||'';const parts=url.pathname.split('/').filter(Boolean);if(['shorts','embed'].includes(parts[0]))return parts[1]||'';}catch{}return'';
+  }
+  document.querySelectorAll('.project-video-section').forEach(section=>{
+    const cards=[...section.querySelectorAll('.project-video-card')];
+    cards.forEach(card=>{const id=youtubeId(card.dataset.youtubeUrl);if(!id){card.remove();return;}const f=document.createElement('iframe');f.src=`https://www.youtube.com/embed/${id}`;f.title=card.dataset.videoLabel||'Project video';f.loading='lazy';f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.referrerPolicy='strict-origin-when-cross-origin';f.allowFullscreen=true;card.appendChild(f);});
+    if(!section.querySelector('.project-video-card')) section.remove();
   });
-  closeButton.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
 }
+function bindLightbox(){
+  const gallery=[...document.querySelectorAll('.project-gallery-item img,.project-feature-media img')];
+  if(!gallery.length||!('HTMLDialogElement'in window))return;
+  const dialog=document.createElement('dialog');dialog.className='project-lightbox';dialog.innerHTML='<button type="button" aria-label="이미지 닫기">CLOSE ×</button><img alt="">';document.body.appendChild(dialog);
+  const target=dialog.querySelector('img');const close=dialog.querySelector('button');
+  gallery.forEach(image=>{image.tabIndex=0;image.setAttribute('role','button');image.setAttribute('aria-label',`${image.alt||'프로젝트 이미지'} 크게 보기`);const open=()=>{target.src=image.currentSrc||image.src;target.alt=image.alt||'';dialog.showModal()};image.addEventListener('click',open);image.addEventListener('keydown',e=>{if(e.key==='Enter')open()});});
+  close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+}
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  await loadProjectDetail();
+  bindMedia();
+  bindLightbox();
+});

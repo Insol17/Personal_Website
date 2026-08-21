@@ -1,0 +1,27 @@
+name: Update Naver Journal
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '27 18 * * *' # 03:27 KST daily
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/sync_naver_journal.py
+      - name: Commit feed only when changed
+        run: |
+          if git diff --quiet -- assets/data/journal.json; then
+            echo "No journal changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data/journal.json
+          git commit -m "chore: sync Naver journal"
+          git push

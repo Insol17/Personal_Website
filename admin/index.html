@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#091113">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Portfolio Editor — KWAK TAEWOONG</title>
+  <link rel="stylesheet" href="admin.css">
+  <script defer src="admin.js"></script>
+</head>
+<body>
+  <header class="admin-topbar">
+    <a href="../index.html" target="_blank" rel="noreferrer" class="admin-brand">KWAK TAEWOONG <span>/ SITE EDITOR</span></a>
+    <div class="top-status"><span id="saveState">READY</span><button id="saveDraft" class="ghost">SAVE DRAFT</button><button id="publishTop" class="primary">PUBLISH</button></div>
+  </header>
+  <main class="admin-shell">
+    <aside class="admin-nav" aria-label="편집 영역">
+      <p class="nav-kicker">CONTENT</p>
+      <button class="nav-item is-active" data-panel="home"><span>01</span>HOME</button>
+      <button class="nav-item" data-panel="about"><span>02</span>ABOUT</button>
+      <button class="nav-item" data-panel="background"><span>03</span>BACKGROUND</button>
+      <button class="nav-item" data-panel="projects"><span>04</span>PROJECTS</button>
+      <button class="nav-item" data-panel="journal"><span>05</span>JOURNAL</button>
+      <button class="nav-item" data-panel="contact"><span>06</span>CONTACT</button>
+      <div class="nav-spacer"></div>
+      <button class="nav-item" data-panel="publish"><span>↗</span>PUBLISH</button>
+      <p class="nav-note">레이아웃은 잠겨 있습니다. 내용과 이미지, 프로젝트 순서만 수정합니다.</p>
+    </aside>
+
+    <section class="editor-pane" id="editorPane">
+      <div class="editor-loading">Loading content…</div>
+    </section>
+
+    <section class="preview-pane">
+      <div class="preview-bar">
+        <span>LIVE PREVIEW</span>
+        <div><button id="previewHome" class="tiny is-active">HOME</button><select id="previewProject" class="tiny-select"><option value="">PROJECT DETAIL</option></select><button id="openPreview" class="tiny">OPEN ↗</button></div>
+      </div>
+      <iframe id="sitePreview" title="포트폴리오 미리보기" src="../index.html?adminPreview=1"></iframe>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
