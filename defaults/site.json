@@ -1,5 +1,5 @@
 {
-  "version": 37,
+  "version": 39,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
@@ -60,6 +60,14 @@
         "title": "ITERATE",
         "body": "플레이와 구현에서 드러난 마찰을 다시 설계 판단으로 환류합니다."
       }
+    ],
+    "detailEyebrow": "ABOUT / FULL PROFILE",
+    "detailTitle": "DESIGNING WORLDS, FROM RULES TO PLAY.",
+    "detailIntro": "결과물보다 그 결과를 만든 판단을 설명할 수 있는 기획자가 되고자 합니다.",
+    "detailNotes": [
+      "게임을 하나의 규칙 시스템으로 보고, 플레이어가 무엇을 이해하고 선택하며 감정을 형성하는지에서 설계를 시작합니다.",
+      "기획과 구현을 분리하지 않고 프로토타입과 실제 인터랙션에서 드러난 마찰을 다시 설계 판단으로 환류합니다.",
+      "전투와 시스템을 중심으로 UX, 내러티브, 프로젝트 디렉션까지 하나의 경험 목표로 연결합니다."
     ]
   },
   "background": {
@@ -119,7 +127,11 @@
       "cardImage": "assets/images/projects/benedict/cover.jpg",
       "href": "projects/benedict.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": true,
+      "featuredOrder": 1,
+      "featuredRole": "LEAD GAME DESIGNER · COMBAT / SYSTEM DESIGN",
+      "featuredLine": "8개의 죄를 서로 다른 전투 규칙으로 변환하고, 선택과 위험의 구조를 설계했습니다."
     },
     {
       "slug": "salgut",
@@ -128,7 +140,11 @@
       "cardImage": "assets/images/projects/salgut/cover.jpg",
       "href": "projects/salgut.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": true,
+      "featuredOrder": 2,
+      "featuredRole": "GAME DIRECTOR · COMBAT DESIGN",
+      "featuredLine": "5속성 × 2입력의 공격 체계를 재장전 없는 하이퍼 액션 전투 리듬으로 구성했습니다."
     },
     {
       "slug": "fernand",
@@ -137,7 +153,11 @@
       "cardImage": "assets/images/projects/fernand/cover.jpg",
       "href": "projects/fernand.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": true,
+      "featuredOrder": 3,
+      "featuredRole": "PRODUCT DESIGN · UX · DEVELOPMENT",
+      "featuredLine": "작업 목록이 아니라 판단의 맥락을 남기는 데스크톱 작업 환경을 설계하고 구현했습니다."
     },
     {
       "slug": "deco",
@@ -146,7 +166,11 @@
       "cardImage": "assets/images/projects/deco/cover.jpg",
       "href": "projects/deco.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": false,
+      "featuredOrder": 99,
+      "featuredRole": "",
+      "featuredLine": ""
     },
     {
       "slug": "kinosis",
@@ -155,7 +179,11 @@
       "cardImage": "assets/images/projects/kinosis/cover.jpg",
       "href": "projects/kinosis.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": false,
+      "featuredOrder": 99,
+      "featuredRole": "",
+      "featuredLine": ""
     },
     {
       "slug": "machinator",
@@ -164,7 +192,11 @@
       "cardImage": "assets/images/projects/machinator/cover.jpg",
       "href": "projects/machinator.html",
       "visible": true,
-      "selected": true
+      "selected": true,
+      "featured": false,
+      "featuredOrder": 99,
+      "featuredRole": "",
+      "featuredLine": ""
     }
   ],
   "journal": {

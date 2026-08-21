@@ -1,8 +1,8 @@
-# KWAK TAEWOONG — Personal Website v34
+# KWAK TAEWOONG — Personal Website v39
 
 `index.html` is the main page.
 
-## v34 highlights
+## v39 highlights
 
 - Deterministic project transition: card image → fullscreen raw image → detail hero.
 - Reverse transition: project BACK restores the source page and shrinks the same image back into its card.

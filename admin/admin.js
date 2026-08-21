@@ -29,7 +29,7 @@ async function init(){
   try{
     const loaded=await loadJSONCascade(['../user-content/site.json','../content/site.json','../defaults/site.json']);
     site=loaded.data;contentSource=loaded.path.includes('user-content')?'user-content':loaded.path.includes('/content/')?'legacy-content':'defaults';
-    site.version=Math.max(Number(site.version)||0,34);for(const p of (site.projects||[])){if(p.slug==='kinosis'&&['assets/images/projects/kinosis/overview/01.jpg','assets/images/projects/kinosis/cover-v33.jpg'].includes(p.cardImage))p.cardImage='assets/images/projects/kinosis/cover.jpg';if(p.slug==='fernand'&&!p.cardImage)p.cardImage='assets/images/projects/fernand/cover.jpg';}
+    site.version=Math.max(Number(site.version)||0,39);for(const p of (site.projects||[])){if(p.slug==='kinosis'&&['assets/images/projects/kinosis/overview/01.jpg','assets/images/projects/kinosis/cover-v33.jpg'].includes(p.cardImage))p.cardImage='assets/images/projects/kinosis/cover.jpg';if(p.slug==='fernand'&&!p.cardImage)p.cardImage='assets/images/projects/fernand/cover.jpg';if(typeof p.featured!=='boolean')p.featured=['benedict','salgut','fernand'].includes(p.slug);if(!Number.isFinite(Number(p.featuredOrder))||Number(p.featuredOrder)===99&&p.featured)p.featuredOrder=p.slug==='benedict'?1:p.slug==='salgut'?2:p.slug==='fernand'?3:99;p.featuredRole=p.featuredRole||(p.slug==='benedict'?'LEAD GAME DESIGNER · COMBAT / SYSTEM DESIGN':p.slug==='salgut'?'GAME DIRECTOR · COMBAT DESIGN':p.slug==='fernand'?'PRODUCT DESIGN · UX · DEVELOPMENT':'');p.featuredLine=p.featuredLine||(p.slug==='benedict'?'8개의 죄를 서로 다른 전투 규칙으로 변환하고, 선택과 위험의 구조를 설계했습니다.':p.slug==='salgut'?'5속성 × 2입력의 공격 체계를 재장전 없는 하이퍼 액션 전투 리듬으로 구성했습니다.':p.slug==='fernand'?'작업 목록이 아니라 판단의 맥락을 남기는 데스크톱 작업 환경을 설계하고 구현했습니다.':'');}site.about=site.about||{};site.about.detailEyebrow=site.about.detailEyebrow||'ABOUT / FULL PROFILE';site.about.detailIntro=site.about.detailIntro||'결과물보다 그 결과를 만든 판단을 설명할 수 있는 기획자가 되고자 합니다.';site.about.detailNotes=site.about.detailNotes?.length?site.about.detailNotes:[...(site.about.paragraphs||[])];
   }catch{editor.innerHTML='<div class="editor-loading">사이트 데이터를 불러오지 못했습니다. GitHub Pages 또는 로컬 서버에서 열어주세요.</div>';return}
   currentProject=site.projects?.[0]?.slug||'';
   const draft=localStorage.getItem(DRAFT_KEY)||localStorage.getItem('portfolioAdminDraftV31')||localStorage.getItem('portfolioAdminDraftV30');
@@ -71,7 +71,7 @@ function renderAbout(){
     field('EYEBROW','about.eyebrow',a.eyebrow)+field('HEADLINE','about.headline',a.headline,{textarea:true,rows:3})+
     (a.paragraphs||[]).map((p,i)=>field(`INTRO ${i+1}`,`about.paragraphs.${i}`,p,{textarea:true,rows:6})).join('')+
     `<div class="section-card"><div class="section-card-head"><strong>PROFILE FACTS</strong></div>${(a.facts||[]).map((f,i)=>`<div class="array-item"><div class="field-row">${field('LABEL',`about.facts.${i}.label`,f.label)}${field('VALUE',`about.facts.${i}.value`,f.value)}</div></div>`).join('')}</div>`+
-    `<div class="section-card"><div class="section-card-head"><strong>CAPABILITIES</strong></div>${(a.capabilities||[]).map((c,i)=>`<div class="array-item">${field('TITLE',`about.capabilities.${i}.title`,c.title)}${field('DESCRIPTION',`about.capabilities.${i}.body`,c.body,{textarea:true,rows:3})}</div>`).join('')}</div>`+
+    `<div class="section-card"><div class="section-card-head"><strong>FULL ABOUT PAGE</strong></div>${field('PAGE EYEBROW','about.detailEyebrow',a.detailEyebrow||'ABOUT / FULL PROFILE')}${field('PAGE INTRO','about.detailIntro',a.detailIntro||'',{textarea:true,rows:3})}${(a.detailNotes||[]).map((n,i)=>field(`PERSPECTIVE ${i+1}`,`about.detailNotes.${i}`,n,{textarea:true,rows:4})).join('')}</div>`+
     `<div class="section-card"><div class="section-card-head"><strong>HOW I WORK</strong></div>${(a.process||[]).map((p,i)=>`<div class="array-item">${field('TITLE',`about.process.${i}.title`,p.title)}${field('DESCRIPTION',`about.process.${i}.body`,p.body,{textarea:true,rows:3})}</div>`).join('')}</div>`;
   setTimeout(()=>$('#profileUpload')?.addEventListener('change',e=>queueProfileImage(e.target.files[0])),0);
 }
@@ -112,7 +112,7 @@ async function renderProjects(){
     (selected&&d?`<div class="project-detail-divider"></div><div class="section-card"><div class="section-card-head"><strong>${esc(selected.title||'PROJECT')} / CARD</strong><button class="mini-button" id="previewThisProject">PREVIEW DETAIL</button></div>
       <div class="image-field"><div class="image-thumb project-image-thumb"><img id="projectThumb" src="${esc(previewImages.get(`project:${currentProject}`)||'../'+(selected.cardImage||'assets/images/projects/_placeholder.jpg'))}" alt=""></div><label class="file-label">REPLACE COVER<input type="file" id="projectUpload" accept="image/png,image/jpeg,image/webp"></label></div>
       ${field('TITLE',`projects.${site.projects.indexOf(selected)}.title`,selected.title||'')}${field('GENRE',`projects.${site.projects.indexOf(selected)}.genre`,selected.genre||'')}
-      <div class="project-toggle-grid"><label class="toggle-line"><input type="checkbox" id="projectVisible" ${selected.visible!==false?'checked':''}><span>PUBLIC / ALL PROJECTS</span></label><label class="toggle-line"><input type="checkbox" id="projectSelected" ${selected.selected!==false?'checked':''}><span>SELECTED WORKS</span></label></div>
+      <div class="project-toggle-grid"><label class="toggle-line"><input type="checkbox" id="projectVisible" ${selected.visible!==false?'checked':''}><span>PUBLIC / WORKS</span></label><label class="toggle-line"><input type="checkbox" id="projectFeatured" ${selected.featured===true?'checked':''}><span>FEATURED PROJECT</span></label></div>${field('FEATURED ORDER',`projects.${site.projects.indexOf(selected)}.featuredOrder`,String(selected.featuredOrder??99))}${field('FEATURED ROLE',`projects.${site.projects.indexOf(selected)}.featuredRole`,selected.featuredRole||'')}${field('FEATURED ONE-LINER',`projects.${site.projects.indexOf(selected)}.featuredLine`,selected.featuredLine||'')}
     </div>`+renderDetailEditor(d):'<div class="field-note">프로젝트를 추가하거나 선택하세요.</div>');
   bindProjectSort();
   $('#editProjectSelect')?.addEventListener('change',e=>{currentProject=e.target.value;renderProjects();});
@@ -123,7 +123,7 @@ async function renderProjects(){
   $('#createNewProject')?.addEventListener('click',createProjectFromForm);
   $('#projectUpload')?.addEventListener('change',e=>queueProjectImage(e.target.files[0],selected));
   $('#projectVisible')?.addEventListener('change',e=>{selected.visible=e.target.checked;changed()});
-  $('#projectSelected')?.addEventListener('change',e=>{selected.selected=e.target.checked;changed()});
+  $('#projectFeatured')?.addEventListener('change',e=>{selected.featured=e.target.checked;changed()});
   $('#previewThisProject')?.addEventListener('click',()=>showProjectPreview(currentProject));
   if(d)bindDetailInputs(d);
   bindPanelInputs();
@@ -136,7 +136,7 @@ function createProjectFromForm(){
   const title=$('#newProjectTitle')?.value.trim(),genre=$('#newProjectGenre')?.value.trim();let slug=slugify($('#newProjectSlug')?.value.trim()||title);
   if(!title){showToast('프로젝트 제목을 입력하세요.');return}
   if(site.projects.some(p=>p.slug===slug)){showToast('이미 사용 중인 SLUG입니다.');return}
-  const project={slug,title,genre,cardImage:'assets/images/projects/_placeholder.jpg',href:`projects/${slug}.html`,visible:true,selected:true};
+  const project={slug,title,genre,cardImage:'assets/images/projects/_placeholder.jpg',href:`projects/${slug}.html`,visible:true,selected:true,featured:false,featuredOrder:99,featuredRole:'',featuredLine:''};
   site.projects.push(project);details[slug]=emptyDetail(slug,title,genre);newProjects.add(slug);currentProject=slug;newProjectFormOpen=false;setDirty();populateProjectSelect();renderProjects();sendPreview();showToast('프로젝트를 추가했습니다. 커버와 상세 내용을 입력한 뒤 Publish하세요.');
 }
 function renderDetailEditor(d){
@@ -262,7 +262,7 @@ async function projectTemplateHTML(project){
 }
 
 function migrateProjectHTMLToV33(html,project){
-  let next=html.replaceAll('../v31.css','../v35.css').replaceAll('../v32.css','../v35.css').replaceAll('../v33.css','../v35.css').replaceAll('../v34.css','../v37.css').replaceAll('../v35.css','../v37.css').replaceAll('../v36.css','../v37.css').replaceAll('../v31.js','../v35.js').replaceAll('../v32.js','../v35.js').replaceAll('../v33.js','../v35.js').replaceAll('../v34.js','../v37.js').replaceAll('../v35.js','../v37.js').replaceAll('../v36.js','../v37.js').replaceAll('project-detail-v32.css','project-detail-v35.css').replaceAll('project-detail-v33.css','project-detail-v35.css').replaceAll('project-detail-v34.css','project-detail-v37.css').replaceAll('project-detail-v35.css','project-detail-v37.css').replaceAll('project-detail-v36.css','project-detail-v37.css').replaceAll('project-detail-v32.js','project-detail-v35.js').replaceAll('project-detail-v33.js','project-detail-v35.js').replaceAll('project-detail-v34.js','project-detail-v37.js').replaceAll('project-detail-v35.js','project-detail-v37.js').replaceAll('project-detail-v36.js','project-detail-v37.js').replaceAll('project-detail.css','project-detail-v37.css').replaceAll('project-detail.js','project-detail-v37.js');
+  let next=html.replaceAll('../v31.css','../v35.css').replaceAll('../v32.css','../v35.css').replaceAll('../v33.css','../v35.css').replaceAll('../v34.css','../v39.css').replaceAll('../v35.css','../v39.css').replaceAll('../v36.css','../v39.css').replaceAll('../v37.css','../v39.css').replaceAll('../v38.css','../v39.css').replaceAll('../v31.js','../v35.js').replaceAll('../v32.js','../v35.js').replaceAll('../v33.js','../v35.js').replaceAll('../v34.js','../v39.js').replaceAll('../v35.js','../v39.js').replaceAll('../v36.js','../v39.js').replaceAll('../v37.js','../v39.js').replaceAll('../v38.js','../v39.js').replaceAll('project-detail-v32.css','project-detail-v35.css').replaceAll('project-detail-v33.css','project-detail-v35.css').replaceAll('project-detail-v34.css','project-detail-v39.css').replaceAll('project-detail-v35.css','project-detail-v39.css').replaceAll('project-detail-v36.css','project-detail-v39.css').replaceAll('project-detail-v37.css','project-detail-v39.css').replaceAll('project-detail-v38.css','project-detail-v39.css').replaceAll('project-detail-v32.js','project-detail-v35.js').replaceAll('project-detail-v33.js','project-detail-v35.js').replaceAll('project-detail-v34.js','project-detail-v39.js').replaceAll('project-detail-v35.js','project-detail-v39.js').replaceAll('project-detail-v36.js','project-detail-v39.js').replaceAll('project-detail-v37.js','project-detail-v39.js').replaceAll('project-detail-v38.js','project-detail-v39.js').replaceAll('project-detail.css','project-detail-v39.css').replaceAll('project-detail.js','project-detail-v39.js');
   if(!/class=["'][^"']*detail-boot/.test(next)) next=next.replace(/<html([^>]*)>/i,(m,a)=>`<html${a} class="detail-boot">`);
   if(!next.includes('transition-arrival-pending')){
     const boot=`<script>(()=>{try{const image=sessionStorage.getItem('portfolioTransitionImage');if(!image)return;document.documentElement.classList.add('transition-arrival-pending');document.documentElement.style.setProperty('--transition-image',\`url("${String(image).replace(/["\\\\]/g,'\\\\$&')}")\`);}catch{}})();<\/script><style>html,body{margin:0;background:#081113}html.transition-arrival-pending::before{content:"";position:fixed;inset:0;z-index:9997;background:#081113 var(--transition-image) center/cover no-repeat;pointer-events:none}</style>`;
@@ -291,7 +291,7 @@ async function publishGithub(){
         const html=await projectTemplateHTML(p);await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Create ${p.title} project page`);write(`✓ ${htmlPath} (created)`);
       }else if(existing.content){
         const before=base64Text(existing.content);const html=migrateProjectHTMLToV33(before,p);
-        if(html!==before){await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} project shell`);write(`✓ ${htmlPath} (v34 shell)`)}
+        if(html!==before){await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} project shell`);write(`✓ ${htmlPath} (v39 shell)`)}
       }
     }
     await githubPut(owner,repo,'user-content/site.json',branch,token,textBase64(JSON.stringify(site,null,2)+'\n'),'Update portfolio user content');write('✓ user-content/site.json (final)');
