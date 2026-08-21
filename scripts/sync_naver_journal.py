@@ -12,7 +12,8 @@ from html.parser import HTMLParser
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'assets' / 'data' / 'journal.json'
 MEDIA_DIR = ROOT / 'assets' / 'data' / 'journal-media'
-BLOG_ID = 'cine_insol'
+DEFAULT_BLOG_ID = 'cine_insol'
+BLOG_ID = DEFAULT_BLOG_ID
 RSS = f'https://rss.blog.naver.com/{BLOG_ID}.xml'
 BLOG = f'https://blog.naver.com/{BLOG_ID}'
 TAG_RE = re.compile(r'<[^>]+>')
@@ -20,6 +21,57 @@ IMG_RE = re.compile(r'<img[^>]+(?:src|data-lazy-src|data-src)=["\']([^"\']+)', r
 CONTENT_TAGS = {'description','encoded','content','summary'}
 CONTENT_TYPE_EXT = {'image/jpeg':'.jpg','image/jpg':'.jpg','image/png':'.png','image/webp':'.webp','image/gif':'.gif'}
 CATEGORY_PRIORITY=['DEVLOG','MOVIES','GAMES','BOOKS','MUSIC','DAILY','PHOTO','WORK','CRITIQUE','LIFE']
+
+
+def resolve_blog_source():
+    """Use the Admin-published blog URL as the sync source when available."""
+    global BLOG_ID, RSS, BLOG
+    candidates=[ROOT/'user-content'/'site.json',ROOT/'content'/'site.json',ROOT/'defaults'/'site.json']
+    url=''
+    for path in candidates:
+        try:
+            data=json.loads(path.read_text(encoding='utf-8'))
+            url=(data.get('journal') or {}).get('blogUrl') or (data.get('contact') or {}).get('blog') or ''
+            if url:break
+        except Exception:
+            continue
+    env_id=(__import__('os').environ.get('NAVER_BLOG_ID') or '').strip()
+    if env_id:
+        blog_id=env_id
+    else:
+        m=re.search(r'blog\.naver\.com/([^/?#]+)',url or '',re.I)
+        blog_id=(m.group(1) if m else DEFAULT_BLOG_ID).strip()
+    if not re.fullmatch(r'[A-Za-z0-9_.-]+',blog_id):
+        raise RuntimeError(f'invalid Naver blog id: {blog_id!r}')
+    BLOG_ID=blog_id
+    BLOG=f'https://blog.naver.com/{BLOG_ID}'
+    RSS=f'https://rss.blog.naver.com/{BLOG_ID}.xml'
+    return BLOG_ID
+
+def fetch_with_retries(url,accept,referer,attempts=3,timeout=25):
+    last=None
+    for attempt in range(1,attempts+1):
+        try:return fetch_bytes(url,accept=accept,referer=referer,timeout=timeout)
+        except Exception as exc:
+            last=exc
+            if attempt<attempts:time.sleep(1.2*attempt)
+    raise last
+
+def title_quality(value):
+    value=clean(value)
+    if not value:return -100
+    low=value.lower()
+    generic={'untitled','리뷰','review','네이버 블로그','blog','movies','games','devlog'}
+    score=min(len(value),80)
+    if low in generic:score-=80
+    if len(value)<=3:score-=35
+    if '네이버 블로그' in value:score-=25
+    return score
+
+def choose_title(rss_title,page_title):
+    # RSS title is normally the canonical post title. Page metadata is only a repair fallback.
+    rss_title=clean(rss_title);page_title=clean(page_title)
+    return rss_title if title_quality(rss_title)>=title_quality(page_title) else page_title
 
 class MetaParser(HTMLParser):
     def __init__(self):
@@ -127,8 +179,14 @@ def merge_old_posts(new_posts):
     return new_posts
 
 def main():
-    try:xml,_=fetch_bytes(RSS,accept='application/rss+xml,application/xml,text/xml,*/*',referer=BLOG+'/',timeout=25);root=ET.fromstring(xml)
-    except (URLError,HTTPError,TimeoutError,ET.ParseError) as exc:print(f'journal sync skipped: {exc}',file=sys.stderr);return
+    resolve_blog_source()
+    print(f'Naver journal source: {BLOG_ID} ({RSS})')
+    try:
+        xml,_=fetch_with_retries(RSS,accept='application/rss+xml,application/xml,text/xml,*/*',referer=BLOG+'/',attempts=3,timeout=25)
+        root=ET.fromstring(xml)
+    except (URLError,HTTPError,TimeoutError,ET.ParseError,OSError) as exc:
+        print(f'journal sync FAILED: {exc}',file=sys.stderr)
+        raise SystemExit(2)
     temp_media=MEDIA_DIR.with_name('journal-media-next')
     if temp_media.exists():shutil.rmtree(temp_media)
     old_media_dir=MEDIA_DIR
@@ -140,7 +198,7 @@ def main():
     for idx,item in enumerate(items,1):
         rss_link=child_text(item,'link') or child_text(item,'guid');log_no=post_id_from(rss_link,child_text(item,'guid'));page=fetch_post_meta(log_no)
         fragments=content_fragments(item);rss_desc=next((f for f in fragments if clean(f)),child_text(item,'description'))
-        title=page.get('title') or clean(child_text(item,'title')) or 'Untitled'
+        title=choose_title(child_text(item,'title'),page.get('title')) or 'Untitled'
         excerpt=page.get('excerpt') or clean(rss_desc)
         categories=child_texts(item,'category');category=choose_category(categories)
         rss_image=first_rss_image(item);remote_image=(page.get('image') if usable_image(page.get('image','')) else '') or rss_image
@@ -148,9 +206,9 @@ def main():
         if local_image:local_image=local_image.replace('journal-media-next','journal-media')
         posts.append({'id':log_no or canonical_post_url(log_no,rss_link),'date':fmt_date(child_text(item,'pubDate')),'category':category,'group':group_for(category),'title':title,'excerpt':excerpt[:260],'link':canonical_post_url(log_no,rss_link),'image':local_image,'sourceImage':remote_image if remote_image and not local_image else ''})
     if not posts:
-        print('journal sync skipped: feed contained no posts',file=sys.stderr)
+        print('journal sync FAILED: feed contained no posts',file=sys.stderr)
         if temp_media.exists():shutil.rmtree(temp_media)
-        return
+        raise SystemExit(3)
     globals()['MEDIA_DIR']=old_media_dir
     # Move the new current-feed cache first. Older journal entries retain sourceImage if their old local file disappears.
     if old_media_dir.exists():shutil.rmtree(old_media_dir)
@@ -160,5 +218,5 @@ def main():
     posts=merge_old_posts(posts)
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps({'source':RSS,'blog':BLOG,'syncedAt':datetime.now(timezone.utc).isoformat(),'posts':posts},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print(f'wrote {len(posts)} posts -> {OUT}')
+    print(f"wrote {len(posts)} posts -> {OUT} | DEVLOG={sum(1 for p in posts if p.get('group')=='WORK')} CRITIQUE={sum(1 for p in posts if p.get('group')=='CRITIQUE')} LIFE={sum(1 for p in posts if p.get('group')=='LIFE')}")
 if __name__=='__main__':main()

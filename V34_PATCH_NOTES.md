@@ -1,4 +1,4 @@
-# v34 patch notes
+# v35 patch notes
 
 - Naver Journal: RSS + per-post metadata enrichment (title/description/thumbnail), canonical post links, cached older entries retained, DEVLOG 3 / CRITIQUE 3 preview.
 - Hero → Works seam tightened and dark field blended.

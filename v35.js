@@ -291,21 +291,20 @@ function renderArchive(projects){
 
 function bindDragRail(stage,rail,progress){
   if(!stage||!rail) return null;
-  let x=0,startPointer=0,startX=0,max=0,pointerDown=false,dragging=false,cardStep=240,activePointer=null,suppressClickUntil=0,startIndex=0,lastDelta=0;
+  let x=0,startPointer=0,startX=0,max=0,pointerDown=false,dragging=false,cardStep=240,activePointer=null,suppressClickUntil=0,locked=false;
   const threshold=7;
-  const clamp=v=>Math.max(-max,Math.min(0,v));
+  const clamp=v=>Math.max(-max,Math.min(0,Number(v)||0));
+  const currentIndex=()=>Math.round(Math.abs(x)/Math.max(1,cardStep));
   const draw=()=>{
     rail.style.transform=`translate3d(${x}px,0,0)`;
     const ratio=max?Math.min(1,Math.abs(x)/max):0;
-    if(progress){
-      progress.style.left=`${ratio*78}%`;
-      progress.style.transform='none';
-      progress.dataset.progress=String(ratio);
-    }
+    if(progress){progress.style.left=`${ratio*78}%`;progress.style.transform='none';progress.dataset.progress=String(ratio);}
     stage.dataset.dragProgress=String(ratio);
   };
   const cardMetrics=()=>{
-    const cards=[...rail.children]; const gap=parseFloat(getComputedStyle(rail).columnGap||getComputedStyle(rail).gap||'14')||14;
+    if(locked)return;
+    const cards=[...rail.children];
+    const cs=getComputedStyle(rail);const gap=parseFloat(cs.columnGap||cs.gap||'14')||14;
     const w=stage.clientWidth;
     const count=w>=1180?5:w>=760?3:1.45;
     const cardWidth=count===1.45?Math.min(330,w*.69):(w-gap*(count-1))/count;
@@ -314,44 +313,52 @@ function bindDragRail(stage,rail,progress){
     const total=cards.length?cards.length*cardWidth+(cards.length-1)*gap:0;
     rail.style.width=`${Math.max(w,total)}px`;
     max=Math.max(0,total-w);
-    x=clamp(x); draw();
-    stage.classList.toggle('has-overflow',max>1);
+    x=clamp(x);draw();stage.classList.toggle('has-overflow',max>1);
   };
-  const settleTo=index=>{
-    if(!max){x=0;draw();return;}
-    const maxIndex=Math.ceil(max/cardStep);
-    const safe=Math.max(0,Math.min(maxIndex,index));
-    x=clamp(-safe*cardStep);rail.classList.add('is-settling');draw();
-    clearTimeout(settleTo.t);settleTo.t=setTimeout(()=>rail.classList.remove('is-settling'),360);
+  const moveTo=(value,animate=false)=>{
+    x=clamp(value);
+    rail.classList.toggle('is-settling',!!animate);
+    draw();
+    clearTimeout(moveTo.t);if(animate)moveTo.t=setTimeout(()=>rail.classList.remove('is-settling'),300);
   };
   const down=e=>{
-    if(e.pointerType==='mouse'&&e.button!==0) return;
-    pointerDown=true;dragging=false;activePointer=e.pointerId;startPointer=e.clientX;startX=x;lastDelta=0;startIndex=Math.round(Math.abs(x)/cardStep);
+    if(locked||(e.pointerType==='mouse'&&e.button!==0))return;
+    pointerDown=true;dragging=false;activePointer=e.pointerId;startPointer=e.clientX;startX=x;
   };
   const move=e=>{
-    if(!pointerDown||e.pointerId!==activePointer)return;
-    const dx=e.clientX-startPointer;lastDelta=dx;
+    if(locked||!pointerDown||e.pointerId!==activePointer)return;
+    const dx=e.clientX-startPointer;
     if(!dragging&&Math.abs(dx)>=threshold){dragging=true;stage.classList.add('is-dragging');try{stage.setPointerCapture(e.pointerId)}catch{}}
     if(!dragging)return;
-    e.preventDefault();x=clamp(startX+dx);draw();
+    e.preventDefault();moveTo(startX+dx,false);
   };
   const up=e=>{
     if(!pointerDown||e.pointerId!==activePointer)return;
-    const wasDragging=dragging;pointerDown=false;dragging=false;activePointer=null;stage.classList.remove('is-dragging');try{stage.releasePointerCapture(e.pointerId)}catch{}
-    if(wasDragging){
-      suppressClickUntil=performance.now()+260;
-      if(Math.abs(lastDelta)>=45){const steps=Math.max(1,Math.round(Math.abs(lastDelta)/cardStep));settleTo(startIndex+(lastDelta<0?steps:-steps));}
-      else settleTo(Math.round(Math.abs(x)/cardStep));
-    }
+    const wasDragging=dragging;pointerDown=false;dragging=false;activePointer=null;stage.classList.remove('is-dragging');
+    try{stage.releasePointerCapture(e.pointerId)}catch{}
+    // Direct manipulation: the rail stays exactly where the user released it. No hidden snap.
+    if(wasDragging)suppressClickUntil=performance.now()+240;
   };
   const clickCapture=e=>{if(performance.now()<suppressClickUntil){e.preventDefault();e.stopPropagation();}};
-  const key=e=>{if(e.key==='ArrowRight'){e.preventDefault();settleTo(Math.round(Math.abs(x)/cardStep)+1)}if(e.key==='ArrowLeft'){e.preventDefault();settleTo(Math.round(Math.abs(x)/cardStep)-1)}};
+  const key=e=>{
+    if(e.key==='ArrowRight'){e.preventDefault();moveTo(x-cardStep,true)}
+    if(e.key==='ArrowLeft'){e.preventDefault();moveTo(x+cardStep,true)}
+  };
   const nativeDrag=e=>e.preventDefault();
   stage.addEventListener('pointerdown',down);stage.addEventListener('pointermove',move,{passive:false});stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('click',clickCapture,true);stage.addEventListener('dragstart',nativeDrag);rail.addEventListener('keydown',key);
   const ro=new ResizeObserver(cardMetrics);ro.observe(stage);cardMetrics();
-  return {destroy(){clearTimeout(settleTo.t);ro.disconnect();stage.removeEventListener('pointerdown',down);stage.removeEventListener('pointermove',move);stage.removeEventListener('pointerup',up);stage.removeEventListener('pointercancel',up);stage.removeEventListener('click',clickCapture,true);stage.removeEventListener('dragstart',nativeDrag);rail.removeEventListener('keydown',key);}};
+  return {
+    destroy(){clearTimeout(moveTo.t);ro.disconnect();stage.removeEventListener('pointerdown',down);stage.removeEventListener('pointermove',move);stage.removeEventListener('pointerup',up);stage.removeEventListener('pointercancel',up);stage.removeEventListener('click',clickCapture,true);stage.removeEventListener('dragstart',nativeDrag);rail.removeEventListener('keydown',key);},
+    getIndex:currentIndex,
+    setIndex(index,animate=false){moveTo(-(Number(index)||0)*cardStep,animate);},
+    getX:()=>x,
+    setX(value,animate=false){moveTo(value,animate);},
+    lock(){locked=true;rail.classList.remove('is-settling');},
+    unlock(){locked=false;cardMetrics();},
+    refresh(){cardMetrics();},
+    isLocked:()=>locked
+  };
 }
-
 function renderBackground(bg){
   const root=document.querySelector('#backgroundGroups'); if(!root) return;
   const edu=bg.education||[], exp=bg.experience||[], awards=bg.awards||[];
@@ -515,7 +522,7 @@ function migrateSiteDataV33(data){
       project.cardImage='assets/images/projects/fernand/cover.jpg';
     }
   }
-  data.version=Math.max(Number(data.version)||0,34);
+  data.version=Math.max(Number(data.version)||0,35);
   return data;
 }
 
@@ -671,56 +678,73 @@ function bindProjectTransitions(scope=document){
 
 async function v33FindReturnTarget(data){
   document.documentElement.classList.add('is-restoring-project');
-  if(Number.isFinite(data?.railX)&&dragController?.setX) dragController.setX(data.railX,false);
-  else if(Number.isInteger(data?.railIndex)&&dragController?.setIndex) dragController.setIndex(data.railIndex,false);
-  if(typeof data?.scrollY==='number') scrollTo({top:data.scrollY,left:0,behavior:'auto'});
-  await v33NextFrame();
-  if(Number.isFinite(data?.railX)&&dragController?.setX) dragController.setX(data.railX,false);
-  if(typeof data?.scrollY==='number') scrollTo({top:data.scrollY,left:0,behavior:'auto'});
+  const restore=()=>{
+    if(Number.isFinite(data?.railX)&&dragController?.setX)dragController.setX(data.railX,false);
+    else if(Number.isInteger(data?.railIndex)&&dragController?.setIndex)dragController.setIndex(data.railIndex,false);
+    if(Number.isFinite(data?.scrollY))scrollTo({top:data.scrollY,left:0,behavior:'auto'});
+  };
+  // Let content/data render first, then pin both axes repeatedly until layout settles.
+  for(let i=0;i<4;i++){restore();await v33NextFrame();}
   const safeSlug=window.CSS?.escape?CSS.escape(data.slug):String(data.slug||'').replace(/[^a-zA-Z0-9_-]/g,'');
   let link=document.querySelector(`.project-transition-link[data-project="${safeSlug}"]`);
-  for(let i=0;!link&&i<24;i++){await v33Wait(35);link=document.querySelector(`.project-transition-link[data-project="${safeSlug}"]`);}
-  if(typeof data?.scrollY==='number') scrollTo({top:data.scrollY,left:0,behavior:'auto'});
+  for(let i=0;!link&&i<30;i++){await v33Wait(30);restore();link=document.querySelector(`.project-transition-link[data-project="${safeSlug}"]`);}
+  if(!link)return null;
+  // A ResizeObserver/font/image can still move the rail one frame later. Wait until the card rect is actually stable.
+  let stable=0,prev=null;
+  for(let i=0;i<18;i++){
+    restore();await v33NextFrame();
+    const image=link.querySelector('.project-card-image');const r=image?.getBoundingClientRect();
+    if(!r)continue;
+    const now=[r.left,r.top,r.width,r.height];
+    if(prev&&now.every((v,j)=>Math.abs(v-prev[j])<.65))stable++;else stable=0;
+    prev=now;
+    if(stable>=3)break;
+  }
+  restore();dragController?.lock?.();
   return link;
 }
 
 async function playReverseProjectTransition(){
   if(reverseTransitionRunning)return false;
   let data=v33ReadJSON('portfolioReturnTransition');
-  // Browser-native Back can restore the origin page through BFCache. Infer a reverse transition from the last detail visit.
   if(!data){
     const last=v33ReadJSON('portfolioLastDetail');
-    if(last?.origin?.path===location.pathname && Date.now()-(last.at||0)<20000){
+    if(last?.origin?.path===location.pathname&&Date.now()-(last.at||0)<25000){
       data={slug:last.slug,image:last.image,scrollY:last.origin.scrollY,railIndex:last.origin.railIndex,railX:last.origin.railX,at:Date.now(),nativeBack:true};
       v33WriteJSON('portfolioReturnTransition',data);
     }
   }
   if(!data?.slug||!data?.image)return false;
-  if(Date.now()-(data.at||0)>30000){v33ClearTransitionState();cleanupProjectTransition();return false;}
+  if(Date.now()-(data.at||0)>35000){v33ClearTransitionState();cleanupProjectTransition();return false;}
   reverseTransitionRunning=true;
-  const failSafe=setTimeout(()=>{cleanupProjectTransition({releaseBoot:true});v33ClearTransitionState();reverseTransitionRunning=false;},1800);
+  const failSafe=setTimeout(()=>{dragController?.unlock?.();cleanupProjectTransition({releaseBoot:true});v33ClearTransitionState();document.documentElement.classList.remove('is-restoring-project');reverseTransitionRunning=false;},2200);
   try{
-    const link=await v33FindReturnTarget(data); if(!link)throw new Error('return target unavailable');
-    const image=link.querySelector('.project-card-image'); if(!image)throw new Error('return image unavailable');
-    try{if(!image.complete)await v33WithTimeout(new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true})}),700);await image.decode?.()}catch{}
-    const rect=image.getBoundingClientRect(); if(rect.width<2||rect.height<2)throw new Error('return target hidden');
+    const link=await v33FindReturnTarget(data);if(!link)throw new Error('return target unavailable');
+    const image=link.querySelector('.project-card-image');if(!image)throw new Error('return image unavailable');
+    try{if(!image.complete)await v33WithTimeout(new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true})}),800);await v33WithTimeout(image.decode?.()||Promise.resolve(),500)}catch{}
+    // Re-apply the exact origin after image decode; decoding can change layout on some browsers.
+    if(Number.isFinite(data.railX))dragController?.setX?.(data.railX,false);
+    if(Number.isFinite(data.scrollY))scrollTo({top:data.scrollY,left:0,behavior:'auto'});
+    await v33NextFrame();
+    const rect=image.getBoundingClientRect();if(rect.width<2||rect.height<2)throw new Error('return target hidden');
     const card=link.closest('.project-card');card?.classList.add('is-return-target');
     const clone=document.createElement('img');clone.src=data.image;clone.alt='';clone.className='transition-clone transition-surface transition-return-clone';
-    Object.assign(clone.style,{left:'0px',top:'0px',width:'100vw',height:'100vh',borderRadius:'0px',objectFit:'cover',objectPosition:getComputedStyle(image).objectPosition||'50% 50%'});
-    document.body.appendChild(clone); try{await v33WithTimeout(clone.decode?.()||Promise.resolve(),500)}catch{}
-    // The DOM clone now owns the exact frame, so the head boot mask can be released without flashing.
-    document.documentElement.classList.add('reverse-arrival-release'); await v33Wait(90); document.documentElement.classList.remove('reverse-arrival-pending','reverse-arrival-release');document.documentElement.style.removeProperty('--transition-image');
+    Object.assign(clone.style,{left:'0px',top:'0px',width:`${innerWidth}px`,height:`${innerHeight}px`,borderRadius:'0px',objectFit:'cover',objectPosition:getComputedStyle(image).objectPosition||'50% 50%',opacity:'1'});
+    document.body.appendChild(clone);try{await v33WithTimeout(clone.decode?.()||Promise.resolve(),550)}catch{}
+    // DOM surface is fully painted before releasing the boot mask. This removes the one-frame dark flash.
+    await v33NextFrame();document.documentElement.classList.add('reverse-arrival-release');await v33Wait(70);document.documentElement.classList.remove('reverse-arrival-pending','reverse-arrival-release');document.documentElement.style.removeProperty('--transition-image');
     await v33NextFrame();
     const anim=clone.animate([
-      {left:'0px',top:'0px',width:'100vw',height:'100vh',borderRadius:'0px'},
+      {left:'0px',top:'0px',width:`${innerWidth}px`,height:`${innerHeight}px`,borderRadius:'0px'},
       {left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,borderRadius:getComputedStyle(image).borderRadius||'12px'}
-    ],{duration:620,easing:'cubic-bezier(.19,1,.22,1)',fill:'forwards'});
-    await v33WithTimeout(anim.finished.catch(()=>{}),760);
-    clone.style.opacity='0';await v33Wait(80);clone.remove();card?.classList.remove('is-return-target');
+    ],{duration:560,easing:'cubic-bezier(.22,.75,.18,1)',fill:'forwards'});
+    await v33WithTimeout(anim.finished.catch(()=>{}),700);
+    // Reveal the real card under the clone, then remove the transition surface without moving the rail.
+    card?.classList.remove('is-return-target');clone.style.opacity='0';await v33Wait(45);clone.remove();
     v33ClearTransitionState();document.documentElement.classList.remove('is-restoring-project');
   }catch{
     cleanupProjectTransition({releaseBoot:true});v33ClearTransitionState();document.documentElement.classList.remove('is-restoring-project');
-  }finally{clearTimeout(failSafe);reverseTransitionRunning=false;}
+  }finally{clearTimeout(failSafe);dragController?.unlock?.();reverseTransitionRunning=false;}
   return true;
 }
 window.bindProjectTransitions=bindProjectTransitions;window.playReverseProjectTransition=playReverseProjectTransition;

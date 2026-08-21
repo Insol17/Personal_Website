@@ -24,7 +24,7 @@ if(backButton){
     detailWriteJSON('portfolioReturnTransition',payload);
     document.documentElement.classList.add('detail-returning');
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){location.replace(returnUrl);return;}
-    await detailWait(150);
+    await detailWait(110);
     location.replace(returnUrl);
   });
 }
@@ -163,8 +163,9 @@ async function revealDetailPage(){
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   document.documentElement.classList.add('detail-image-ready');
   if(document.documentElement.classList.contains('transition-arrival-pending')){
+    await new Promise(resolve=>requestAnimationFrame(resolve));
     document.documentElement.classList.add('transition-arrival-fade');
-    await detailWait(120);
+    await detailWait(170);
     document.documentElement.classList.remove('transition-arrival-pending','transition-arrival-fade');
     document.documentElement.style.removeProperty('--transition-image');
   }

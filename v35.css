@@ -518,3 +518,36 @@ html.transition-arrival-pending::before,html.reverse-arrival-pending::before{tra
   .journal-critique-card{grid-template-columns:34% 1fr;grid-template-rows:1fr;min-height:148px}.journal-critique-media{min-height:148px}
   .archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-back-button{top:82px}
 }
+
+/* ========================================================================
+   V35 — stable rail state + longer HERO/WORKS blend + simplified journal CTA
+   ======================================================================== */
+html{scrollbar-gutter:stable}
+
+/* Extend the tonal bridge instead of ending the hero in a hard dark slab. */
+.hero::before{
+  height:38vh!important;
+  background:linear-gradient(180deg,rgba(13,23,25,0) 0%,rgba(13,23,25,.10) 25%,rgba(13,23,25,.46) 63%,#0d1719 100%)!important;
+}
+.portfolio{position:relative;isolation:isolate}
+.portfolio::before{
+  content:"";position:absolute;z-index:-1;left:0;right:0;top:-18vh;height:18vh;pointer-events:none;
+  background:linear-gradient(180deg,rgba(13,23,25,0) 0%,rgba(13,23,25,.55) 56%,#0d1719 100%);
+}
+.portfolio.section{padding-top:clamp(42px,4vw,64px)!important}
+
+/* Preserve viewport geometry during transitions. Removing the scrollbar used to
+   change the stage width and could shift the entire rail by one card. */
+html.project-transition-active,html.project-transition-active body{overflow-x:hidden!important;scrollbar-gutter:stable!important}
+html.is-restoring-project .project-rail{transition:none!important;will-change:auto!important}
+html.is-restoring-project .works-stage{overflow-anchor:none!important}
+.transition-surface{contain:paint;backface-visibility:hidden;transform:translateZ(0)}
+.project-card.is-return-target .project-card-image{opacity:0!important}
+
+/* Only ALL JOURNALS is a navigation CTA; group headings are informational. */
+.journal-group-head{justify-content:flex-start!important}
+
+@media(max-width:760px){
+  .hero::before{height:30vh!important}
+  .portfolio::before{top:-13vh;height:13vh}
+}
