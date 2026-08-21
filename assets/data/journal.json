@@ -3,28 +3,211 @@
   "blog": "https://blog.naver.com/cine_insol",
   "posts": [
     {
+      "date": "2026.08.22",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "SPOILER REVIEW 치유도 구원도 아닌, 죽지 않을 마음의 발견. 유레카. ★★★★★ 파도가 휩쓸고 간 자리에서. 버스 한 대가 납치되고, 그 안에 있던 사람들이 차례로 죽습니다. 그날 살아남은 사람은 운전기사 마코토와 어린 남매 나오키, 코즈에뿐입니다. 사건은 영화가 시작한 지 얼마 지나지 않아 끝납니다. 하지만 는 그제야 비로소 시작됩니다. 죽은 사람들에게 그날은 마지막 날이었지만",
+      "link": "https://blog.naver.com/cine_insol/224386238889?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/01-40245e0fbb910824.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2026.08.22",
+      "category": "DEVLOG",
+      "title": "중간 회고",
+      "excerpt": "중부대학교에 입학하고 개강 전 오리엔테이션에서 선배님들께 CCIT 게임융합소학회에 대한 소개를 처음 들었습니다. 기본적으로 월요일부터 금요일까지 9시부터 6시까지 활동하면서 직접 게임을 만들고, 그 과정을 포트폴리오로 쌓아가는 곳이었습니다. 당시에는 단순히 학교 안에서 꾸준히 게임을 만들어볼 수 있는 곳 정도로 생각했던 것 같습니다. 막상 들어가 보니 제가 예상했던 것보다 훨씬 힘든 활동이었",
+      "link": "https://blog.naver.com/cine_insol/224386220114?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/02-dc82a1fcf965f31d.jpg",
+      "sourceImage": ""
+    },
+    {
       "date": "2025.12.30",
-      "category": "CRITIQUE",
-      "title": "〈2025 연말정산〉",
-      "excerpt": "2025년을 마무리하며 남긴 기록.",
-      "link": "https://blog.naver.com/cine_insol",
-      "image": "assets/images/journal/critique.svg"
+      "category": "MOVIES",
+      "title": "",
+      "excerpt": "오늘은 조금 특별한 글로 찾아왔습니다. 이제 2025년이 다 끝난 오늘, 유난히 짧게 느껴진 올해동안 본 영화들을 한데 모아 연말정산을 해볼 생각입니다. 요 몇달에 엄청 몰아보니 그새 거의 90편이 쌓였네요. 영화를 보다보니 중간중간 별점이 변경된 작품들도 있고 올린 작품들도 있습니다. 원래는 인셉션 리뷰를 작성하려 했었지만, 워낙 보는 작품들도 많고 앞으로는 일주일마다 한줄평만 올려볼 생각",
+      "link": "https://blog.naver.com/cine_insol/224128161733?fromRss=true&trackingCode=rss",
+      "image": "",
+      "sourceImage": "https://blogthumb.pstatic.net/MjAyNTEyMzBfMjU4/MDAxNzY3MDg4Mzk2NzI2.7XwLGzuG3-bV0gzmLc6wghvqM6jX-Mv0TPiNwZ_jG0og.AfvYWlBE2ibLk91jtO0m2Kz0DuYoFRJSA3CZQ7i5Iccg.PNG/�쉶�옄�젙由�(�쐝�끻츣�썴).png?type=s3"
     },
     {
       "date": "2025.11.30",
       "category": "MOVIES",
-      "title": "〈부고니아〉 리뷰 외 6편",
-      "excerpt": "최근 감상한 영화들에 대한 짧은 리뷰와 기록.",
-      "link": "https://blog.naver.com/cine_insol",
-      "image": "assets/images/journal/critique.svg"
+      "title": "리뷰 외 6편",
+      "excerpt": "REVIEW 가여운 벌들이 넷 인간의 살점으로 다시 탄생하기를 ★★★★ 재탄생의 의식, 부고니아. ‘부고니아’는 썩은 소의 사체로부터 새로운 벌이 탄생시키는 옛 신화적 풍습입니다. 오늘날에는 행위 자체보다는 재탄생, 속죄, 자연 순리에 대한 순응 상징하는 시적 개념으로 더 널리 사용되는 표현입니다. 베르길리우스의 「농경시」가 그 대표적 사례입니다. 영화 는 제목부터 이러한 메타포를 품고 있습",
+      "link": "https://blog.naver.com/cine_insol/224093527926?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/04-fc6eac946bd04809.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.11.12",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 유스티티아의 저울을 기울일 진실한 거짓의 힘 ★★★★ 달 위에서 사는 사람들의 이야기. 달의 뒷면, 지구에 살아가는 우리들은 거의 볼 수 없는 영역. 영화, 는 은유적으로 말하자면 달 위에서 살아가는 자들의 이야기입니다. 밝은 면에 존재하는 조종사와 그 뒷면에 존재하는 관제사. 그리고 앞에서 모든 이익을 취하는 정치인과 어둠 속에서 판을 까는 기획자. 또한 이것은 사람을 넘어 진",
+      "link": "https://blog.naver.com/cine_insol/224072926271?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/05-864036738300fc30.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.11.07",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 그는 이제는 잃어버린 행복과 영원한 고통을 생각하고 괴로워한다. ★★★★☆ 아이에게 새로운 삶을 줄 만한 세상인가? \"아니오.\" 영화는 마치 이런 세상에서는 아이를 낳아 키울 수 없다고 말하는 것 처럼 느껴집니다. 중세 가톨릭 철학자, 토마스 아퀴나스가 설명했듯 칠죄종은 인간의 본성과 밀접하게 맞닿아 있습니다. 아퀴나스에 따르면 분노, 음욕, 나태, 식탐, 교만, 탐욕, 질투로 ",
+      "link": "https://blog.naver.com/cine_insol/224067432377?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/06-e88f4c5873b3a699.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.11.06",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 해방의 환상 끝에서 폭력으로 붕괴하는 현대적 아나키즘. ★★★★ 억압의 사슬을 끊어내라. 살다보면 학업, 일 등등 참 여러 가지 일에 치이게 됩니다. 숨 막히는 사회 속에서 살다 보면 당장이라도 익사할 것만 같은 기분을 느껴본 적이 있을 겁니다. 그럴 때마다 우리는 해방을 꿈꾸며 내면에서 칼을 갈지만, 결국 그 칼을 꺼내 들지는 않습니다. 은 그 무기력함을 마초적으로 정면돌파하며",
+      "link": "https://blog.naver.com/cine_insol/224066237575?fromRss=true&trackingCode=rss",
+      "image": "",
+      "sourceImage": "https://blogthumb.pstatic.net/MjAyNTExMDZfMzkg/MDAxNzYyMzYxNTI4MzQy.6Z1kb0FTPFO9K5ieJmEshGMe0BOEQ38Mr6kI8ibYp68g.mUKjPVkdl0SLSsmfCPEKbs-7JqsHq5kavDv4pY3meowg.JPEG/다운로드_(1).jpg?type=s3"
+    },
+    {
+      "date": "2025.11.03",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 영원히 이어질 수 없는 자신의 세계에 끝을 고하며, \"그대들은 어떻게 살아갈 것인가?\" ★★★★☆ 위대한 거장의 창의력에 찬사와 작별을 보내며 미야자키 하야오는 거장이라는 타이틀이 아깝지 않은 감독입니다. 그가 구축한 세계는 언제나 신비와 환상으로 가득 차있으며 늘 신선하고 벅차오르는 모험을 선사하죠. 그러나 인간의 삶이 유한한 이상 그의 세계는 언제까지고 이어질 수는 없습니다.",
+      "link": "https://blog.naver.com/cine_insol/224063204677?fromRss=true&trackingCode=rss",
+      "image": "",
+      "sourceImage": "https://blogthumb.pstatic.net/MjAyNTExMDNfMTQ0/MDAxNzYyMTU0NDI3NjMz.N6t36aBteM3FzZdNEHiqLx2jaXo8FnTl-pNDvh6rqgQg.QWTaD8WKVMUHPiemX-oVKbYNYI6y56Q2fcsVGjbhudEg.PNG/스크린샷_2023-10-26_042147.png?type=s3"
+    },
+    {
+      "date": "2025.11.02",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 우리는 어째서 서로 죽여야만 하는가 ★★★★ 아무도 도와주지 않아. 인생이란 그런거야. 사회는 부조리합니다. 출생신분부터 신체적 요건 등 출발선부터 다른 지점에 서있는 사람들, 경쟁을 요구하고 사람을 억압하는 사회구조. 이런 요소들을 극단까지 끌고간 요소가 \"배틀 로얄\"입니다. 우리 사회는 경쟁사회입니다. 그러나 경쟁은 서로가 서로를 자극하는 역할이 되어야 하는 것이지, 패배자에",
+      "link": "https://blog.naver.com/cine_insol/224061621948?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/09-7dbfa201233692b3.jpg",
+      "sourceImage": ""
     },
     {
       "date": "2025.10.28",
       "category": "DEVLOG",
-      "title": "〈BENEDICT OF SINS〉 개발 기록",
-      "excerpt": "베네딕트 오브 신즈를 제작하며 남긴 개발 기록.",
-      "link": "https://blog.naver.com/cine_insol",
-      "image": "assets/images/journal/work.svg"
+      "title": "개발일지",
+      "excerpt": "어느 날 크래프톤에서 'Better Ground'라는 프로그램을 운영하고 있다는 것을 알게되었습니다. 고등학생을 대상으로 실제 게임 제작과 멘토링을 경험할 수 있도록 지원하는 프로그램이었고, 참가비도 없는 일종의 재능기부 형태의 프로그램이었습니다. 당시 고3이었던 저에게는 사실상 이런 형태의 프로그램을 마지막으로 참가할 수 있는 기회였습니다. 그래서 별 고민 없이 신청서를 썼고, 그렇게 첫 ",
+      "link": "https://blog.naver.com/cine_insol/224055965897?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/10-312cbc542c92f27b.png",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.24",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 부질없음마저 가치있대도 이렇게는 죽기 싫어 ★★★☆ 결국 사람을 죽이는건 사람인가 은 욕망에 눈이 멀어 파멸의 길로 향하는 인류에게 전하는 메세지입니다. 허울뿐인 정치판과 무능한 관료들 무관심한 언론 그리고 선동에 취약한 대중들까지. 자칫하면 정치 선전물 처럼 보일 수 있는 영화지만 내포하고 있는 의미는 그것과는 사뭇 다릅니다. 인간이라는 족속들은 욕심이 그득그득해 자기 밥그릇 ",
+      "link": "https://blog.naver.com/cine_insol/224052763687?fromRss=true&trackingCode=rss",
+      "image": "",
+      "sourceImage": "https://blogthumb.pstatic.net/MjAyNTEwMjRfMTQy/MDAxNzYxMzA1MzIyNTMz.FFIi3iUuWjpkICOgQMmh0ketODhau8RLEttjv2Mgzf8g.qD-LkfZsOPCqZ58qzyqOHIsYReXE-KaLlhUP2eLW1eog.JPEG/�떎�슫濡쒕뱶.jpg?type=s3"
+    },
+    {
+      "date": "2025.10.24",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 순도 낮은 재료들로 제조한 그럴싸한 마약 ★★☆ 늘 먹던 그 맛이군. 뻔한 스토리지만 이 리뷰에는 스포일러가 포함되어있습니다. 야당은 정말로 먹던 그 맛 그대로입니다. 어디선가 본 버디물? 어디선가 본 배신, 그리고 어디선가 본 사이다까지. 딱 안전한 공식을 그대로 따라갑니다. 솔직히 이제 더 뭔 말을 써야할지도 잘 모르겠습니다. 영화를 20분쯤 보다보면 아, 유해진이 배신하겠구",
+      "link": "https://blog.naver.com/cine_insol/224052498369?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/12-474504e03a0ffa18.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.22",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 날개 없는 우리는 왜 사랑을 갈망해 날개짓하는가. ★★★★☆ 인생이라는 하나의 연극 삶이란 짧은 연극과도 같습니다. 검증되고, 해체되며, 끝내 죽음으로써 평가받는 하나의 연극. 약 백 년 남짓의 무대 위에서 우리는 수없이 상처받고, 물어뜯기겠죠. 그럼에도 우리는 사랑을 갈구하며, 무대에서 내려오지 않습니다. 우리는 스스로를 증명하고 싶어하고 합니다. 인류가 존재했던 시간은 우주의",
+      "link": "https://blog.naver.com/cine_insol/224050008475?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/13-380dc64a81ec1e2e.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.21",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 보드카에 물 탄 맛이 날 줄이야. ★★★☆ 킬 빌 는 전작을 그대로 답습하지는 않았다는 점에서 그 시도 자체는 박수를 받아 마땅하다고 생각합니다. 다양한 반전요소와 개그 그리고 엔딩 부근에서는 가족 드라마까지? 솔직히 나쁘지는 않았습니다. 다만 이것으로 시리즈의 마지막을 장식한다고 하니 급격히 아쉬워집니다. 속된말로 어그로 영화의 제목이 뭡니까? Kill Bill, 빌을 죽여라입",
+      "link": "https://blog.naver.com/cine_insol/224048715651?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/14-d4942ced93816e90.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.21",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 중경의 빛에 홀리는 그 모든 순간에 사랑이 스며들다. ★★★★ 미장센의 마술사 30년이라는 긴 세월에도 중경삼림은 그 높은 위상을 유지하고 있습니다. 여러 이유가 있겠지만 그 이유는 변함없이 아름다운 그 미장센 덕분이라고 생각합니다. 영화의 배경이 되는 충킹맨션, 그 모더니즘의 복합건물들은 솔직히 아름다운 느낌은 아닙니다. 너무 복잡하게 얽혀있고 단순히 쌓아 높이기만 한 건물처럼",
+      "link": "https://blog.naver.com/cine_insol/224048517892?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/15-80584a7a32552554.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.19",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 대물림되는 세대의 전쟁, 그리고 개인의 과오. ★★★★★ 전투의 연속성, 원 배틀 애프터 어나더, 직역하면 전투 뒤의 전투정도로 해석됩니다. 뉘앙스만 놓고 본다면 끊임없이 계속되는 전쟁상태 정도가 적절한 것 같네요. 영화는 제목처럼 끊임없이 몰아치는 구성을 가지고 있습니다. 구성, 연출 그리고 서사적인 부분 전체에서요. 우리는 이전 세대의 것들에 그대로 노출되고는 합니다. 건물,",
+      "link": "https://blog.naver.com/cine_insol/224046363811?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/16-aa5c0c23ab245d38.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.10.12",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 어쩔 수가 있었기에 치가 떨리는 상황들. ★★★★ '모가지'당할 내 자리에 대한 불안. 이 영화는 본질적으로 불쾌한 영화입니다. 적어도 제 기준으로써는요. 지금 인간의 현실은 언제 기계에 대체당할까 두려워하며 제발 경쟁자가 없기를 비는 신세입니다. 예상치도 못한 미술, IT가 그 선두를 달리고 얼마나 걸릴지는 모르겠지만 수공업들도 머지 않았겠죠. 영화는 그 지점을 정확히 파고듭니",
+      "link": "https://blog.naver.com/cine_insol/224038496877?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/17-57fe5badcfa856fb.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.23",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "REVIEW 찬란했던 그 시기에 신랄한 헌사와 애도를! ★★★☆ 빛나는 영광은 계속되리라 는 전체적으로 옛 시절의 시네마에 대한 찬사로 가득합니다. 관련 레퍼런스 자료들을 찾아보면 나오는 수많은 영화와 티비쇼들을 보면 알 수 있죠. 그러나 마냥 찬양하는 영화는 아닙니다. 당시 문제가 되던 히피족들, 특히 영화의 중후반부 부터는 샤론 테이트 일가 사건을 중점적으로 조명하기 때문에 그저 그 시대",
+      "link": "https://blog.naver.com/cine_insol/223806459073?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/18-34fcbcc22a42336b.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.22",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "1994년에 개봉된 쿠엔틴 타란티노 감독의 고전 명작이죠, 싸구려 잡지라는 뜻의 펄프 픽션이라는 제목만큼 영화는 정말 끝없이 자극적이면서 때로는 저질스럽기까지 합니다. 이번엔 스포일러가 있습니다. ★★★★☆ 싸구려 소재로 풀어내는 폭력과 회개에 대한 선택. 펄프 픽션은 언뜻보기에 별 내용도 의미도 없어보이는, 정말 피튀기는 재미만을위해 만들어진 영화처럼 보입니다. 그러나 생각해보면 이 영화가",
+      "link": "https://blog.naver.com/cine_insol/223806260937?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/19-d0677340a9a27933.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.18",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "폭력적인 오락영화하면 떠오르는 단 한사람 '쿠엔틴 타란티노' 그리고 그를 가장 잘 나타내는 영화라 할 수 있는 것이 영화, 입니다. ★★★★ 진짜로 '죽여주는' 킬링타임 영화 일단 이 영화가 2003년 영화인 것 부터 감안하고 봐야합니다. 개봉 이후로 20년이 넘는 세월이 흘렀고 시대와 문화가 많이 변해 올드함, B급 등의 요소가 맞지 않을 수도 있으니까요. 이 영화에서 특별한 점은 크게 두",
+      "link": "https://blog.naver.com/cine_insol/223799996438?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/20-4efe5aff7c5415aa.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.17",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "2019년 기생충의 글로벌 히트 이후 약 6년만에 돌아온 봉준호 감독의 신작입니다. 한국 감독 최고 규모의 sf이기도 하고요. 설국열차를 워낙 재밌게 본 저로써 미키17은 설국열차의 재림 혹은 그 이상을 보여줄 수 있을거라 기대했지만 아쉽게도 아닌 것 같습니다. ★★★ '멀티플'된 메시지, 무엇 하나는 없애야... 봉준호 감독은 항상 계급과 같은 사회적 문제를 작품 속에 녹여내어 큰 호평을 ",
+      "link": "https://blog.naver.com/cine_insol/223799833680?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/21-b2a17dee70256551.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.17",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "어김없이 넷플릭스를 뒤지다 신기한 영화를 찾았습니다. “기상천외한 헨리 슈거 이야기” 무려 그 베네딕트 컴버배치가 나와 국어책 읽듯 쉬지 않고 떠들어대는 영화라니! 셜록을 재밌게 본 저로서는 도저히 넘길 수 없는 작품이었습니다. ★★★★ 기묘하게게 코믹한 소설의 실험적 시각화 이 영화는 무척이나 정적이지만 동시에 쉴틈없이 바쁘기도합니다. 등장인물들은 제자리에서 자신의 대사를 읊고 제4의벽을 ",
+      "link": "https://blog.naver.com/cine_insol/223798952152?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/22-485fa0cf82690fe2.jpg",
+      "sourceImage": ""
+    },
+    {
+      "date": "2025.03.17",
+      "category": "MOVIES",
+      "title": "리뷰",
+      "excerpt": "\"에브리씽 에브리웨어 올 앳 원스\", 얼마 전 넷플릭스를 보다가 우연히 발견했습니다. 이전에 이 영화에 대한 각종 찬사와 비평들을 보았던 기억이 있기에 흥미가 생겼고 감상을 시작했습니다. 세상에 이제 이건 제 인생영화입니다. ★★★★★ 그 모든 것이 가능하다 해도 너를 선택할 이유. 인생이란 정말로 한 줌의 모래알과 크게 다르지 않을지도 모릅니다. 그렇기에 우리는 종종 삶에 대해 권태감을 가",
+      "link": "https://blog.naver.com/cine_insol/223798709093?fromRss=true&trackingCode=rss",
+      "image": "assets/data/journal-media/23-3a0c2d2a03d9dda3.jpg",
+      "sourceImage": ""
     }
   ]
 }
