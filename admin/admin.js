@@ -209,7 +209,7 @@ function renderContact(){const c=site.contact;editor.innerHTML=panelHead('LINKS'
 function renderPublish(){
   const saved=JSON.parse(sessionStorage.getItem('portfolioGithubSettings')||'{}');
   editor.innerHTML=panelHead('GITHUB / CONTENTS API','Publish','편집 내용은 코드와 분리된 user-content/에 저장됩니다. 이후 버전을 덮어써도 이 폴더를 삭제하지 않는 한 내용이 유지됩니다.')+`
-  <div class="publish-box"><h3>Content storage</h3><p>현재 로드 소스: <b>${esc(contentSource)}</b><br>Publish하면 user-content/site.json과 user-content/projects/*.json으로 마이그레이션됩니다. v31 이후 업데이트 ZIP은 user-content를 포함하지 않습니다.</p></div>
+  <div class="publish-box"><h3>Content storage</h3><p>현재 로드 소스: <b>${esc(contentSource)}</b><br>Publish하면 user-content/site.json과 user-content/projects/*.json으로 마이그레이션됩니다. v32 이후 업데이트 ZIP은 user-content를 포함하지 않습니다.</p></div>
   <div class="publish-box"><h3>Backup</h3><p>업데이트 전 JSON 백업을 내려받을 수 있습니다. 새 PC에서도 다시 Import할 수 있습니다.</p><div class="publish-actions"><button class="ghost" id="exportBackup">EXPORT BACKUP</button><label class="ghost import-label">IMPORT BACKUP<input type="file" id="importBackup" accept="application/json"></label></div></div>
   <div class="publish-box"><h3>1. Repository</h3><div class="field-row">${rawField('OWNER','ghOwner',saved.owner||'Insol17')}${rawField('REPOSITORY','ghRepo',saved.repo||'Personal_Website')}</div>${rawField('BRANCH','ghBranch',saved.branch||'main')}</div>
   <div class="publish-box"><h3>2. GitHub token</h3>${rawField('FINE-GRAINED PAT','ghToken',sessionStorage.getItem('portfolioGithubToken')||'','password')}<p>Fine-grained token은 이 저장소 하나만 선택하고 <b>Contents: Read and write</b> 권한만 주는 것을 권장합니다.</p></div>
@@ -252,13 +252,25 @@ async function importBackup(file){
   try{
     const payload=JSON.parse(await file.text());if(!payload.site||!payload.details)throw new Error('invalid');
     site=payload.site;details=payload.details;currentProject=site.projects?.[0]?.slug||'';setDirty();populateProjectSelect();renderPanel();sendPreview();showToast('백업을 불러왔습니다. Publish해야 사이트에 반영됩니다.');
-  }catch{showToast('올바른 v31 콘텐츠 백업이 아닙니다.');}
+  }catch{showToast('올바른 v32 콘텐츠 백업이 아닙니다.');}
 }
 async function projectTemplateHTML(project){
   const r=await fetch('../projects/_template.html',{cache:'no-store'});if(!r.ok)throw new Error('projects/_template.html을 읽지 못했습니다.');let html=await r.text();
   const cover='../'+(project.cardImage||'assets/images/projects/_placeholder.jpg').replace(/^\.\//,'');
   return html.replaceAll('__SLUG__',project.slug).replaceAll('__TITLE__',project.title).replaceAll('__TITLE_UPPER__',project.title.toUpperCase()).replaceAll('__GENRE__',project.genre||'PROJECT').replaceAll('__COVER__',cover);
 }
+
+function migrateProjectHTMLToV32(html,project){
+  let next=html.replaceAll('../v31.css','../v32.css').replaceAll('../v31.js','../v32.js').replaceAll('project-detail.css','project-detail-v32.css').replaceAll('project-detail.js','project-detail-v32.js');
+  if(!/class=["'][^"']*detail-boot/.test(next)) next=next.replace(/<html([^>]*)>/i,(m,a)=>`<html${a} class="detail-boot">`);
+  if(!next.includes('transition-arrival-pending')){
+    const boot=`<script>(()=>{try{const image=sessionStorage.getItem('portfolioTransitionImage');if(!image)return;document.documentElement.classList.add('transition-arrival-pending');document.documentElement.style.setProperty('--transition-image',\`url("${String(image).replace(/["\\\\]/g,'\\\\$&')}")\`);}catch{}})();<\/script><style>html,body{margin:0;background:#081113}html.transition-arrival-pending::before{content:"";position:fixed;inset:0;z-index:9997;background:#081113 var(--transition-image) center/cover no-repeat;pointer-events:none}</style>`;
+    next=next.replace(/<head>/i,`<head>${boot}`);
+  }
+  if(project?.cardImage){const src='../'+project.cardImage.replace(/^\.\//,'');next=next.replace(/(<img(?=[^>]*class="project-detail-hero-image")[^>]*\ssrc=")[^"]*(")/,`$1${src}$2`)}
+  return next;
+}
+
 async function publishGithub(){
   const owner=$('#ghOwner').value.trim(),repo=$('#ghRepo').value.trim(),branch=$('#ghBranch').value.trim()||'main',token=$('#ghToken').value.trim(),log=$('#publishLog');
   if(!owner||!repo||!token){showToast('Repository와 GitHub token을 입력하세요.');return}
@@ -276,10 +288,9 @@ async function publishGithub(){
       const htmlPath=p.href||`projects/${p.slug}.html`;const existing=await githubGet(owner,repo,htmlPath,branch,token);
       if(!existing){
         const html=await projectTemplateHTML(p);await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Create ${p.title} project page`);write(`✓ ${htmlPath} (created)`);
-      }else if(coverChangedSlugs.has(p.slug)&&existing.content){
-        let html=base64Text(existing.content);const nextSrc='../'+p.cardImage.replace(/^\.\//,'');
-        html=html.replace(/(<img(?=[^>]*class="project-detail-hero-image")[^>]*\ssrc=")[^"]*(")/,`$1${nextSrc}$2`);
-        await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} detail hero image`);write(`✓ ${htmlPath} hero image`);
+      }else if(existing.content){
+        const before=base64Text(existing.content);const html=migrateProjectHTMLToV32(before,p);
+        if(html!==before){await githubPut(owner,repo,htmlPath,branch,token,textBase64(html),`Sync ${p.title} project shell`);write(`✓ ${htmlPath} (v32 shell)`)}
       }
     }
     await githubPut(owner,repo,'user-content/site.json',branch,token,textBase64(JSON.stringify(site,null,2)+'\n'),'Update portfolio user content');write('✓ user-content/site.json (final)');

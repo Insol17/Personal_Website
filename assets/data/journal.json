@@ -2,8 +2,29 @@
   "source": "https://rss.blog.naver.com/cine_insol.xml",
   "blog": "https://blog.naver.com/cine_insol",
   "posts": [
-    {"date":"2025.12.30","category":"CRITIQUE","title":"〈2025 연말정산〉","excerpt":"2025년을 마무리하며 남긴 기록.","link":"https://blog.naver.com/cine_insol"},
-    {"date":"2025.11.30","category":"MOVIES","title":"〈부고니아〉 리뷰 외 6편","excerpt":"최근 감상한 영화들에 대한 짧은 리뷰와 기록.","link":"https://blog.naver.com/cine_insol"},
-    {"date":"2025.10.28","category":"DEVLOG","title":"〈BENEDICT OF SINS〉 개발 기록","excerpt":"베네딕트 오브 신즈를 제작하며 남긴 개발 기록.","link":"https://blog.naver.com/cine_insol"}
+    {
+      "date": "2025.12.30",
+      "category": "CRITIQUE",
+      "title": "〈2025 연말정산〉",
+      "excerpt": "2025년을 마무리하며 남긴 기록.",
+      "link": "https://blog.naver.com/cine_insol",
+      "image": "assets/images/journal/critique.svg"
+    },
+    {
+      "date": "2025.11.30",
+      "category": "MOVIES",
+      "title": "〈부고니아〉 리뷰 외 6편",
+      "excerpt": "최근 감상한 영화들에 대한 짧은 리뷰와 기록.",
+      "link": "https://blog.naver.com/cine_insol",
+      "image": "assets/images/journal/critique.svg"
+    },
+    {
+      "date": "2025.10.28",
+      "category": "DEVLOG",
+      "title": "〈BENEDICT OF SINS〉 개발 기록",
+      "excerpt": "베네딕트 오브 신즈를 제작하며 남긴 개발 기록.",
+      "link": "https://blog.naver.com/cine_insol",
+      "image": "assets/images/journal/work.svg"
+    }
   ]
 }

@@ -1,4 +1,4 @@
-# Portfolio v31 — Admin 사용법
+# Portfolio v32 — Admin 사용법
 
 `/admin/`은 레이아웃을 망가뜨리지 않고 **사이트 콘텐츠만 직접 수정하는 편집기**입니다.
 문구, 프로필, 이력, 프로젝트 순서/추가, 커버 이미지, 프로젝트 상세, Contact를 브라우저에서 수정할 수 있습니다.
@@ -19,9 +19,9 @@ python -m http.server 8000
 
 후 `http://localhost:8000/admin/`으로 접속하세요.
 
-## 2. v31부터 수정 내용이 패치로 사라지지 않는 구조
+## 2. v32부터 수정 내용이 패치로 사라지지 않는 구조
 
-v31은 **코드와 사용자 콘텐츠를 완전히 분리**합니다.
+v32은 **코드와 사용자 콘텐츠를 완전히 분리**합니다.
 
 ```text
 defaults/              # 버전과 함께 배포되는 기본값
@@ -44,18 +44,18 @@ user-content/projects/<slug>.json
 user-content/media/...
 ```
 
-**v31 이후 업데이트 ZIP에는 `user-content/`를 넣지 않습니다.** 따라서 새 버전을 기존 폴더 위에 덮어쓰는 방식으로 업데이트하면 Admin에서 수정한 내용은 덮어써지지 않습니다.
+**v32 이후 업데이트 ZIP에는 `user-content/`를 넣지 않습니다.** 따라서 새 버전을 기존 폴더 위에 덮어쓰는 방식으로 업데이트하면 Admin에서 수정한 내용은 덮어써지지 않습니다.
 
 중요:
 - 업데이트할 때 기존 저장소를 통째로 삭제한 뒤 새 ZIP만 올리지 마세요.
 - 새 버전 파일을 **기존 폴더 위에 병합/덮어쓰기** 하세요.
 - 더 안전하게 하려면 Admin → `PUBLISH` → `EXPORT BACKUP`을 먼저 눌러 JSON 백업도 보관하세요.
 
-### v30에서 v31로 처음 넘어올 때
+### v30에서 v32로 처음 넘어올 때
 
-v31은 기존 `content/site.json`, `content/projects/*.json`을 자동으로 읽습니다. 기존 v30 파일 위에 v31을 덮어쓴 뒤 Admin에서 한 번 Publish하면 `user-content/`로 자동 마이그레이션됩니다.
+v32은 기존 `content/site.json`, `content/projects/*.json`을 자동으로 읽습니다. 기존 v30 파일 위에 v32을 덮어쓴 뒤 Admin에서 한 번 Publish하면 `user-content/`로 자동 마이그레이션됩니다.
 
-v30에서 `SAVE DRAFT`만 하고 아직 Publish하지 않은 내용도 같은 브라우저라면 v31이 v30 Draft 키를 찾아 복원하도록 되어 있습니다.
+v30에서 `SAVE DRAFT`만 하고 아직 Publish하지 않은 내용도 같은 브라우저라면 v32이 v30 Draft 키를 찾아 복원하도록 되어 있습니다.
 
 ## 3. 프로젝트 수정
 

@@ -1,8 +1,8 @@
-# KWAK TAEWOONG — Personal Website v31
+# KWAK TAEWOONG — Personal Website v32
 
 메인: `index.html`
 
-## v31 핵심
+## v32 핵심
 
 - SELECTED WORKS 카드 직접 드래그 UX 수정: 카드 자체를 잡아서 이동 가능, 클릭과 드래그 충돌 제거
 - 메인 카드 클릭으로 상세 진입 정상화

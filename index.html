@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>
+  (()=>{try{const raw=sessionStorage.getItem('portfolioReverseTransition');if(!raw)return;const data=JSON.parse(raw);if(!data||!data.image)return;document.documentElement.classList.add('reverse-arrival-pending');document.documentElement.style.setProperty('--transition-image',`url("${String(data.image).replace(/["\\]/g,'\\$&')}")`);}catch{}})();
+  </script>
+  <style>html,body{margin:0;background:#081113}html.reverse-arrival-pending::before{content:"";position:fixed;inset:0;z-index:9997;background:#081113 var(--transition-image) center/cover no-repeat;pointer-events:none}</style>
   <meta name="theme-color" content="#081113">
   <meta name="description" content="게임 디자이너 / 개발자 곽태웅 포트폴리오 — 시스템, 전투, UX, 내러티브 설계와 개발 프로젝트.">
   <title>KWAK TAEWOONG — Game Designer / Developer</title>
   <link rel="preload" as="image" href="assets/video/liquid-poster.webp" fetchpriority="high">
-  <link rel="stylesheet" href="v31.css">
+  <link rel="stylesheet" href="v32.css">
   <script defer src="defaults/site-data.js"></script>
-  <script defer src="v31.js"></script>
+  <script defer src="v32.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
