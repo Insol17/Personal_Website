@@ -228,6 +228,19 @@ def main():
     (old_media_dir/'.gitkeep').touch(exist_ok=True)
     posts=merge_old_posts(posts)
     OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps({'source':RSS,'blog':BLOG,'syncedAt':datetime.now(timezone.utc).isoformat(),'posts':posts},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    # Do not create a Git commit every hourly check. `syncedAt` is updated only when
+    # the actual journal payload changes.
+    comparable={'source':RSS,'blog':BLOG,'posts':posts}
+    if OUT.exists():
+        try:
+            previous=json.loads(OUT.read_text(encoding='utf-8'))
+            prev_comparable={'source':previous.get('source'),'blog':previous.get('blog'),'posts':previous.get('posts',[])}
+            if prev_comparable==comparable:
+                print(f'journal unchanged: {len(posts)} posts')
+                return
+        except Exception:
+            pass
+    payload={**comparable,'syncedAt':datetime.now(timezone.utc).isoformat()}
+    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(f"wrote {len(posts)} posts -> {OUT} | DEVLOG={sum(1 for p in posts if p.get('group')=='WORK')} CRITIQUE={sum(1 for p in posts if p.get('group')=='CRITIQUE')} LIFE={sum(1 for p in posts if p.get('group')=='LIFE')}")
 if __name__=='__main__':main()

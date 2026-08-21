@@ -1,5 +1,5 @@
 window.PORTFOLIO_SITE_DATA = {
-  "version": 39,
+  "version": 40,
   "hero": {
     "line1": "I DESIGN",
     "line2": "WORLDS",
@@ -131,7 +131,22 @@ window.PORTFOLIO_SITE_DATA = {
       "featured": true,
       "featuredOrder": 1,
       "featuredRole": "LEAD GAME DESIGNER · COMBAT / SYSTEM DESIGN",
-      "featuredLine": "8개의 죄를 서로 다른 전투 규칙으로 변환하고, 선택과 위험의 구조를 설계했습니다."
+      "featuredLine": "8개의 죄를 서로 다른 전투 규칙으로 변환하고, 선택과 위험의 구조를 설계했습니다.",
+      "externalUrl": "https://mega.nz/file/npllxDaa#MEBDrps1U-NOCULLadfIJoIVQDPhj7sI8W2RPiIjcsk",
+      "externalType": "download",
+      "externalLabel": "DOWNLOAD BUILD",
+      "externalActions": [
+        {
+          "url": "https://mega.nz/file/npllxDaa#MEBDrps1U-NOCULLadfIJoIVQDPhj7sI8W2RPiIjcsk",
+          "type": "download",
+          "label": "DOWNLOAD BUILD"
+        },
+        {
+          "url": "https://github.com/Insol17/Benedict_Of_Sins",
+          "type": "github",
+          "label": "GITHUB REPOSITORY"
+        }
+      ]
     },
     {
       "slug": "salgut",
@@ -144,7 +159,22 @@ window.PORTFOLIO_SITE_DATA = {
       "featured": true,
       "featuredOrder": 2,
       "featuredRole": "GAME DIRECTOR · COMBAT DESIGN",
-      "featuredLine": "5속성 × 2입력의 공격 체계를 재장전 없는 하이퍼 액션 전투 리듬으로 구성했습니다."
+      "featuredLine": "5속성 × 2입력의 공격 체계를 재장전 없는 하이퍼 액션 전투 리듬으로 구성했습니다.",
+      "externalUrl": "https://mega.nz/file/zpVlmITa#pl8WgZe4Syu3V8JQsHsdGv49JoK_kLHPI5on82xu_8w",
+      "externalType": "download",
+      "externalLabel": "DOWNLOAD BUILD",
+      "externalActions": [
+        {
+          "url": "https://mega.nz/file/zpVlmITa#pl8WgZe4Syu3V8JQsHsdGv49JoK_kLHPI5on82xu_8w",
+          "type": "download",
+          "label": "DOWNLOAD BUILD"
+        },
+        {
+          "url": "https://github.com/CCIT-Team/Kill_Ritual",
+          "type": "github",
+          "label": "GITHUB REPOSITORY"
+        }
+      ]
     },
     {
       "slug": "fernand",
@@ -157,7 +187,17 @@ window.PORTFOLIO_SITE_DATA = {
       "featured": true,
       "featuredOrder": 3,
       "featuredRole": "PRODUCT DESIGN · UX · DEVELOPMENT",
-      "featuredLine": "작업 목록이 아니라 판단의 맥락을 남기는 데스크톱 작업 환경을 설계하고 구현했습니다."
+      "featuredLine": "작업 목록이 아니라 판단의 맥락을 남기는 데스크톱 작업 환경을 설계하고 구현했습니다.",
+      "externalUrl": "https://github.com/Insol17/Fernand",
+      "externalType": "github",
+      "externalLabel": "GITHUB REPOSITORY",
+      "externalActions": [
+        {
+          "url": "https://github.com/Insol17/Fernand",
+          "type": "github",
+          "label": "GITHUB REPOSITORY"
+        }
+      ]
     },
     {
       "slug": "deco",
@@ -170,7 +210,17 @@ window.PORTFOLIO_SITE_DATA = {
       "featured": false,
       "featuredOrder": 99,
       "featuredRole": "",
-      "featuredLine": ""
+      "featuredLine": "",
+      "externalUrl": "https://github.com/r0ckstarS2/De.co",
+      "externalType": "github",
+      "externalLabel": "GITHUB REPOSITORY",
+      "externalActions": [
+        {
+          "url": "https://github.com/r0ckstarS2/De.co",
+          "type": "github",
+          "label": "GITHUB REPOSITORY"
+        }
+      ]
     },
     {
       "slug": "kinosis",
@@ -183,7 +233,22 @@ window.PORTFOLIO_SITE_DATA = {
       "featured": false,
       "featuredOrder": 99,
       "featuredRole": "",
-      "featuredLine": ""
+      "featuredLine": "",
+      "externalUrl": "https://kinosis.netlify.app/",
+      "externalType": "website",
+      "externalLabel": "OPEN WEBSITE",
+      "externalActions": [
+        {
+          "url": "https://kinosis.netlify.app/",
+          "type": "website",
+          "label": "OPEN WEBSITE"
+        },
+        {
+          "url": "https://github.com/Insol17/Kinosis",
+          "type": "github",
+          "label": "GITHUB REPOSITORY"
+        }
+      ]
     },
     {
       "slug": "machinator",

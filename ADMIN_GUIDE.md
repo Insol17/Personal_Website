@@ -1,4 +1,4 @@
-# Portfolio v39 — Admin 사용법
+# Portfolio v40 — Admin 사용법
 
 ## 1. 접속
 
@@ -29,7 +29,7 @@ Admin은 디자인/CSS를 자유 배치하는 툴이 아니라, 레이아웃을 
 - `FEATURED ROLE` — 대표 역할/기여 영역
 - `FEATURED ONE-LINER` — 대표 프로젝트에서 보여줄 핵심 기여 한 문장
 
-v39 기본 Featured는 Benedict of Sins / Salgut / Fernand 3개입니다.
+v40 기본 Featured는 Benedict of Sins / Salgut / Fernand 3개입니다.
 
 ## 4. 프로젝트 추가
 
@@ -66,7 +66,7 @@ Admin Publish 결과는 다음 위치에 저장됩니다.
 - `user-content/projects/*.json`
 - `user-content/media/...`
 
-v39 패치 ZIP에는 `user-content/`를 넣지 않습니다.
+v40 패치 ZIP에는 `user-content/`를 넣지 않습니다.
 
 **새 버전은 기존 저장소/폴더 위에 병합해서 덮어쓰세요. 기존 저장소를 삭제하고 새 ZIP만 다시 올리면 `user-content/`도 함께 지워질 수 있습니다.**
 
