@@ -1,0 +1,304 @@
+/* V48 — mobile composition pass + transition polish hooks.
+   Desktop composition intentionally stays unchanged. */
+
+@media (max-width: 760px) {
+  :root { --mobile-pad: 18px; }
+  html { scroll-padding-top: 74px; }
+  body { overflow-x: hidden; }
+  .shell { width: calc(100% - (var(--mobile-pad) * 2)) !important; }
+  .section { padding-top: 58px !important; padding-bottom: 64px !important; }
+  .section-heading { margin-bottom: 24px !important; }
+  .section-heading h2 { font-size: clamp(42px, 12vw, 56px) !important; line-height: .92 !important; }
+  .section-heading p { margin-top: 12px !important; font-size: 13.5px !important; line-height: 1.62 !important; }
+
+  /* Mobile navigation: compact, safe-area aware and consistent on every page. */
+  .site-nav {
+    top: max(8px, env(safe-area-inset-top)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    min-height: 50px !important;
+    height: 50px !important;
+    padding: 0 7px 0 15px !important;
+    border-radius: 17px !important;
+    grid-template-columns: minmax(0,1fr) 44px !important;
+    transform: none !important;
+  }
+  .site-brand { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-nav-toggle { width: 44px !important; height: 44px !important; }
+  .site-nav.is-mobile-open .site-nav-links { left: 12px !important; right: 12px !important; top: 64px !important; }
+
+  /* HERO: true optical center, independent of previous desktop alignment rules. */
+  .hero, .hero-inner { min-height: 100svh !important; }
+  .hero-inner {
+    width: 100% !important;
+    padding: 82px var(--mobile-pad) 86px !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+  .hero-copy {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    transform: none !important;
+  }
+  .hero-copy h1 {
+    width: 100% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: center !important;
+    transform: none !important;
+  }
+  .hero-copy h1 > span:first-child {
+    width: 100% !important;
+    margin-inline: auto !important;
+    font-size: clamp(46px, 13.1vw, 64px) !important;
+    line-height: .92 !important;
+    text-align: center !important;
+  }
+  .hero-copy h1 > span:nth-child(2),
+  .hero-worlds-liquid-v47 {
+    width: min(88vw, 520px) !important;
+    max-width: calc(100vw - 36px) !important;
+    margin: .02em auto 0 !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+  .hero-worlds-fallback-v47 { font-size: clamp(82px, 23vw, 128px) !important; }
+  .hero-sub {
+    max-width: 300px !important;
+    margin: 14px auto 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.55 !important;
+    text-align: center !important;
+  }
+  .hero-social-v44 {
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 16px auto 0 !important;
+    justify-content: center !important;
+  }
+  .hero-social-v44 a { width: 40px !important; height: 40px !important; }
+  .hero-scroll { bottom: max(16px, env(safe-area-inset-bottom)) !important; }
+
+  /* FEATURED: one readable case at a time, no desktop-scale type. */
+  .featured-projects { padding-top: 52px !important; }
+  .featured-heading { margin-bottom: 32px !important; }
+  .featured-heading h2 { font-size: clamp(43px, 12.5vw, 56px) !important; }
+  .featured-project-list { gap: 48px !important; }
+  .featured-project, .featured-project.is-reverse { gap: 16px !important; }
+  .featured-project-media { aspect-ratio: 16/10 !important; border-radius: 9px !important; }
+  .featured-project-copy h3 { font-size: clamp(32px, 9.5vw, 42px) !important; line-height: .98 !important; }
+  .featured-project-role { margin-top: 10px !important; font-size: 8px !important; line-height: 1.45 !important; }
+  .featured-project-line { margin-top: 8px !important; font-size: 13.5px !important; line-height: 1.6 !important; }
+
+  /* WORKS: native swipe remains primary on touch; controls remain secondary. */
+  .portfolio-toolbar { margin-bottom: 12px !important; }
+  .works-stage {
+    width: calc(100% + var(--mobile-pad)) !important;
+    margin-right: calc(var(--mobile-pad) * -1) !important;
+    padding-right: var(--mobile-pad) !important;
+    scroll-padding-inline: 0 var(--mobile-pad) !important;
+  }
+  .project-rail { gap: 10px !important; }
+  .project-card { width: min(78vw, 300px) !important; border-radius: 10px !important; }
+  .works-nav-v42 {
+    grid-template-columns: 40px minmax(0,1fr) 40px !important;
+    gap: 9px !important;
+    margin-top: 13px !important;
+  }
+  .works-nav-label { display: none !important; }
+  .works-arrow-v42 { width: 40px !important; height: 40px !important; }
+  .works-range-v42 { min-height: 40px !important; }
+  .works-range-thumb-v42 { height: 8px !important; min-width: 54px !important; }
+  .drag-affordance { display: none !important; }
+
+  /* Main ABOUT: copy first, portrait becomes part of the profile metadata instead of a lone poster. */
+  .about-profile {
+    display: grid !important;
+    grid-template-columns: 104px minmax(0,1fr) !important;
+    grid-template-rows: auto auto auto auto !important;
+    gap: 12px 16px !important;
+    align-items: start !important;
+  }
+  .about-copy { display: contents !important; }
+  .about-copy > .eyebrow { grid-column: 1 / -1 !important; grid-row: 1 !important; }
+  .about-copy > h3 {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    margin: 2px 0 0 !important;
+    font-size: clamp(27px, 8vw, 35px) !important;
+    line-height: 1.13 !important;
+  }
+  .about-copy-text {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    margin: 5px 0 8px !important;
+    padding-top: 16px !important;
+  }
+  .about-copy-text p { font-size: 14px !important; line-height: 1.68 !important; }
+  .about-portrait {
+    grid-column: 1 !important;
+    grid-row: 4 !important;
+    width: 104px !important;
+    max-width: none !important;
+    margin: 0 !important;
+    aspect-ratio: 4/5 !important;
+    align-self: stretch !important;
+  }
+  .about-portrait::after { display: none !important; }
+  .about-facts {
+    grid-column: 2 !important;
+    grid-row: 4 !important;
+    display: block !important;
+    margin: 0 !important;
+    border-top: 1px solid var(--line) !important;
+  }
+  .about-fact, .about-fact + .about-fact {
+    display: grid !important;
+    grid-template-columns: 54px minmax(0,1fr) !important;
+    gap: 8px !important;
+    padding: 9px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .about-fact span { font-size: 7.5px !important; }
+  .about-fact strong { font-size: 11.5px !important; line-height: 1.42 !important; }
+  .about-practice { margin-top: 36px !important; }
+  .about-practice-head { margin-bottom: 14px !important; }
+  .about-practice-head h3 { font-size: 26px !important; }
+  .about-practice-grid article, .about-practice-grid article:nth-child(n) {
+    grid-template-columns: 30px minmax(0,1fr) !important;
+    padding: 15px 0 !important;
+  }
+  .about-practice-grid strong { font-size: 19px !important; }
+  .about-practice-grid p { font-size: 13px !important; line-height: 1.56 !important; }
+
+  /* BACKGROUND: a single readable chronology on mobile. */
+  .background { overflow: hidden !important; }
+  .background-head { padding-bottom: 18px !important; }
+  .background-head h2 { font-size: clamp(42px, 12vw, 55px) !important; }
+  .background-v43-layout, .background-v42-layout {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .background-v43-aside, .background-v42-aside {
+    position: static !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 0 28px !important;
+  }
+  .background-v43-track, .background-v42-track {
+    width: 100% !important;
+    padding-left: 24px !important;
+    margin: 0 !important;
+  }
+  .background-v43-entry, .background-v42-entry {
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+    padding: 18px 0 20px !important;
+  }
+  .background-v43-entry time, .background-v42-entry time { font-size: 8px !important; }
+  .background-v43-entry strong, .background-v42-entry strong { font-size: 21px !important; line-height: 1.05 !important; }
+  .background-v43-entry p, .background-v42-entry p { max-width: 100% !important; font-size: 12.5px !important; line-height: 1.55 !important; }
+
+  /* Journal: cards should scan vertically without giant image walls. */
+  .journal-toolbar { align-items: center !important; gap: 12px !important; }
+  .journal-source { max-width: 58%; font-size: 7.5px !important; line-height: 1.45 !important; }
+  .journal-news-grid, .journal-devlog-grid, .journal-critique-grid { grid-template-columns: 1fr !important; }
+  .journal-card, .journal-news-card, .journal-devlog-card { border-radius: 10px !important; }
+  .journal-card img, .journal-news-card img, .journal-devlog-card img { max-height: 210px !important; object-fit: cover !important; }
+
+  /* Contact stays a closing statement; links already live near HERO. */
+  .contact { padding-top: 56px !important; }
+  .contact-inner h2 { font-size: clamp(46px, 13vw, 62px) !important; }
+
+  /* ABOUT detail: headline and portrait become one composition. */
+  .about-page-main { padding-top: 76px !important; }
+  .about-page-back { width: calc(100% - 36px) !important; margin: 0 auto 10px !important; }
+  .about-page-hero {
+    width: calc(100% - 36px) !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) 96px !important;
+    grid-template-rows: auto auto auto auto !important;
+    gap: 11px 15px !important;
+    padding: 10px 0 48px !important;
+    align-items: start !important;
+  }
+  .about-page-hero-copy { display: contents !important; }
+  .about-page-hero-copy > .eyebrow { grid-column: 1 / -1 !important; grid-row: 1 !important; }
+  .about-page-hero-copy > h1 {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    margin: 0 !important;
+    font-size: clamp(48px, 14vw, 64px) !important;
+    line-height: .9 !important;
+  }
+  .about-page-hero-copy > h2 {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    margin: 7px 0 3px !important;
+    font-size: clamp(26px, 7.8vw, 33px) !important;
+    line-height: 1.14 !important;
+  }
+  .about-page-hero-copy > p {
+    grid-column: 1 !important;
+    grid-row: 4 !important;
+    margin: 0 !important;
+    font-size: 13.5px !important;
+    line-height: 1.62 !important;
+    align-self: center !important;
+  }
+  .about-page-portrait {
+    grid-column: 2 !important;
+    grid-row: 4 !important;
+    width: 96px !important;
+    margin: 0 !important;
+    aspect-ratio: 4/5 !important;
+    align-self: start !important;
+  }
+  .about-page-story, .about-page-method, .about-page-history { padding: 52px 0 !important; }
+  .about-page-section-shell { width: calc(100% - 36px) !important; }
+  .about-page-section-head { margin-bottom: 18px !important; }
+  .about-page-section-head h2 { font-size: clamp(36px, 10.5vw, 48px) !important; }
+  .about-page-note, .about-page-method-grid article { padding: 16px 0 !important; }
+  .about-page-note p, .about-page-method-grid p { font-size: 13.5px !important; line-height: 1.64 !important; }
+  .about-page-method-grid h3 { margin-top: 13px !important; font-size: 22px !important; }
+  .about-page-history-item { padding: 14px 0 !important; }
+  .about-page-history-item strong { font-size: 16px !important; }
+  .about-page-history-item p { font-size: 12.5px !important; line-height: 1.5 !important; }
+
+  /* Archive and Journal detail lists: no horizontal bleed. */
+  .archive-main, .journal-index-main { overflow-x: hidden !important; }
+  .archive-main .shell, .journal-index-main .shell { width: calc(100% - 36px) !important; }
+  .archive-hero h1, .journal-index-hero h1 { font-size: clamp(48px, 14vw, 66px) !important; line-height: .9 !important; }
+  .archive-hero p, .journal-index-hero p { font-size: 13.5px !important; line-height: 1.62 !important; }
+  .archive-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .archive-grid .project-card { width: 100% !important; aspect-ratio: 16/10 !important; }
+  .journal-index-list { grid-template-columns: 1fr !important; }
+  .journal-filters { overflow-x: auto !important; white-space: nowrap !important; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 430px) {
+  :root { --mobile-pad: 16px; }
+  .hero-copy h1 > span:first-child { font-size: clamp(43px, 12.8vw, 56px) !important; }
+  .hero-copy h1 > span:nth-child(2), .hero-worlds-liquid-v47 { width: min(89vw, 470px) !important; }
+  .hero-worlds-fallback-v47 { font-size: clamp(76px, 22vw, 112px) !important; }
+  .about-profile { grid-template-columns: 92px minmax(0,1fr) !important; gap: 11px 13px !important; }
+  .about-portrait { width: 92px !important; }
+  .about-fact, .about-fact + .about-fact { grid-template-columns: 48px minmax(0,1fr) !important; gap: 6px !important; padding: 8px 0 !important; }
+  .about-fact strong { font-size: 11px !important; }
+  .about-page-hero { grid-template-columns: minmax(0,1fr) 84px !important; gap: 10px 12px !important; }
+  .about-page-portrait { width: 84px !important; }
+  .about-page-hero-copy > p { font-size: 13px !important; }
+}

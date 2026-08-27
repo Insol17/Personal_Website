@@ -1,0 +1,15 @@
+/* V43 — readable project hero and faster, coherent reverse transition. */
+.project-case-meta{display:none!important}
+.project-detail-heading>p{margin-bottom:14px!important;color:rgba(255,255,255,.90)!important;font-size:10px!important;text-shadow:0 2px 12px rgba(0,0,0,.9)!important}
+.project-detail-heading::before{width:min(1050px,92vw)!important;height:min(520px,60vh)!important;top:53%!important;background:radial-gradient(ellipse,rgba(2,7,8,.82) 0%,rgba(2,7,8,.58) 32%,rgba(2,7,8,.24) 56%,rgba(2,7,8,0) 76%)!important;filter:blur(9px)!important}
+.project-detail-heading h1{color:#fff!important;text-shadow:0 5px 24px rgba(0,0,0,.94),0 1px 2px rgba(0,0,0,1)!important;-webkit-text-stroke:.25px rgba(0,0,0,.22)}
+.project-detail-heading h2{color:rgba(255,255,255,.92)!important;text-shadow:0 3px 16px rgba(0,0,0,.95)!important}
+.project-detail-heading h2[hidden]{display:none!important}
+.project-external-icon{background:rgba(3,9,10,.48)!important;border-color:rgba(255,255,255,.46)!important}
+.project-detail-hero::before{background:linear-gradient(180deg,rgba(2,7,8,.02) 0%,rgba(2,7,8,.07) 38%,rgba(2,7,8,.34) 72%,rgba(2,7,8,.64) 100%)!important}
+html.detail-ready .project-detail-heading{transition-delay:0s!important;transition-duration:.24s!important}
+html.detail-ready .project-detail-body .site-nav,html.detail-ready .project-back-button{transition-delay:0s!important;transition-duration:.18s!important}
+html.detail-back-scrolling .project-detail-heading,html.detail-back-scrolling .project-detail-body .site-nav{opacity:1!important}
+html.detail-back-fade .project-detail-heading,html.detail-back-fade .project-detail-body .site-nav,html.detail-back-fade .project-back-button{opacity:0!important;transition:opacity .11s ease!important}
+html.detail-back-fade .project-detail-hero::before,html.detail-back-fade .project-detail-hero::after{opacity:0!important;transition:opacity .11s ease!important}
+@media(max-width:760px){.project-detail-heading::before{width:125vw!important;height:50vh!important;top:60%!important;background:radial-gradient(ellipse,rgba(2,7,8,.80),rgba(2,7,8,.48) 44%,transparent 76%)!important}.project-detail-heading>p{font-size:8.5px!important}}

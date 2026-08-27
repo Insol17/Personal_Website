@@ -1,23 +1,25 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <script>window.__PROJECT_RETURN_V49__=true;</script>
+  <script>(()=>{try{['portfolioTransitionImage','portfolioTransitionTarget','portfolioTransitionOrigin','portfolioTransitionOriginState','portfolioReverseTransition','portfolioReturnTransition','portfolioLastDetail','portfolioDetailChain'].forEach(k=>sessionStorage.removeItem(k));sessionStorage.removeItem('portfolioGlobalTransitionV40')}catch{}try{const q=new URLSearchParams(location.search),img=q.get('ptrimg');if(q.get('ptr')==='1'&&img){document.documentElement.classList.add('pt-return-arrival');document.documentElement.style.setProperty('--pt-v45-image',`url("${String(img).replace(/["\\]/g,'\\$&')}")`)}}catch{}})();</script>
+  <style>html.pt-return-arrival::before{content:"";position:fixed;inset:0;z-index:10018;background:#081113 var(--pt-v45-image) center/cover no-repeat;pointer-events:none}</style>
+
   <meta charset="utf-8">
-  <script>(()=>{try{const d=JSON.parse(sessionStorage.getItem('portfolioGlobalTransitionV40')||'null');if(d&&Date.now()-(d.at||0)<12000)document.documentElement.classList.add('global-transition-arrival')}catch{}})();</script>
+  <script>(()=>{try{const back=sessionStorage.getItem('portfolioReturnTransition');const d=JSON.parse(sessionStorage.getItem('portfolioGlobalTransitionV40')||'null');if(!back&&d&&Date.now()-(d.at||0)<12000)document.documentElement.classList.add('global-transition-arrival')}catch{}})();</script>
   <style>html.global-transition-arrival::after{content:"";position:fixed;inset:0;z-index:10050;background:#07100f url("../assets/video/liquid-poster.webp") center/cover no-repeat;pointer-events:none;opacity:1;transition:opacity .12s ease}html.global-transition-arrival.global-transition-arrival-release::after{opacity:0}</style><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <script>
   (() => {try{if('scrollRestoration' in history)history.scrollRestoration='manual';
-    let data=null;
-    const raw=sessionStorage.getItem('portfolioReturnTransition')||sessionStorage.getItem('portfolioReverseTransition');
-    if(raw)data=JSON.parse(raw);
-    if(!data){const lastRaw=sessionStorage.getItem('portfolioLastDetail');if(lastRaw){const last=JSON.parse(lastRaw);if(last?.origin?.path===location.pathname&&Date.now()-(last.at||0)<20000)data=last;}}
-    if(!data?.image)return;
+    const raw=sessionStorage.getItem('portfolioReturnTransition');if(!raw)return;
+    const data=JSON.parse(raw);if(!data?.image||Date.now()-(data.at||0)>12000)return;
     document.documentElement.classList.add('reverse-arrival-pending');
     document.documentElement.style.setProperty('--transition-image',`url("${String(data.image).replace(/["\\]/g,'\\$&')}")`);
   }catch{}})();
   </script>
   <style>html,body{margin:0;background:#081113}html.reverse-arrival-pending::before{content:"";position:fixed;inset:0;z-index:9997;background:#081113 var(--transition-image) center/cover no-repeat;pointer-events:none}</style><meta name="theme-color" content="#081113">
   <meta name="description" content="곽태웅 전체 프로젝트 아카이브"><title>ALL PROJECTS — KWAK TAEWOONG</title>
-  <link rel="stylesheet" href="../v41.css"><script defer src="../defaults/site-data.js"></script><script defer src="../v41.js"></script><script defer src="../global-transition-v41.js"></script>
+  <link rel="stylesheet" href="../styles/runtime/v41.css"><link rel="stylesheet" href="../styles/runtime/v43.css"><link rel="stylesheet" href="../styles/runtime/v44.css"><link rel="stylesheet" href="../styles/runtime/v45.css"><link rel="stylesheet" href="../styles/v48.css"><script defer src="../defaults/site-data.js"></script><script defer src="../scripts/runtime/v41.js"></script><script defer src="../scripts/runtime/v43.js"></script><script defer src="../scripts/runtime/v44.js"></script><script defer src="../scripts/runtime/v45.js"></script><script defer src="../scripts/global-transition.js"></script>
+  <script defer src="../scripts/project-return-v50.js"></script>
 </head>
 <body class="archive-body">
   <a class="skip-link" href="#archive-main">본문으로 건너뛰기</a>

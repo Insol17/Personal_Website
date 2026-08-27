@@ -1,0 +1,98 @@
+/* ========================================================================
+   V42 — LIQUID / FIELD / TRAJECTORY
+   Keeps the established desktop composition while adding a distinctive
+   interaction grammar, usable WORKS navigation, and a proof-first BACKGROUND.
+   ======================================================================== */
+
+/* HERO — the supplied liquid demo only informs WORLDS material + interaction. */
+.hero-worlds-liquid{position:relative!important;display:block!important;width:min(720px,100%);height:auto;line-height:0!important;overflow:visible;color:transparent!important;cursor:crosshair;touch-action:pan-y;isolation:isolate}
+.hero-worlds-liquid canvas{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 12px 32px rgba(64,56,120,.16));transform:translateZ(0)}
+.hero-worlds-liquid .hero-worlds-a11y{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.hero-worlds-liquid::after{content:"";position:absolute;inset:9% -2% 4%;z-index:-1;background:radial-gradient(ellipse at 50% 52%,rgba(141,132,255,.12),transparent 68%);filter:blur(22px);opacity:.8;pointer-events:none}
+.hero-worlds-droplet{position:fixed;z-index:45;width:5px;height:5px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.96),rgba(184,166,255,.75) 43%,rgba(184,166,255,0) 78%);mix-blend-mode:screen;will-change:transform,opacity}
+.hero-interact-hint{align-self:center;margin-top:12px;display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.38);font:600 7px/1 var(--mono);letter-spacing:.13em;transition:opacity .4s ease,transform .4s var(--ease);pointer-events:none}
+.hero-interact-hint::before{content:"";width:22px;height:1px;background:currentColor;transform-origin:right;animation:v42HintLine 2.4s ease-in-out infinite}
+.hero-interact-hint.is-used{opacity:0;transform:translateY(3px)}
+@keyframes v42HintLine{0%,100%{transform:scaleX(.35);opacity:.5}50%{transform:scaleX(1);opacity:1}}
+
+/* HERO dwell is earned through interaction, not a forced delay. */
+.hero-copy{position:relative}.hero-worlds-liquid.is-active{filter:saturate(1.06)}
+
+/* WORKS — direct manipulation remains, but it is no longer the only path. */
+.drag-affordance{display:none!important}
+.works-nav-v42{display:grid;grid-template-columns:auto 42px minmax(160px,1fr) 42px;gap:10px;align-items:center;margin-top:18px;color:rgba(255,255,255,.56)}
+.works-nav-label{font:600 8px/1 var(--mono);letter-spacing:.11em;white-space:nowrap;color:rgba(255,255,255,.42)}
+.works-arrow-v42{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(255,255,255,.015);color:#fff;cursor:pointer;transition:opacity .2s,visibility .2s,background .2s,transform .2s}
+.works-arrow-v42:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+.works-arrow-v42.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.works-range-v42{position:relative;height:42px;display:flex;align-items:center;touch-action:none;cursor:pointer}
+.works-range-v42::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.13)}
+.works-range-thumb-v42{position:absolute;left:0;top:50%;height:5px;min-width:50px;border:0;border-radius:999px;background:rgba(238,241,238,.76);transform:translateY(-50%);cursor:grab;box-shadow:0 0 0 1px rgba(255,255,255,.08);transition:background .2s}
+.works-range-thumb-v42:active{cursor:grabbing;background:#fff}
+.works-stage.is-dragging{cursor:grabbing}.works-stage:not(.is-dragging){cursor:grab}
+
+/* BACKGROUND — proof is a trajectory, not a stack of generic cards. */
+.background{position:relative!important;background:rgba(235,239,235,.82)!important;backdrop-filter:blur(7px) saturate(.9)!important;-webkit-backdrop-filter:blur(7px) saturate(.9)!important;padding:clamp(104px,9vw,156px) 0!important;overflow:clip!important}
+.background::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.16),transparent 25%,transparent 75%,rgba(255,255,255,.08));mix-blend-mode:soft-light}
+.background-shell{position:relative;z-index:1;max-width:1320px!important}
+.background-head{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(300px,.55fr);align-items:end!important;gap:clamp(36px,7vw,110px)!important;padding:0 0 54px!important;border-bottom:1px solid rgba(17,23,24,.16)}
+.background-head h2{font:400 clamp(72px,9vw,138px)/.8 var(--latin);letter-spacing:-.07em}
+.background-head p{max-width:480px!important;margin:0!important;padding-bottom:7px;font-size:14px!important;line-height:1.8!important;color:#526161!important}
+#backgroundGroups{padding-top:58px!important}
+.background-v42-layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:clamp(44px,7vw,110px);align-items:start}
+.background-v42-aside{position:sticky;top:112px;display:grid;gap:42px}
+.background-v42-aside .background-label{padding:0 0 14px!important;color:#5d706d!important;font-size:9px!important}
+.background-v42-education{border-top:1px solid rgba(17,23,24,.18)}
+.background-v42-edu{padding:20px 0 23px;border-bottom:1px solid rgba(17,23,24,.18)}
+.background-v42-edu time{font:600 9px/1 var(--mono);letter-spacing:.1em;color:#73817f}
+.background-v42-edu strong{display:block;margin-top:14px;font-size:18px;line-height:1.35;font-weight:600}
+.background-v42-edu p{margin-top:7px;color:#687574;font-size:12px;line-height:1.65}
+.background-v42-index{display:grid;gap:7px;padding-top:2px;color:#687574;font:600 8px/1.4 var(--mono);letter-spacing:.09em}
+.background-v42-index b{color:#1f2b2c;font-weight:600}
+.background-v42-track{position:relative;padding-left:92px;--track-progress:0}
+.background-v42-track::before,.background-v42-track::after{content:"";position:absolute;left:29px;top:10px;bottom:12px;width:1px;transform-origin:top}
+.background-v42-track::before{background:rgba(19,36,35,.17)}
+.background-v42-track::after{background:linear-gradient(#4c756f,#8aaaa4);transform:scaleY(var(--track-progress));transition:transform .08s linear}
+.background-v42-entry{position:relative;display:grid;grid-template-columns:115px minmax(0,1fr) auto;gap:14px 28px;align-items:start;padding:0 0 46px;margin-bottom:4px;border-bottom:1px solid rgba(17,23,24,.13)}
+.background-v42-entry+.background-v42-entry{padding-top:42px}
+.background-v42-entry::before{content:"";position:absolute;left:-69px;top:4px;width:9px;height:9px;border-radius:50%;background:#edf1ed;border:1px solid #587a75;box-shadow:0 0 0 6px rgba(101,139,133,.08)}
+.background-v42-entry time{font:600 10px/1.3 var(--mono);letter-spacing:.1em;color:#687977}
+.background-v42-entry strong{font:500 clamp(27px,2.8vw,42px)/.95 var(--latin);letter-spacing:-.045em;color:#172020}
+.background-v42-entry p{grid-column:2;max-width:700px;color:#596767;font-size:13px;line-height:1.7}
+.background-v42-entry .status{grid-column:3;grid-row:1;padding:7px 9px;border:1px solid rgba(17,23,24,.16);border-radius:999px;font:600 8px/1 var(--mono);letter-spacing:.08em;color:#5f716f;white-space:nowrap}
+.background-v42-awards{grid-column:1/-1;margin-top:58px;border-top:1px solid rgba(17,23,24,.16)}
+
+/* CONTACT — actions are surfaced first instead of hidden at the section bottom. */
+.contact-inner{justify-content:flex-start!important;gap:0!important}
+.contact-top-v42{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:0 0 24px;border-bottom:1px solid var(--line-dark)}
+.contact-top-v42 .contact-kicker{margin:0}
+.contact-actions{order:1;margin:0!important;border:0!important;display:flex!important;grid-template-columns:none!important;gap:8px!important}
+.contact-icon-link{min-height:48px!important;width:auto!important;display:inline-grid!important;grid-template-columns:32px auto auto!important;gap:10px!important;padding:7px 11px!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:999px!important;background:rgba(255,255,255,.015)!important}
+.contact-icon{width:30px!important;height:30px!important}.contact-icon svg{width:14px!important;height:14px!important}
+.contact h2{order:2;margin-top:clamp(70px,8vw,120px)!important}
+
+/* A little more signature rhythm without adding decoration everywhere. */
+.section-action-link{position:relative}.section-action-link::before{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;transform:scaleX(.18);transform-origin:left;opacity:.35;transition:transform .28s var(--ease),opacity .2s}.section-action-link:hover::before{transform:scaleX(1);opacity:.7}
+
+@media(max-width:900px){
+  .background-v42-layout{grid-template-columns:230px minmax(0,1fr);gap:38px}.background-v42-track{padding-left:68px}.background-v42-track::before,.background-v42-track::after{left:22px}.background-v42-entry::before{left:-51px}.background-v42-entry{grid-template-columns:86px minmax(0,1fr) auto}
+  .contact-top-v42{display:block}.contact-actions{margin-top:18px!important;flex-wrap:wrap}
+}
+
+@media(max-width:760px){
+  .hero-worlds-liquid{width:100%;cursor:default}.hero-worlds-liquid canvas{width:100%}.hero-interact-hint{margin-top:9px;font-size:6.8px}
+  .works-nav-v42{grid-template-columns:38px minmax(0,1fr) 38px;gap:8px;margin-top:11px}.works-nav-label{display:none}.works-arrow-v42{width:38px;height:38px}.works-range-v42{height:38px}.works-range-thumb-v42{min-width:46px}
+  .background{padding:72px 0 84px!important;background:rgba(235,239,235,.85)!important}
+  .background-head{grid-template-columns:1fr!important;gap:16px!important;padding-bottom:28px!important}.background-head h2{font-size:clamp(50px,14vw,66px)}.background-head p{font-size:14px!important}
+  #backgroundGroups{padding-top:34px!important}.background-v42-layout{display:block}.background-v42-aside{position:relative;top:auto;margin-bottom:42px;display:grid;grid-template-columns:1fr;gap:24px}.background-v42-index{display:none}
+  .background-v42-track{padding-left:36px}.background-v42-track::before,.background-v42-track::after{left:6px}.background-v42-entry::before{left:-34px;top:4px;width:8px;height:8px;box-shadow:0 0 0 4px rgba(101,139,133,.08)}
+  .background-v42-entry,.background-v42-entry+.background-v42-entry{display:grid;grid-template-columns:1fr auto;gap:8px 12px;padding:21px 0 24px}.background-v42-entry:first-child{padding-top:0}.background-v42-entry time{grid-column:1}.background-v42-entry .status{grid-column:2;grid-row:1;padding:5px 7px;font-size:7.5px}.background-v42-entry strong{grid-column:1/-1;font-size:25px}.background-v42-entry p{grid-column:1/-1;font-size:13px;line-height:1.6}
+  .contact-top-v42{padding-bottom:18px}.contact-actions{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%;gap:7px!important}.contact-icon-link{width:100%!important;grid-template-columns:30px 1fr auto!important;min-height:48px!important}
+  .contact h2{margin-top:56px!important}
+}
+
+@media(max-width:430px){
+  .hero-worlds-liquid{width:100%}.contact-actions{grid-template-columns:1fr!important}
+}
+
+@media(prefers-reduced-motion:reduce){.hero-interact-hint::before{animation:none}.background-v42-track::after{transition:none}}

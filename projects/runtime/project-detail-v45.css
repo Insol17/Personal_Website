@@ -1,0 +1,13 @@
+/* V45 — coherent return-to-source transition. */
+html.pt-forward-arrival .project-detail-heading,
+html.pt-forward-arrival .project-back-button,
+html.pt-forward-arrival .site-nav{opacity:0!important}
+html.pt-forward-release .project-detail-heading,
+html.pt-forward-release .project-back-button,
+html.pt-forward-release .site-nav{opacity:1!important;transition:opacity .14s ease}
+html.detail-back-v45-fade .project-detail-heading,
+html.detail-back-v45-fade .project-back-button,
+html.detail-back-v45-fade .site-nav{
+  opacity:0!important;transition:opacity .11s ease!important;pointer-events:none!important
+}
+html.detail-back-v45-scrolling{scroll-behavior:auto!important}

@@ -1,0 +1,95 @@
+/* V45 — white calligraphic WORLDS + deterministic cross-document project transitions. */
+
+/* HERO: keep the original composition, only correct the wordmark. */
+.hero-copy h1{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.hero-copy h1>span:nth-child(2):not(.hero-worlds-liquid-v45){opacity:0!important}
+.hero-copy h1>span:first-child{
+  display:block!important;
+  width:100%!important;
+  text-align:center!important;
+  font-weight:400!important;
+  letter-spacing:-.045em!important;
+}
+.hero-worlds-liquid-v45{
+  position:relative!important;
+  display:block!important;
+  width:min(780px,90vw)!important;
+  height:auto!important;
+  margin:-.03em auto 0!important;
+  line-height:0!important;
+  color:#fff!important;
+  cursor:crosshair;
+  touch-action:pan-y;
+  overflow:visible;
+  isolation:isolate;
+}
+.hero-worlds-liquid-v45 canvas{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  filter:drop-shadow(0 8px 19px rgba(255,255,255,.10));
+  transform:translateZ(0);
+}
+.hero-worlds-liquid-v45 .hero-worlds-fallback-v45{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-family:'Yellowtail',cursive;
+  font-size:clamp(86px,9.1vw,170px);
+  font-weight:400;
+  line-height:1;
+  opacity:0;
+  pointer-events:none;
+}
+.hero-worlds-liquid-v45.is-font-fallback .hero-worlds-fallback-v45{opacity:1}
+.hero-worlds-liquid-v45.is-font-fallback canvas{opacity:0}
+.hero-worlds-liquid-v45 .hero-worlds-a11y{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.hero-worlds-droplet-v45{
+  position:fixed;z-index:10002;width:5px;height:5px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 35% 30%,#fff 0%,rgba(255,255,255,.88) 42%,rgba(255,255,255,0) 76%);
+  will-change:transform,opacity;
+}
+/* remove the previous engines' visual affordances if they survived a cached script */
+.hero-interact-hint,.hero-interact-hint-v43{display:none!important}
+
+/* V45 transition surfaces */
+.transition-v45-clone{
+  position:fixed!important;
+  z-index:10020!important;
+  margin:0!important;
+  padding:0!important;
+  pointer-events:none!important;
+  object-fit:cover!important;
+  max-width:none!important;
+  max-height:none!important;
+  transform:none!important;
+  will-change:left,top,width,height,border-radius,opacity;
+  box-shadow:none!important;
+}
+html.pt-forward-arrival::before,
+html.pt-return-arrival::before{
+  content:"";position:fixed;inset:0;z-index:10018;pointer-events:none;
+  background:#081113 var(--pt-v45-image) center/cover no-repeat;
+  opacity:1;
+}
+html.pt-forward-release::before,
+html.pt-return-release::before{opacity:0;transition:opacity .075s linear}
+.is-v45-return-target .project-card-image{opacity:0!important}
+.featured-project.is-v45-return-target .project-card-image{opacity:0!important}
+
+@media(max-width:760px){
+  .hero-copy h1>span:first-child{font-size:clamp(50px,14vw,72px)!important;font-weight:400!important}
+  .hero-worlds-liquid-v45{width:min(94vw,640px)!important;margin-top:-.02em!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-worlds-liquid-v45{cursor:default}
+}

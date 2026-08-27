@@ -1,0 +1,49 @@
+/* V43 — correct liquid script wordmark, direct WORKS controls, clean trajectory. */
+
+/* HERO: only the supplied Yellowtail WORLDS material/interaction is imported. */
+.hero-worlds-liquid-v43{position:relative!important;display:block!important;width:min(780px,100%);height:auto;line-height:0!important;overflow:visible;color:transparent!important;cursor:crosshair;touch-action:pan-y;isolation:isolate;margin-top:.035em!important}
+.hero-worlds-liquid-v43 canvas{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 10px 30px rgba(90,183,190,.15));transform:translateZ(0)}
+.hero-worlds-liquid-v43 .hero-worlds-a11y{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.hero-worlds-liquid-v43::after{content:"";position:absolute;z-index:-1;inset:16% 0 12%;background:radial-gradient(ellipse at 50% 52%,rgba(105,190,196,.10),transparent 68%);filter:blur(24px);pointer-events:none}
+.hero-worlds-droplet-v43{position:fixed;z-index:45;width:5px;height:5px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 35% 30%,#eafbfc 0%,#8fd6da 45%,rgba(143,214,218,0) 75%);will-change:transform,opacity}
+.hero-interact-hint-v43{align-self:center;margin-top:3px;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.34);font:600 7px/1 var(--mono);letter-spacing:.12em;pointer-events:none;transition:opacity .32s ease,transform .32s ease}
+.hero-interact-hint-v43::before{content:"";width:20px;height:1px;background:currentColor}.hero-interact-hint-v43.is-used{opacity:0;transform:translateY(3px)}
+
+/* WORKS: scrollbar thumb tracks the pointer itself, not a diluted ratio. */
+.works-range-v42{cursor:default!important}.works-range-v42::before{height:2px!important;background:rgba(255,255,255,.12)!important}
+.works-range-thumb-v42{height:8px!important;min-width:54px!important;background:rgba(238,241,238,.82)!important;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 3px 14px rgba(0,0,0,.16)!important;transition:background .12s ease!important;touch-action:none!important}
+.works-range-thumb-v42:hover,.works-range-thumb-v42:active{background:#fff!important}
+.works-nav-v42{margin-top:16px!important}
+
+/* BACKGROUND: evidence only. No commentary/index block competing with the timeline. */
+.background-head{display:block!important;padding-bottom:44px!important}.background-head>p{display:none!important}
+#backgroundGroups{padding-top:48px!important}
+.background-v43-layout{display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);gap:clamp(72px,9vw,148px);align-items:start;min-width:0}
+.background-v43-education{position:sticky;top:118px;min-width:0}
+.background-v43-label{padding-bottom:14px;border-bottom:1px solid rgba(17,23,24,.17);color:#556765;font:600 9px/1 var(--mono);letter-spacing:.11em}
+.background-v43-edu{padding:20px 0 24px;border-bottom:1px solid rgba(17,23,24,.14)}
+.background-v43-edu time{display:block;color:#73817f;font:600 9px/1 var(--mono);letter-spacing:.1em}
+.background-v43-edu strong{display:block;margin-top:13px;color:#172020;font-size:18px;line-height:1.38;font-weight:600;word-break:keep-all}
+.background-v43-edu p{margin:7px 0 0;color:#63716f;font-size:12px;line-height:1.55;word-break:keep-all}
+.background-v43-track{position:relative;min-width:0;padding-left:58px;--track-progress:0}
+.background-v43-track::before,.background-v43-track::after{content:"";position:absolute;left:7px;top:7px;bottom:10px;width:1px;transform-origin:top}
+.background-v43-track::before{background:rgba(19,36,35,.17)}.background-v43-track::after{background:linear-gradient(#4f7973,#90aaa5);transform:scaleY(var(--track-progress));transition:transform .06s linear}
+.background-v43-entry{position:relative;display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:10px 24px;align-items:start;padding:0 0 34px;margin:0 0 34px;border-bottom:1px solid rgba(17,23,24,.13);min-width:0}
+.background-v43-entry:last-child{margin-bottom:0}.background-v43-entry::before{content:"";position:absolute;left:-55px;top:3px;width:9px;height:9px;border-radius:50%;background:#edf1ed;border:1px solid #587a75;box-shadow:0 0 0 5px rgba(101,139,133,.07)}
+.background-v43-entry time{color:#637673;font:600 10px/1.35 var(--mono);letter-spacing:.09em}
+.background-v43-entry strong{min-width:0;color:#172020;font:500 clamp(29px,3vw,44px)/.96 var(--latin);letter-spacing:-.045em;word-break:keep-all}
+.background-v43-entry .status{justify-self:end;padding:6px 8px;border:1px solid rgba(17,23,24,.16);border-radius:999px;color:#5e706d;font:600 8px/1 var(--mono);letter-spacing:.08em;white-space:nowrap}
+.background-v43-entry p{grid-column:2/4;margin:0;max-width:760px;color:#566563;font-size:13px;line-height:1.62;word-break:keep-all}
+.background-v43-awards{grid-column:1/-1;margin-top:52px}.background-v43-awards-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+
+@media(max-width:900px){.background-v43-layout{grid-template-columns:210px minmax(0,1fr);gap:48px}.background-v43-entry{grid-template-columns:75px minmax(0,1fr) auto}.background-v43-track{padding-left:44px}.background-v43-entry::before{left:-41px}}
+@media(max-width:760px){
+  .hero-worlds-liquid-v43{width:100%;cursor:default}.hero-interact-hint-v43{font-size:6.8px;margin-top:1px}
+  .works-range-thumb-v42{height:9px!important;min-width:50px!important}.works-nav-v42{margin-top:10px!important}
+  .background-head{padding-bottom:26px!important}#backgroundGroups{padding-top:30px!important}
+  .background-v43-layout{display:block}.background-v43-education{position:relative;top:auto;margin-bottom:42px}.background-v43-track{padding-left:31px}
+  .background-v43-track::before,.background-v43-track::after{left:4px}.background-v43-entry::before{left:-31px;width:8px;height:8px;box-shadow:0 0 0 4px rgba(101,139,133,.07)}
+  .background-v43-entry{grid-template-columns:1fr auto;gap:8px 12px;padding:0 0 24px;margin-bottom:24px}.background-v43-entry time{grid-column:1}.background-v43-entry .status{grid-column:2;grid-row:1}.background-v43-entry strong{grid-column:1/-1;font-size:26px}.background-v43-entry p{grid-column:1/-1;font-size:13px;line-height:1.58}
+  .background-v43-awards-list{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.background-v43-track::after{transition:none}}

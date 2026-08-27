@@ -1,0 +1,18 @@
+/* V42 project detail: faster arrival, readable titles, staged reverse navigation. */
+.project-detail-heading{position:relative;z-index:2}
+.project-detail-heading::before{content:"";position:absolute;z-index:-1;left:50%;top:52%;width:min(980px,88vw);height:min(470px,56vh);translate:-50% -50%;background:radial-gradient(ellipse,rgba(2,8,9,.58) 0%,rgba(2,8,9,.34) 34%,rgba(2,8,9,.08) 62%,transparent 76%);filter:blur(8px);pointer-events:none}
+.project-detail-heading h1{color:#fff!important;text-shadow:0 4px 18px rgba(0,0,0,.72),0 1px 2px rgba(0,0,0,.9)!important}
+.project-detail-heading h2{color:rgba(255,255,255,.9)!important;text-shadow:0 2px 14px rgba(0,0,0,.76)}
+.project-case-meta,.project-detail-heading>p{color:rgba(255,255,255,.72)!important;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.project-detail-hero::before{background:linear-gradient(180deg,rgba(3,8,9,.04) 0%,rgba(3,8,9,.06) 50%,rgba(3,8,9,.42) 100%)!important;transition:opacity .32s ease .01s!important}
+.project-detail-hero::after{height:10%!important}
+.project-detail-heading{transition:opacity .34s var(--ease) .03s,transform .34s var(--ease) .03s!important}
+.project-detail-body .site-nav,.project-back-button{transition:opacity .24s ease .02s,background .2s,color .2s!important}
+html.detail-back-scrolling .project-back-button{pointer-events:none}
+html.detail-returning .project-detail-heading::before{opacity:0;transition:opacity .12s ease}
+
+@media(max-width:760px){
+  .project-detail-heading::before{width:116vw;height:48vh;top:58%;background:radial-gradient(ellipse,rgba(2,8,9,.62),rgba(2,8,9,.28) 48%,transparent 74%)}
+  .project-detail-heading h1{font-size:clamp(42px,12vw,58px)!important;line-height:.91!important}
+  .project-detail-heading h2{font-size:14px!important;line-height:1.48!important}
+}

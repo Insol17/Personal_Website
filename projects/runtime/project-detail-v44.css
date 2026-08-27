@@ -1,0 +1,9 @@
+/* V44 — reverse transition keeps the hero image as the continuity surface. */
+html.detail-back-v44-scrolling .project-back-button{opacity:.55!important;pointer-events:none}
+html.detail-back-v44-fade .project-detail-heading,
+html.detail-back-v44-fade .project-detail-body .site-nav,
+html.detail-back-v44-fade .project-back-button,
+html.detail-back-v44-fade .project-external-actions{opacity:0!important;transition:opacity .14s ease!important}
+html.detail-back-v44-fade .project-detail-hero::before,
+html.detail-back-v44-fade .project-detail-hero::after{opacity:0!important;transition:opacity .14s ease!important}
+html.detail-back-v44-fade .project-detail-hero-image{transform:none!important;filter:none!important}

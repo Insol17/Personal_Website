@@ -1,0 +1,130 @@
+/* v47 — single-owner HERO wordmark. The site keeps its existing liquid-video field;
+   only WORLDS uses the calligraphic liquid interaction. */
+.hero-copy h1 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+.hero-copy h1 > span:first-child {
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.055em !important;
+}
+/* Before JavaScript mounts the liquid canvas, the original second line is already a
+   readable calligraphic fallback. This prevents a blank HERO on file:// or JS failure. */
+.hero-copy h1 > span:nth-child(2) {
+  display: block !important;
+  width: min(780px, 91vw) !important;
+  margin: -0.02em auto 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-family: 'Yellowtail', 'Brush Script MT', 'Segoe Script', cursive !important;
+  font-size: clamp(118px, 10vw, 172px) !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  color: #fff !important;
+  text-align: center !important;
+  text-shadow: 0 5px 16px rgba(255,255,255,.12);
+}
+/* v45 had an emergency selector that hid every second line except its own class.
+   v47 explicitly owns that slot. */
+.hero-copy h1 > span:nth-child(2).hero-worlds-liquid-v47 {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.hero-worlds-liquid-v47 {
+  position: relative !important;
+  display: block !important;
+  width: min(780px, 91vw) !important;
+  height: auto !important;
+  margin: -0.02em auto 0 !important;
+  line-height: 0 !important;
+  overflow: visible !important;
+  color: #fff !important;
+  cursor: crosshair;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+.hero-worlds-liquid-v47::after { display: none !important; content: none !important; }
+.hero-worlds-liquid-v47 canvas {
+  position: relative;
+  z-index: 2;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  opacity: 0;
+  transition: opacity 120ms linear;
+  filter: drop-shadow(0 5px 15px rgba(255,255,255,.11)) !important;
+}
+.hero-worlds-liquid-v47.is-canvas-ready canvas { opacity: 1 !important; }
+.hero-worlds-fallback-v47 {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Yellowtail', 'Brush Script MT', 'Segoe Script', cursive;
+  font-size: clamp(118px, 10vw, 172px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow: 0 5px 16px rgba(255,255,255,.12);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 120ms linear;
+}
+.hero-worlds-liquid-v47.is-canvas-ready .hero-worlds-fallback-v47 { opacity: 0; }
+.hero-worlds-a11y-v47 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.hero-worlds-droplet-v47 {
+  position: fixed;
+  z-index: 10002;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, rgba(255,255,255,.92) 46%, rgba(255,255,255,0) 77%);
+  will-change: transform, opacity;
+}
+/* All retired wordmark helpers stay suppressed. */
+.hero-interact-hint,
+.hero-interact-hint-v43,
+.hero-worlds-droplet,
+.hero-worlds-droplet-v43,
+.hero-worlds-droplet-v44,
+.hero-worlds-droplet-v45,
+.hero-worlds-droplet-v46 { display: none !important; }
+
+@media (max-width: 760px) {
+  .hero-copy h1 > span:first-child {
+    font-size: clamp(47px, 13.2vw, 70px) !important;
+    font-weight: 300 !important;
+  }
+  .hero-copy h1 > span:nth-child(2) {
+    width: min(94vw, 700px) !important;
+    font-size: clamp(94px, 25vw, 146px) !important;
+  }
+  .hero-worlds-liquid-v47 {
+    width: min(94vw, 700px) !important;
+    margin-top: 0 !important;
+  }
+  .hero-worlds-fallback-v47 { font-size: clamp(94px, 25vw, 146px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-worlds-liquid-v47 { cursor: default; }
+}

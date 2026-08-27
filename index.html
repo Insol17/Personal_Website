@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="ko" class="site-booting">
 <head>
+  <script>window.__PROJECT_RETURN_V49__=true;</script>
+  <script>(()=>{try{['portfolioTransitionImage','portfolioTransitionTarget','portfolioTransitionOrigin','portfolioTransitionOriginState','portfolioReverseTransition','portfolioReturnTransition','portfolioLastDetail','portfolioDetailChain'].forEach(k=>sessionStorage.removeItem(k));sessionStorage.removeItem('portfolioGlobalTransitionV40')}catch{}try{const q=new URLSearchParams(location.search),img=q.get('ptrimg');if(q.get('ptr')==='1'&&img){document.documentElement.classList.add('pt-return-arrival');document.documentElement.classList.replace('site-booting','site-boot-bypass');document.documentElement.style.setProperty('--pt-v45-image',`url("${String(img).replace(/["\\]/g,'\\$&')}")`)}}catch{}})();</script>
+  <style>html.pt-return-arrival::before{content:"";position:fixed;inset:0;z-index:10018;background:#081113 var(--pt-v45-image) center/cover no-repeat;pointer-events:none}</style>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <script>(()=>{try{const d=JSON.parse(sessionStorage.getItem('portfolioGlobalTransitionV40')||'null');if(d&&Date.now()-(d.at||0)<12000)document.documentElement.classList.add('global-transition-arrival')}catch{}})();</script>
+  <script>(()=>{try{const back=sessionStorage.getItem('portfolioReturnTransition');const d=JSON.parse(sessionStorage.getItem('portfolioGlobalTransitionV40')||'null');if(!back&&d&&Date.now()-(d.at||0)<12000)document.documentElement.classList.add('global-transition-arrival')}catch{}})();</script>
   <style>html.global-transition-arrival::after{content:"";position:fixed;inset:0;z-index:10050;background:#07100f url("assets/video/liquid-poster.webp") center/cover no-repeat;pointer-events:none;opacity:1;transition:opacity .12s ease}html.global-transition-arrival.global-transition-arrival-release::after{opacity:0}</style>
   <script>
   (() => {try{if('scrollRestoration' in history)history.scrollRestoration='manual';
-    let data=null;
-    const raw=sessionStorage.getItem('portfolioReturnTransition')||sessionStorage.getItem('portfolioReverseTransition');
-    if(raw)data=JSON.parse(raw);
-    if(!data){const lastRaw=sessionStorage.getItem('portfolioLastDetail');if(lastRaw){const last=JSON.parse(lastRaw);if(last?.origin?.path===location.pathname&&Date.now()-(last.at||0)<20000)data=last;}}
-    if(!data?.image)return;
+    const raw=sessionStorage.getItem('portfolioReturnTransition');if(!raw)return;
+    const data=JSON.parse(raw);if(!data?.image||Date.now()-(data.at||0)>12000)return;
     document.documentElement.classList.add('reverse-arrival-pending');
     document.documentElement.style.setProperty('--transition-image',`url("${String(data.image).replace(/["\\]/g,'\\$&')}")`);
   }catch{}})();
@@ -22,10 +23,25 @@
   <meta name="description" content="게임 디자이너 / 개발자 곽태웅 포트폴리오 — 시스템, 전투, UX, 내러티브 설계와 개발 프로젝트.">
   <title>KWAK TAEWOONG — Game Designer / Developer</title>
   <link rel="preload" as="image" href="assets/video/liquid-poster.webp" fetchpriority="high">
-  <link rel="stylesheet" href="v41.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Yellowtail&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/runtime/v41.css">
+  <link rel="stylesheet" href="styles/runtime/v42.css">
+  <link rel="stylesheet" href="styles/runtime/v43.css">
+  <link rel="stylesheet" href="styles/runtime/v44.css">
+  <link rel="stylesheet" href="styles/runtime/v45.css">
+  <link rel="stylesheet" href="styles/hero-worlds.css">
+  <link rel="stylesheet" href="styles/v48.css">
   <script defer src="defaults/site-data.js"></script>
-  <script defer src="v41.js"></script>
-  <script defer src="global-transition-v41.js"></script>
+  <script defer src="scripts/runtime/v41.js"></script>
+  <script defer src="scripts/runtime/v42.js"></script>
+  <script defer src="scripts/runtime/v43.js"></script>
+  <script defer src="scripts/runtime/v44.js"></script>
+  <script defer src="scripts/runtime/v45.js"></script>
+  <script defer src="scripts/hero-worlds.js"></script>
+  <script defer src="scripts/global-transition.js"></script>
+  <script defer src="scripts/project-return-v50.js"></script>
 </head>
 <body>
   <div class="boot-screen" id="bootScreen" aria-hidden="true">
@@ -115,10 +131,9 @@
           </figure>
           <div class="about-copy">
             <span class="eyebrow">GAME DESIGN · DEVELOPMENT</span>
-            <h3>규칙을 설계하고, 그 규칙이 플레이어의 선택과 감정으로 이어지게 만듭니다.</h3>
+            <h3>규칙을 설계하고, 플레이어의 선택으로 검증합니다.</h3>
             <div class="about-copy-text">
-              <p>게임의 세계는 배경 설정만으로 만들어지지 않는다고 생각합니다. 플레이어가 무엇을 보고, 어떤 선택을 하고, 어떤 대가를 치르는지를 결정하는 규칙 전체가 세계의 작동 방식입니다. 저는 핵심 경험을 먼저 정의한 뒤 이를 전투, 자원, 레벨, UI와 내러티브 구조로 구체화합니다.</p>
-              <p>기획과 구현을 완전히 분리해서 보지 않습니다. 설계 의도가 실제 플레이에서 어떻게 변형되는지 확인하고, 구현 과정에서 드러난 마찰을 다시 기획 판단으로 환류하는 방식으로 작업합니다. 시스템 기획을 중심으로 UX와 내러티브, 프로젝트 방향까지 연결하는 것이 강점입니다.</p>
+              <p>전투·자원·상태·UI를 하나의 플레이 흐름으로 연결하고, 구현과 플레이테스트에서 드러난 마찰을 다시 설계에 반영합니다.</p>
             </div>
             <div class="about-facts" aria-label="프로필 요약">
               <div class="about-fact"><span>ROLE</span><strong>Game Design / Development</strong></div>
@@ -131,22 +146,17 @@
         <section class="about-practice" data-reveal aria-label="디자인 실무 영역">
           <div class="about-practice-head">
             <span class="eyebrow">CURRENT PRACTICE</span>
-            <h3>한 가지 역할에 멈추기보다, 경험이 실제로 작동하는 지점까지 연결합니다.</h3>
+            <h3>WHAT I DO</h3>
           </div>
           <div class="about-practice-grid">
-            <article><span>01</span><strong>SYSTEMS</strong><p>코어 루프, 자원, 상태와 규칙을 연결해 플레이어가 무엇을 판단하게 할지 설계합니다.</p></article>
-            <article><span>02</span><strong>COMBAT</strong><p>공격·방어·회복·위험 보상의 리듬을 플레이 입력과 수치 구조로 구체화합니다.</p></article>
-            <article><span>03</span><strong>UX</strong><p>정보 밀도와 인터랙션의 우선순위를 정리해 복잡한 시스템을 빠르게 읽히게 만듭니다.</p></article>
-            <article><span>04</span><strong>DIRECTION</strong><p>기획 의도, 구현 제약과 팀의 우선순위를 한 경험 목표 안에서 정렬합니다.</p></article>
+            <article><span>01</span><strong>SYSTEMS</strong><p>규칙·자원·상태를 연결해 플레이어의 판단 구조를 설계합니다.</p></article>
+            <article><span>02</span><strong>COMBAT</strong><p>입력·수치·위험 보상을 조합해 전투의 리듬을 만듭니다.</p></article>
+            <article><span>03</span><strong>UX</strong><p>복잡한 정보를 빠르게 읽고 조작할 수 있게 정리합니다.</p></article>
+            <article><span>04</span><strong>DIRECTION</strong><p>의도·제약·우선순위를 하나의 경험 목표로 정렬합니다.</p></article>
           </div>
         </section>
 
-        <div class="process-strip" data-reveal aria-label="작업 방식">
-          <div class="process-label">HOW I WORK</div>
-          <div class="process-step"><span>01</span><div><strong>DEFINE</strong><p>기능보다 먼저 플레이어 경험과 해결할 문제를 정의합니다.</p></div></div>
-          <div class="process-step"><span>02</span><div><strong>SYSTEMIZE</strong><p>행동을 규칙·상태·수치·정보 구조로 변환합니다.</p></div></div>
-          <div class="process-step"><span>03</span><div><strong>ITERATE</strong><p>플레이와 구현에서 드러난 마찰을 다시 설계 판단으로 환류합니다.</p></div></div>
-        </div>
+
       </div>
     </section>
 
@@ -154,7 +164,6 @@
       <div class="shell background-shell">
         <header class="background-head" data-reveal>
           <div><span class="eyebrow">EXPERIENCE / CREDENTIALS</span><h2>BACKGROUND</h2></div>
-          <p>게임 제작과 제품 개발을 통해 쌓아온 경험과 학력을 정리했습니다.</p>
         </header>
         <div id="backgroundGroups" data-reveal></div>
       </div>

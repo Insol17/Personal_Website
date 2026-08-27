@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="ko" class="detail-boot">
 <head>
+  <script>(()=>{try{['portfolioTransitionImage','portfolioTransitionTarget','portfolioTransitionOrigin','portfolioTransitionOriginState','portfolioReverseTransition','portfolioReturnTransition','portfolioLastDetail','portfolioDetailChain'].forEach(k=>sessionStorage.removeItem(k));sessionStorage.removeItem('portfolioGlobalTransitionV40')}catch{}try{const q=new URLSearchParams(location.search),img=q.get('ptimg');if(q.get('pt')==='1'&&img){document.documentElement.classList.add('pt-forward-arrival','detail-v48-enter');document.documentElement.style.setProperty('--pt-v45-image',`url("${String(img).replace(/["\\]/g,'\\$&')}")`)}}catch{}})();</script>
+  <style>html.pt-forward-arrival::before{content:"";position:fixed;inset:0;z-index:10018;background:#081113 var(--pt-v45-image) center/cover no-repeat;pointer-events:none}</style>
+
   <script>
   (()=>{try{const image=sessionStorage.getItem('portfolioTransitionImage');if(!image)return;document.documentElement.classList.add('transition-arrival-pending');document.documentElement.style.setProperty('--transition-image',`url("${String(image).replace(/["\\]/g,'\\$&')}")`);}catch{}})();
   </script>
@@ -9,12 +12,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow">
   <title>Project Preview</title>
-  <link rel="stylesheet" href="../v41.css">
-  <link rel="stylesheet" href="project-detail-v41.css">
+  <link rel="stylesheet" href="../styles/runtime/v41.css"><link rel="stylesheet" href="../styles/v48.css">
+  <link rel="stylesheet" href="runtime/project-detail-v41.css"><link rel="stylesheet" href="runtime/project-detail-v42.css"><link rel="stylesheet" href="runtime/project-detail-v43.css">
+  <link rel="stylesheet" href="runtime/project-detail-v44.css"><link rel="stylesheet" href="runtime/project-detail-v45.css"><link rel="stylesheet" href="runtime/project-detail-v48.css">
   <script>window.PROJECT_PREVIEW_SLUG=new URLSearchParams(location.search).get('project')||'';</script>
   <script defer src="../defaults/site-data.js"></script>
-  <script defer src="../v41.js"></script>
-  <script defer src="project-detail-v41.js"></script>
+  <script defer src="../scripts/runtime/v41.js"></script>
+  <script defer src="runtime/project-detail-v41.js"></script><script defer src="runtime/project-detail-v42.js"></script><script defer src="runtime/project-detail-v43.js"></script><script defer src="runtime/project-detail-v44.js"></script><script defer src="runtime/project-detail-v45.js"></script><script defer src="runtime/project-detail-v48.js"></script>
 </head>
 <body class="project-detail-body">
   <nav class="site-nav" aria-label="메인 메뉴"><a class="site-brand" href="#">KWAK TAEWOONG</a><div class="site-nav-links"><a>WORKS</a><a>ABOUT</a><a>BACKGROUND</a><a>JOURNAL</a></div><a class="site-contact">CONTACT ↗</a></nav>

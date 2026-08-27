@@ -1,0 +1,63 @@
+/* V44 — centered liquid wordmark, concise ABOUT, hero-level links, deterministic return surfaces. */
+
+/* HERO */
+.hero-copy{align-items:center!important;text-align:center!important}
+.hero-copy h1{align-items:center!important;text-align:center!important;width:auto!important}
+.hero-copy h1>span:first-child{color:#fff!important;font-weight:300!important;letter-spacing:-.045em!important;text-shadow:0 4px 28px rgba(0,0,0,.16)!important}
+.hero-worlds-liquid-v44{position:relative!important;display:block!important;width:min(780px,92vw)!important;height:auto!important;line-height:0!important;margin:.02em auto 0!important;color:transparent!important;cursor:crosshair;touch-action:pan-y;overflow:visible;isolation:isolate}
+.hero-worlds-liquid-v44 canvas{display:block;width:100%!important;height:auto!important;filter:drop-shadow(0 8px 24px rgba(255,255,255,.08));transform:translateZ(0)}
+.hero-worlds-liquid-v44::after{content:"";position:absolute;z-index:-1;inset:19% 5% 14%;background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.055),transparent 70%);filter:blur(22px);pointer-events:none}
+.hero-worlds-liquid-v44 .hero-worlds-a11y{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.hero-worlds-droplet-v44{position:fixed;z-index:45;width:5px;height:5px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 35% 30%,#fff 0%,rgba(255,255,255,.82) 42%,rgba(255,255,255,0) 76%);will-change:transform,opacity}
+.hero-interact-hint-v43{color:rgba(255,255,255,.27)!important}
+
+.hero-social-v44{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:24px;position:relative;z-index:4}
+.hero-social-v44 a{position:relative;width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.24);border-radius:50%;color:rgba(255,255,255,.78);background:rgba(5,12,14,.12);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);transition:transform .18s ease,border-color .18s ease,color .18s ease,background .18s ease}
+.hero-social-v44 a:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.62);color:#fff;background:rgba(255,255,255,.07)}
+.hero-social-v44 svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.hero-social-v44 a[data-kind="github"] svg path:first-child{fill:currentColor;stroke:none}
+.hero-social-v44 a::after{content:attr(data-label);position:absolute;left:50%;top:calc(100% + 8px);translate:-50% 0;padding:5px 7px;border-radius:5px;background:rgba(4,9,10,.78);color:#fff;font:600 7px/1 var(--mono);letter-spacing:.08em;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease;transform:translateY(-2px)}
+.hero-social-v44 a:hover::after{opacity:1;transform:none}
+
+/* CONTACT: social actions live near HERO now; contact remains the closing statement. */
+.contact-top-v42{display:none!important}
+.contact-inner{padding-top:54px!important}
+
+/* ABOUT: reduce repetition and restore reading hierarchy. */
+.about .section-heading{margin-bottom:38px!important}
+.about .section-heading>p{max-width:520px!important;font-size:14px!important;line-height:1.65!important}
+.about-profile{max-width:1180px!important;grid-template-columns:minmax(260px,.58fr) minmax(0,1.42fr)!important;gap:clamp(42px,6vw,88px)!important}
+.about-portrait{max-height:530px!important}
+.about-copy h3{max-width:720px!important;font-size:clamp(34px,3.65vw,54px)!important;line-height:1.1!important;letter-spacing:-.05em!important}
+.about-copy-text{display:block!important;max-width:720px!important;margin-top:24px!important;padding-top:22px!important}
+.about-copy-text p{font-size:15px!important;line-height:1.78!important;color:#536061!important}
+.about-copy-text p+p{display:none!important}
+.about-facts{margin-top:26px!important}
+.about-fact strong{font-size:14px!important;line-height:1.48!important}
+
+.about-practice{max-width:1180px!important;margin-top:58px!important;padding-top:24px!important}
+.about-practice-head{grid-template-columns:180px minmax(0,1fr)!important;gap:28px!important;margin-bottom:18px!important;align-items:baseline!important}
+.about-practice-head h3{font:400 clamp(30px,3vw,42px)/1 var(--latin)!important;letter-spacing:-.045em!important}
+.about-practice-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.about-practice-grid article{min-height:166px!important;padding:20px 22px 22px!important}
+.about-practice-grid strong{margin-top:22px!important;font-size:clamp(22px,1.7vw,28px)!important;line-height:1!important}
+.about-practice-grid p{margin-top:12px!important;color:#526061!important;font-size:14px!important;line-height:1.62!important}
+.about .process-strip{display:none!important}
+
+/* WORKS controls: no interpolation while the thumb is grabbed. */
+.works-range-thumb-v42{transition:background .12s ease!important;will-change:left!important}
+.works-nav-v42.is-thumb-dragging .project-rail,.works-nav-v42.is-thumb-dragging~*{transition:none!important}
+.works-range-v42{user-select:none;-webkit-user-select:none}
+
+/* More legible compact trajectory. */
+.background-v43-entry p{font-size:13px!important;line-height:1.62!important;color:#566361!important}
+.background-v43-entry strong{font-size:clamp(21px,1.75vw,29px)!important}
+
+@media(max-width:900px){
+  .about-profile{grid-template-columns:1fr!important}.about-portrait{width:min(380px,72vw)!important;margin:0 auto!important}.about-practice-head{grid-template-columns:1fr!important;gap:10px!important}.about-practice-grid{grid-template-columns:1fr 1fr!important}.about-practice-grid article:nth-child(odd){border-left:0!important}.about-practice-grid article:nth-child(n+3){border-top:1px solid var(--line)!important}
+}
+@media(max-width:760px){
+  .hero-copy{max-width:100%!important}.hero-copy h1>span:first-child{font-size:clamp(52px,15vw,74px)!important}.hero-worlds-liquid-v44{width:min(92vw,620px)!important;margin-top:-.02em!important}.hero-social-v44{margin-top:18px;gap:8px}.hero-social-v44 a{width:42px;height:42px}.hero-social-v44 a::after{display:none}
+  .about-profile{gap:24px!important}.about-copy h3{font-size:clamp(29px,8.1vw,37px)!important;line-height:1.14!important}.about-copy-text{margin-top:18px!important;padding-top:17px!important}.about-copy-text p{font-size:14.5px!important;line-height:1.7!important}.about-portrait{width:min(56vw,230px)!important;order:2!important}.about-copy{order:1!important}.about-practice{margin-top:38px!important}.about-practice-head h3{font-size:28px!important}.about-practice-grid{display:block!important}.about-practice-grid article,.about-practice-grid article:nth-child(n){display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;gap:5px 10px!important;min-height:0!important;padding:17px 0!important;border-left:0!important;border-top:1px solid var(--line)!important}.about-practice-grid article span{grid-row:1/3;padding-top:4px}.about-practice-grid strong{margin:0!important;font-size:21px!important}.about-practice-grid p{margin:2px 0 0!important;font-size:13.5px!important;line-height:1.58!important}
+}
+.featured-project.is-return-target .project-card-image{opacity:0!important}

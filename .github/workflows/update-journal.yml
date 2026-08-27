@@ -24,9 +24,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Sync Naver RSS
-        run: python scripts/sync_naver_journal.py
+        run: python scripts/automation/sync_naver_journal.py
       - name: Refresh inactivity keepalive when due
-        run: python scripts/refresh_keepalive.py
+        run: python scripts/automation/refresh_keepalive.py
       - name: Commit feed / media / keepalive only when changed
         shell: bash
         run: |
